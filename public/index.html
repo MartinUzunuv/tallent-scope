@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talent Scope</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      #navbar {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      #main {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      body {
+        background: radial-gradient(circle, #3ee8fd, #3769fd);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .accountForm {
+        background-color: #f8f9fa;
+        color: #1c1f22;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin: 40px;
+        max-width: 80%;
+        width: 350px;
+        margin-top: 80px;
+        padding: 40px;
+        border-radius: 10px;
+      }
+
+      .accountForm input:not([type="submit"]) {
+        padding: 10px;
+        border-radius: 6px;
+        border: solid 1px rgb(158, 158, 158);
+        margin-top: 30px;
+      }
+
+      .centerAccountForm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 95%;
+      }
+
+      .accountFormSubmit {
+        background-color: #212529;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 18px;
+        margin-top: 35px;
+      }
+
+      #dontHaveAnAccountSignUp {
+        text-align: left;
+        color: #0755dc;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      #main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      @media screen and (min-width: 586px) {
+        /* .mainFormAndDescription {
+          width: 43% !important;
+        } */
+
+        #mainForm {
+          width: 29% !important;
+        }
+
+        #jobDescription {
+          width: 58% !important;
+        }
+      }
+
+      #mainForm {
+        width: 90%;
+      }
+
+      #jobDescription {
+        width: 90%;
+      }
+
+      h2 {
+        font-weight: 600;
+      }
+
+      .mainFormAndDescription {
+        /* width: 90%; */
+        min-width: 100px;
+        padding: 15px;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        margin: 10px;
+      }
+
+      .warningMsg {
+        background-color: rgba(255, 30, 30, 0.6);
+        text-align: left;
+        padding: 8px;
+        border-radius: 5px;
+      }
+
+      #navbar {
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+      }
+
+      #logoutButton {
+        background-color: #4c5c6b;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 5px;
+        font-weight: 600;
+        margin-left: 10px;
+      }
+
+      #navbarTitle {
+        font-size: 22px;
+      }
+
+      #navbarEmailBox {
+        display: flex;
+        align-items: baseline;
+      }
+
+      #mainForm {
+        text-align: center;
+      }
+
+      #mainForm input::placeholder {
+        text-align: center;
+        color: #4c5c6b;
+      }
+
+      #mainForm input {
+        background-color: white;
+        color: #4c5c6b;
+        border: none;
+        padding: 10px;
+        margin: 10px;
+      }
+
+      #mainForm input:required {
+        background-color: #4c5c6b;
+        color: white;
+      }
+      #mainForm input:required::placeholder {
+        color: white;
+      }
+
+      #mainFormQuestionsQuestion {
+        text-align: center;
+        padding-top: 20px;
+      }
+
+      #submitClearGroup {
+        display: flex;
+        justify-content: space-evenly;
+      }
+
+      #submitClearGroup button {
+        width: 30%;
+        padding: 5px;
+        border-radius: 100px;
+        border: none;
+        font-weight: 800;
+        font-size: small;
+      }
+
+      #jobDescriptionClear {
+        border: solid 1.5px #cf5068 !important;
+        background-color: #f7dade;
+        color: #1f3245;
+      }
+
+      #mainFormSubmit {
+        width: 30%;
+        padding: 5px;
+        border-radius: 100px;
+        border: none;
+        font-weight: 800;
+        font-size: small;
+        background-color: #f7c325;
+        color: #1f3245;
+      }
+
+      #jobDescriptionResult {
+        background-color: white;
+        color: black;
+        margin-top: 20px;
+        padding: 10px;
+        width: 100%;
+      }
+
+      #jobDescriptionResultcontainer {
+        display: flex;
+        justify-content: center;
+      }
+
+      #mainFormSubmit:disabled {
+        background-color: #ad903a;
+      }
+
+      /* Dropdown Button */
+      .dropbtn {
+        background-color: #3498db;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+
+      /* Dropdown button on hover & focus */
+      .dropbtn:hover,
+      .dropbtn:focus {
+        background-color: #2980b9;
+      }
+
+      /* The container <div> - needed to position the dropdown content */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Dropdown Content (Hidden by Default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      /* Links inside the dropdown */
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      /* Change color of dropdown links on hover */
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+
+      /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+      .show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- home -->
+    <div id="home">
+      <div id="navbar">
+        <div>
+          <a id="navbarTitle">Talent Scope</a>
+          <div class="dropdown">
+            <button onclick="dropdownTogle()" class="dropbtn">History</button>
+            <div id="historyDropdown" class="dropdown-content">
+              <a>Loading...</a>
+            </div>
+          </div>
+          <script>
+            function dropdownTogle() {
+              const dropdownContent =
+                document.getElementById("historyDropdown");
+              dropdownContent.classList.toggle("show");
+
+              axios
+                .post("./getHistory", {
+                  email: localStorage.getItem("talentScopeEmail"),
+                  pass: localStorage.getItem("talentScopePass"),
+                })
+                .then((response) => {
+                  const res = response.data;
+                  let chats = JSON.parse(res.message);
+                  console.log(chats);
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            }
+
+            window.onclick = function (event) {
+              if (!event.target.matches(".dropbtn")) {
+                var dropdowns =
+                  document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains("show")) {
+                    openDropdown.classList.remove("show");
+                  }
+                }
+              }
+            };
+          </script>
+        </div>
+        <div id="navbarEmailBox">
+          <a id="navbarEmail"></a>
+          <button id="logoutButton">Logout</button>
+          <script>
+            document.getElementById("navbarEmail").innerText =
+              localStorage.getItem("talentScopeEmail");
+
+            document
+              .getElementById("logoutButton")
+              .addEventListener("click", () => {
+                localStorage.setItem("talentScopeEmail", null);
+                localStorage.setItem("talentScopePass", null);
+                home.style.display = "none";
+                signIn.style.display = "block";
+              });
+          </script>
+        </div>
+      </div>
+      <form id="formName">
+        <div id="main">
+          <div id="mainForm" class="mainFormAndDescription">
+            <!-- <p>Attract Top Candidates with AI-Generated Job Descriptions</p>
+          <p>
+            Input vacancy key details below and Talent Scope will create a job
+            description that will rank high on any Job Board & Google For Jobs
+          </p> -->
+            <div id="mainFormQuestionsQuestion">
+              <input
+                id="jobTitle"
+                placeholder="JOB TITLE"
+                required
+                type="text"
+              />
+              <br />
+              <input
+                id="aboutTheEmployer"
+                placeholder="ABOUT THE EMPLOYER"
+                type="text"
+              />
+              <br />
+              <input id="salary" placeholder="SALARY" type="text" />
+              <br />
+              <input id="remote" placeholder="REMOTE" type="text" />
+              <br />
+              <input id="locationText" placeholder="LOCATION" type="text" />
+              <br />
+              <br />
+              <input id="jobType" placeholder="JOB TYPE" type="text" />
+              <br />
+              <input
+                id="employmentType"
+                placeholder="EMPLOYMENT TYPE"
+                type="text"
+              />
+              <br />
+              <br />
+              <input
+                id="description"
+                placeholder="DESCRIPTION"
+                required
+                type="text"
+              />
+              <br />
+              <input id="requirements" placeholder="REQUIREMENTS" type="text" />
+              <br />
+              <br />
+              <input
+                id="keywords"
+                placeholder="KEYWORDS"
+                required
+                type="text"
+              />
+              <br />
+              <input id="skills" placeholder="SKILLS" type="text" />
+              <br />
+              <br />
+              <input id="education" placeholder="EDUCATION" type="text" />
+              <br />
+              <br />
+              <input id="personality" placeholder="PERSONALITY" type="text" />
+            </div>
+            <!-- <div>
+            <input type="submit" value="Submit" />
+          </div> -->
+          </div>
+
+          <div id="jobDescription" class="mainFormAndDescription">
+            <div id="submitClearGroup">
+              <!-- <a>Job Description</a> -->
+              <input type="submit" value="SUBMIT" id="mainFormSubmit" />
+              <button id="jobDescriptionClear">CLEAR</button>
+            </div>
+            <div id="jobDescriptionResultcontainer">
+              <a id="jobDescriptionResult"
+                >Submit the parameters to get a job description</a
+              >
+            </div>
+          </div>
+
+          <script>
+            document
+              .getElementById("formName")
+              .addEventListener("submit", async (event) => {
+                document.getElementById("mainFormSubmit").disabled = true;
+                jobDescriptionResult.innerText =
+                  "Generating(it could take some time)...";
+                event.preventDefault();
+                jobTitle = document.getElementById("jobTitle").value;
+                aboutTheEmployer =
+                  document.getElementById("aboutTheEmployer").value;
+                salary = document.getElementById("salary").value;
+                remote = document.getElementById("remote").value;
+                locationText = document.getElementById("locationText").value;
+                jobType = document.getElementById("jobType").value;
+                employmentType =
+                  document.getElementById("employmentType").value;
+                description = document.getElementById("description").value;
+                requirements = document.getElementById("requirements").value;
+                keywords = document.getElementById("keywords").value;
+                skills = document.getElementById("skills").value;
+                education = document.getElementById("education").value;
+                personality = document.getElementById("personality").value;
+
+                await axios
+                  .post("./sendData", {
+                    email: localStorage.getItem("talentScopeEmail"),
+                    pass: localStorage.getItem("talentScopePass"),
+                    jobTitle: jobTitle,
+                    aboutTheEmployer: aboutTheEmployer,
+                    salary: salary,
+                    remote: remote,
+                    locationText: locationText,
+                    jobType: jobType,
+                    employmentType: employmentType,
+                    description: description,
+                    requirements: requirements,
+                    keywords: keywords,
+                    skills: skills,
+                    education: education,
+                    personality: personality,
+                  })
+                  .then((response) => {
+                    const res = response.data;
+                    jobDescriptionResult.innerText = res.message;
+                    document.getElementById("mainFormSubmit").disabled = false;
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    document.getElementById("mainFormSubmit").disabled = false;
+                  });
+              });
+
+            document
+              .getElementById("jobDescriptionClear")
+              .addEventListener("click", () => {
+                jobDescriptionResult.value = "";
+                jobDescriptionResult.innerText =
+                  "Submit the parameters to get a job description";
+                document.getElementById("jobTitle").value = "";
+                document.getElementById("jobTitle").value = "";
+                document.getElementById("aboutTheEmployer").value = "";
+                document.getElementById("salary").value = "";
+                document.getElementById("remote").value = "";
+                document.getElementById("locationText").value = "";
+                document.getElementById("jobType").value = "";
+                document.getElementById("employmentType").value = "";
+                document.getElementById("description").value = "";
+                document.getElementById("requirements").value = "";
+                document.getElementById("keywords").value = "";
+                document.getElementById("skills").value = "";
+                document.getElementById("education").value = "";
+                document.getElementById("personality").value = "";
+              });
+          </script>
+        </div>
+      </form>
+    </div>
+
+    <!-- sign in -->
+    <div id="signIn">
+      <div class="centerAccountForm">
+        <form id="signInform" class="accountForm">
+          <h2>Sign In</h2>
+          <input type="email" required placeholder="Email" id="signInEmail" />
+          <input
+            type="password"
+            required
+            placeholder="Password"
+            id="signInPass"
+          />
+          <p class="warningMsg" id="signInIncorrectNameOrPassword">
+            ⚠️Incorrect name or password
+          </p>
+
+          <p id="dontHaveAnAccountSignUp">Don't have an account? Sign Up.</p>
+          <input class="accountFormSubmit" type="submit" value="Sign In" />
+        </form>
+      </div>
+      <script>
+        let signInIncorrectNameOrPassword = document.getElementById(
+          "signInIncorrectNameOrPassword"
+        );
+        signInIncorrectNameOrPassword.style.display = "none";
+
+        document
+          .getElementById("dontHaveAnAccountSignUp")
+          .addEventListener("click", (event) => {
+            signIn.style.display = "none";
+            signUp.style.display = "block";
+          });
+
+        document
+          .getElementById("signInform")
+          .addEventListener("submit", (event) => {
+            event.preventDefault();
+            let signInEmail = document.getElementById("signInEmail").value;
+            let signInPass = document.getElementById("signInPass").value;
+            axios
+              .post("./signInSendData", {
+                email: signInEmail,
+                pass: signInPass,
+              })
+              .then((response) => {
+                const res = response.data;
+                if (res.message === "account verifyed") {
+                  console.log(signInEmail, signInPass);
+                  localStorage.setItem("talentScopeEmail", signInEmail);
+                  localStorage.setItem("talentScopePass", signInPass);
+                  signIn.style.display = "none";
+                  home.style.display = "block";
+                  document.getElementById("navbarEmail").innerText =
+                    signInEmail;
+                }
+                if (res.message === "wrong name or pass") {
+                  signInIncorrectNameOrPassword.style.display = "block";
+                  clearInterval(signInEmailTakenInterval);
+                  var signInEmailTakenInterval = setInterval(() => {
+                    signInIncorrectNameOrPassword.style.display = "none";
+                  }, 10000);
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          });
+      </script>
+    </div>
+
+    <!-- sign up -->
+    <div id="signUp">
+      <div class="centerAccountForm">
+        <form id="signUpform" class="accountForm">
+          <h2>Sign Up</h2>
+          <input type="email" required placeholder="Email" id="signUpEmail" />
+          <input
+            type="password"
+            required
+            placeholder="Password"
+            id="signUpPass"
+          />
+          <p class="warningMsg" id="signUpEmailTaken">
+            ⚠️This email has already been used
+          </p>
+          <input class="accountFormSubmit" type="submit" value="Sign Up" />
+        </form>
+      </div>
+      <script>
+        let signUpEmailTaken = document.getElementById("signUpEmailTaken");
+        signUpEmailTaken.style.display = "none";
+
+        document
+          .getElementById("signUpform")
+          .addEventListener("submit", (event) => {
+            event.preventDefault();
+            let signUpEmail = document.getElementById("signUpEmail").value;
+            let signUpPass = document.getElementById("signUpPass").value;
+            axios
+              .post("./signUpSendData", {
+                email: signUpEmail,
+                pass: signUpPass,
+              })
+              .then((response) => {
+                const res = response.data;
+                if (res.message === "account created") {
+                  console.log(signUpEmail, signUpPass);
+                  localStorage.setItem("talentScopeEmail", signUpEmail);
+                  localStorage.setItem("talentScopePass", signUpPass);
+                  signUp.style.display = "none";
+                  home.style.display = "block";
+                  document.getElementById("navbarEmail").innerText =
+                    signUpEmail;
+                }
+                if (res.message === "email taken") {
+                  signUpEmailTaken.style.display = "block";
+                  clearInterval(signUpEmailTakenInterval);
+                  var signUpEmailTakenInterval = setInterval(() => {
+                    signUpEmailTaken.style.display = "none";
+                  }, 7000);
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          });
+      </script>
+    </div>
+
+    <script>
+      var signUp = document.getElementById("signUp");
+      var home = document.getElementById("home");
+      var signIn = document.getElementById("signIn");
+      home.style.display = "none";
+      signIn.style.display = "none";
+      signUp.style.display = "none";
+      let emailInit = localStorage.getItem("talentScopeEmail");
+      let passInit = localStorage.getItem("talentScopePass");
+      if (emailInit && passInit && emailInit !== "null") {
+        console.log(emailInit, passInit);
+        home.style.display = "block";
+      } else {
+        console.log("no acc");
+        signIn.style.display = "block";
+      }
+    </script>
+  </body>
+</html>
