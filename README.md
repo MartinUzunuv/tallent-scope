@@ -1,2 +1,2 @@
-"npm i" for installing the dependencies
+"npm i" for installing the dependencies <br>
 "node index.js" for running the app
