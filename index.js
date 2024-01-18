@@ -5,12 +5,15 @@ import OpenAI from "openai";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
+const url = "http://localhost:3000/";
+
 const openai = new OpenAI({
   apiKey: "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",
 });
 
+const assistId = "asst_iGSyxroyszEAfDtWXTWklRg0";
+
 const app = express();
-const port = 3000;
 
 const uri =
   "mongodb+srv://123:123@ts.urop3ax.mongodb.net/?retryWrites=true&w=majority";
@@ -157,7 +160,7 @@ async function contactAssistant(
     " Give me just the job description and nothing else. Don't start the message with (Absolutely.....).";
 
   const run = await openai.beta.threads.createAndRun({
-    assistant_id: "asst_iGSyxroyszEAfDtWXTWklRg0",
+    assistant_id: assistId,
     thread: {
       messages: [
         {
@@ -292,23 +295,75 @@ app.post("/getHistory", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  console.log(requestData);
-
   const account = await collection.findOne({
     email: email,
     pass: pass,
   });
 
-  console.log(account)
-
   if (account) {
-    // let historyArray = account.chats || [];
+    let historyArray = account.chats.slice(0, 9) || [];
     res.send({ message: JSON.stringify(historyArray) });
   } else {
     res.send({ message: "wrong name or pass" });
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is listening at http://localhost:${port}`);
+app.post("/fPassSendData", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+
+  let randomString = Array.from(
+    { length: 30 },
+    () => Math.random().toString(36)[2]
+  ).join("");
+
+  await collection.updateOne(
+    {
+      email: email,
+    },
+    { $set: { newPass: pass, resetKey: randomString } }
+  );
+
+  let emailLink = url + "updatePass/" + randomString + "/" + email;
+
+  console.log(emailLink);
+
+  res.send({ message: "ok" });
+});
+
+app.get("/updatePass/:key/:email", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const key = req.params.key;
+  const email = req.params.email;
+
+  let acc = await collection.findOne({
+    email: email,
+    resetKey: key,
+  });
+
+  const newPass = acc.newPass;
+
+  if (key !== "" && key) {
+    await collection.updateOne(
+      {
+        email: email,
+        resetKey: key,
+      },
+      { $set: { newPass: "", resetKey: "", pass: newPass } }
+    );
+
+    res.sendFile("index.html", { root: __dirname });
+  } else {
+    res.send("error");
+  }
+});
+
+app.listen(3000, () => {
+  console.log(`Server is listening at ` + url);
 });

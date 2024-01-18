@@ -66,6 +66,13 @@
         cursor: pointer;
       }
 
+      #forgotPassSignUp {
+        text-align: left;
+        color: #0755dc;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
       #main {
         display: flex;
         flex-wrap: wrap;
@@ -221,18 +228,17 @@
 
       /* Dropdown Button */
       .dropbtn {
-        background-color: #3498db;
+        background-color: #4c5c6b;
         color: white;
-        padding: 16px;
-        font-size: 16px;
         border: none;
+        padding: 10px;
         cursor: pointer;
       }
 
       /* Dropdown button on hover & focus */
       .dropbtn:hover,
       .dropbtn:focus {
-        background-color: #2980b9;
+        background-color: #3b464f;
       }
 
       /* The container <div> - needed to position the dropdown content */
@@ -257,6 +263,7 @@
         padding: 12px 16px;
         text-decoration: none;
         display: block;
+        font-size: 13.3;
       }
 
       /* Change color of dropdown links on hover */
@@ -295,8 +302,54 @@
                 })
                 .then((response) => {
                   const res = response.data;
-                  let chats = JSON.parse(res.message);
-                  console.log(chats);
+                  var chats = JSON.parse(res.message);
+                  dropdownContent.innerHTML = "";
+                  for (let i = 9; i >= 0; i--) {
+                    if (i < chats.length) {
+                      var button = document.createElement("a");
+
+                      button.innerHTML = chats[i].jobTitle;
+
+                      button.id = i + "-history";
+
+                      button.classList.add("highlighted");
+
+                      dropdownContent.appendChild(button);
+
+                      button.addEventListener("click", (event) => {
+                        let n = parseInt(event.target.id[0]);
+                        document.getElementById("jobTitle").value =
+                          chats[n].jobTitle;
+                        document.getElementById("aboutTheEmployer").value =
+                          chats[n].aboutTheEmployer;
+                        document.getElementById("salary").value =
+                          chats[n].salary;
+                        document.getElementById("remote").value =
+                          chats[n].remote;
+                        document.getElementById("locationText").value =
+                          chats[n].locationText;
+                        document.getElementById("jobType").value =
+                          chats[n].jobType;
+                        document.getElementById("employmentType").value =
+                          chats[n].employmentType;
+                        document.getElementById("description").value =
+                          chats[n].description;
+                        document.getElementById("requirements").value =
+                          chats[n].requirements;
+                        document.getElementById("keywords").value =
+                          chats[n].keywords;
+                        document.getElementById("skills").value =
+                          chats[n].skills;
+                        document.getElementById("education").value =
+                          chats[n].education;
+                        document.getElementById("personality").value =
+                          chats[n].personality;
+                        document.getElementById(
+                          "jobDescriptionResult"
+                        ).innerText = chats[n].assistantAnswer;
+                      });
+                    }
+                  }
                 })
                 .catch((error) => {
                   console.error(error);
@@ -345,6 +398,27 @@
             description that will rank high on any Job Board & Google For Jobs
           </p> -->
             <div id="mainFormQuestionsQuestion">
+              <br />
+              <!-- <div class="dropdownLang">
+                <button onclick="dropdownTogle()" class="dropbtnLang">
+                  History
+                </button>
+                <div id="historyDropdown" class="dropdown-content">
+                  <a>Loading...</a>
+                </div>
+              </div> -->
+              <select name="lang" id="lang">
+                <option value="english">English</option>
+                <option value="russian">Russian</option>
+                <option value="spanish">Spanish</option>
+                <option value="japanese">Japanese</option>
+                <option value="mandarin">Mandarin</option>
+                <option value="hindi">Hindi</option>
+                <option value="arabic">Arabic</option>
+                <option value="french">French</option>
+                <option value="portuguese">Portuguese</option>
+              </select>
+              <br />
               <input
                 id="jobTitle"
                 placeholder="JOB TITLE"
@@ -440,7 +514,8 @@
                 skills = document.getElementById("skills").value;
                 education = document.getElementById("education").value;
                 personality = document.getElementById("personality").value;
-
+                lang = document.getElementById("lang").value
+                
                 await axios
                   .post("./sendData", {
                     email: localStorage.getItem("talentScopeEmail"),
@@ -511,7 +586,7 @@
           <p class="warningMsg" id="signInIncorrectNameOrPassword">
             ⚠️Incorrect name or password
           </p>
-
+          <p id="forgotPassSignUp">Forgot your password?</p>
           <p id="dontHaveAnAccountSignUp">Don't have an account? Sign Up.</p>
           <input class="accountFormSubmit" type="submit" value="Sign In" />
         </form>
@@ -527,6 +602,13 @@
           .addEventListener("click", (event) => {
             signIn.style.display = "none";
             signUp.style.display = "block";
+          });
+
+        document
+          .getElementById("forgotPassSignUp")
+          .addEventListener("click", (event) => {
+            signIn.style.display = "none";
+            fPass.style.display = "block";
           });
 
         document
@@ -625,13 +707,65 @@
       </script>
     </div>
 
+    <!-- forgot password -->
+    <div id="fPass">
+      <div class="centerAccountForm">
+        <form id="fPassform" class="accountForm">
+          <h2>Forgot your password?</h2>
+          <input type="email" required placeholder="Email" id="fPassEmail" />
+          <input
+            type="password"
+            required
+            placeholder="New password"
+            id="fPassPass"
+          />
+          <input
+            class="accountFormSubmit"
+            type="submit"
+            value="Send Confirmation Email"
+          />
+        </form>
+      </div>
+      <script>
+        document
+          .getElementById("fPassform")
+          .addEventListener("submit", (event) => {
+            event.preventDefault();
+            let signUpEmail = document.getElementById("fPassEmail").value;
+            let signUpPass = document.getElementById("fPassPass").value;
+            axios
+              .post("./fPassSendData", {
+                email: signUpEmail,
+                pass: signUpPass,
+              })
+              .then((response) => {
+                const res = response.data;
+                if (res.message === "account created") {
+                  // console.log(signUpEmail, signUpPass);
+                  // localStorage.setItem("talentScopeEmail", signUpEmail);
+                  // localStorage.setItem("talentScopePass", signUpPass);
+                  // signUp.style.display = "none";
+                  // home.style.display = "block";
+                  // document.getElementById("navbarEmail").innerText =
+                  //   signUpEmail;
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          });
+      </script>
+    </div>
+
     <script>
       var signUp = document.getElementById("signUp");
       var home = document.getElementById("home");
       var signIn = document.getElementById("signIn");
+      var fPass = document.getElementById("fPass");
       home.style.display = "none";
       signIn.style.display = "none";
       signUp.style.display = "none";
+      fPass.style.display = "none";
       let emailInit = localStorage.getItem("talentScopeEmail");
       let passInit = localStorage.getItem("talentScopePass");
       if (emailInit && passInit && emailInit !== "null") {
