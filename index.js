@@ -58,7 +58,8 @@ function checkStatus(
   keywords,
   skills,
   education,
-  personality
+  personality,
+  lang
 ) {
   getStatus(threadId, runId, async (status) => {
     if (status == "completed") {
@@ -83,6 +84,7 @@ function checkStatus(
               personality: personality,
               assistantAnswer: threadMessages.data[0].content[0].text.value,
               date: new Date().toString(),
+              lang: lang,
             },
           },
         }
@@ -110,7 +112,8 @@ function checkStatus(
             keywords,
             skills,
             education,
-            personality
+            personality,
+            lang
           ),
         1500
       );
@@ -138,7 +141,8 @@ async function contactAssistant(
   education,
   personality,
   res,
-  collection
+  collection,
+  lang
 ) {
   const textToSend =
     "I want you to create a professional and detailed job description by using this information:" +
@@ -157,6 +161,7 @@ async function contactAssistant(
     (!skills ? "" : " Skills: " + skills + ";") +
     (!education ? "" : " Education: " + education + ";") +
     (!personality ? "" : " Personality: " + personality + ";") +
+    (!lang ? "" : " The whole output should be in " + lang + "!!!") +
     " Give me just the job description and nothing else. Don't start the message with (Absolutely.....).";
 
   const run = await openai.beta.threads.createAndRun({
@@ -190,7 +195,8 @@ async function contactAssistant(
     keywords,
     skills,
     education,
-    personality
+    personality,
+    lang
   );
 }
 
@@ -256,6 +262,7 @@ app.post("/sendData", async (req, res) => {
   const skills = requestData.skills;
   const education = requestData.education;
   const personality = requestData.personality;
+  const lang = requestData.lang
 
   const checkIfAccountExists = await collection.findOne({
     email: email,
@@ -280,7 +287,8 @@ app.post("/sendData", async (req, res) => {
       education,
       personality,
       res,
-      collection
+      collection,
+      lang
     );
   } else {
     res.send({ message: "account error" });
@@ -358,7 +366,8 @@ app.get("/updatePass/:key/:email", async (req, res) => {
       { $set: { newPass: "", resetKey: "", pass: newPass } }
     );
 
-    res.sendFile("index.html", { root: __dirname });
+    // res.sendFile("index.html", { root: __dirname });
+    res.send("password reset");
   } else {
     res.send("error");
   }

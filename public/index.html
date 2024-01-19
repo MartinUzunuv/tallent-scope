@@ -198,6 +198,19 @@
         color: #1f3245;
       }
 
+      #jobDescriptionCopy {
+        width: 30%;
+        padding: 5px;
+        border-radius: 100px;
+        border: none;
+        font-weight: 800;
+        font-size: small;
+        border: solid 1.5px #14867a !important;
+        background-color: #1bae9f;
+        color: white;
+        text-align: center;
+      }
+
       #mainFormSubmit {
         width: 30%;
         padding: 5px;
@@ -215,6 +228,7 @@
         margin-top: 20px;
         padding: 10px;
         width: 100%;
+        min-height: 800px;
       }
 
       #jobDescriptionResultcontainer {
@@ -275,9 +289,35 @@
       .show {
         display: block;
       }
+
+      #lang {
+        background-color: white;
+        color: #4c5c6b;
+        border: none;
+        padding: 10px;
+        margin: 10px;
+        width: 182px;
+      }
+
+      #lang option {
+        background-color: white;
+        color: #4c5c6b;
+        border: none;
+        padding: 10px;
+        margin: 10px;
+        width: 182px;
+        border-radius: 0px;
+      }
+
+      #lang::-ms-expand {
+        border-radius: 0px;
+      }
     </style>
   </head>
   <body>
+    <script>
+      var copyText = ""
+    </script>
     <!-- home -->
     <div id="home">
       <div id="navbar">
@@ -344,9 +384,11 @@
                           chats[n].education;
                         document.getElementById("personality").value =
                           chats[n].personality;
+                        document.getElementById("lang").value = chats[n].lang;
                         document.getElementById(
                           "jobDescriptionResult"
                         ).innerText = chats[n].assistantAnswer;
+                        copyText = chats[n].assistantAnswer
                       });
                     }
                   }
@@ -482,6 +524,7 @@
             <div id="submitClearGroup">
               <!-- <a>Job Description</a> -->
               <input type="submit" value="SUBMIT" id="mainFormSubmit" />
+              <a id="jobDescriptionCopy">COPY</a>
               <button id="jobDescriptionClear">CLEAR</button>
             </div>
             <div id="jobDescriptionResultcontainer">
@@ -492,6 +535,10 @@
           </div>
 
           <script>
+            document.getElementById("jobDescriptionCopy").addEventListener("click",()=>{
+              navigator.clipboard.writeText(copyText);
+            })
+
             document
               .getElementById("formName")
               .addEventListener("submit", async (event) => {
@@ -514,8 +561,8 @@
                 skills = document.getElementById("skills").value;
                 education = document.getElementById("education").value;
                 personality = document.getElementById("personality").value;
-                lang = document.getElementById("lang").value
-                
+                lang = document.getElementById("lang").value;
+
                 await axios
                   .post("./sendData", {
                     email: localStorage.getItem("talentScopeEmail"),
@@ -533,10 +580,12 @@
                     skills: skills,
                     education: education,
                     personality: personality,
+                    lang: lang,
                   })
                   .then((response) => {
                     const res = response.data;
                     jobDescriptionResult.innerText = res.message;
+                    copyText = res.message
                     document.getElementById("mainFormSubmit").disabled = false;
                   })
                   .catch((error) => {
@@ -565,6 +614,8 @@
                 document.getElementById("skills").value = "";
                 document.getElementById("education").value = "";
                 document.getElementById("personality").value = "";
+                document.getElementById("lang").value = "";
+                copyText = ""
               });
           </script>
         </div>
