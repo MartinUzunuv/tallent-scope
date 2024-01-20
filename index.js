@@ -4,6 +4,7 @@ import { MongoClient } from "mongodb";
 import OpenAI from "openai";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { jsPDF } from "jspdf";
 
 const url = "http://localhost:3000/";
 
@@ -262,7 +263,7 @@ app.post("/sendData", async (req, res) => {
   const skills = requestData.skills;
   const education = requestData.education;
   const personality = requestData.personality;
-  const lang = requestData.lang
+  const lang = requestData.lang;
 
   const checkIfAccountExists = await collection.findOne({
     email: email,
@@ -309,7 +310,7 @@ app.post("/getHistory", async (req, res) => {
   });
 
   if (account) {
-    let historyArray = account.chats.slice(0, 9) || [];
+    let historyArray = account.chats.slice(-10) || [];
     res.send({ message: JSON.stringify(historyArray) });
   } else {
     res.send({ message: "wrong name or pass" });
@@ -371,6 +372,17 @@ app.get("/updatePass/:key/:email", async (req, res) => {
   } else {
     res.send("error");
   }
+});
+
+app.post("/pdf", (req, res) => {
+  const requestData = req.body;
+  const doc = new jsPDF();
+
+  doc.text(requestData.data, 10, 10);
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "attachment; filename=a4.pdf");
+
+  res.send(doc.output());
 });
 
 app.listen(3000, () => {

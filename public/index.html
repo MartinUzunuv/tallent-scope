@@ -198,6 +198,10 @@
         color: #1f3245;
       }
 
+      #jobDescriptionClear:hover {
+        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+      }
+
       #jobDescriptionCopy {
         width: 30%;
         padding: 5px;
@@ -211,6 +215,10 @@
         text-align: center;
       }
 
+      #jobDescriptionCopy:hover {
+        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+      }
+
       #mainFormSubmit {
         width: 30%;
         padding: 5px;
@@ -220,6 +228,10 @@
         font-size: small;
         background-color: #f7c325;
         color: #1f3245;
+      }
+
+      #mainFormSubmit:hover {
+        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
       }
 
       #jobDescriptionResult {
@@ -316,7 +328,7 @@
   </head>
   <body>
     <script>
-      var copyText = ""
+      var copyText = "";
     </script>
     <!-- home -->
     <div id="home">
@@ -344,7 +356,7 @@
                   const res = response.data;
                   var chats = JSON.parse(res.message);
                   dropdownContent.innerHTML = "";
-                  for (let i = 9; i >= 0; i--) {
+                  for (let i = chats.length; i >= 0; i--) {
                     if (i < chats.length) {
                       var button = document.createElement("a");
 
@@ -388,7 +400,7 @@
                         document.getElementById(
                           "jobDescriptionResult"
                         ).innerText = chats[n].assistantAnswer;
-                        copyText = chats[n].assistantAnswer
+                        copyText = chats[n].assistantAnswer;
                       });
                     }
                   }
@@ -411,6 +423,30 @@
                 }
               }
             };
+          </script>
+          <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
+          <script>
+            document
+              .getElementById("saveAsPDF")
+              .addEventListener("click", async function () {
+                await axios
+                  .post("./pdf", {
+                    data: copyText,
+                  })
+                  .then((response) => {
+                    const blob = new Blob([response.data], {
+                      type: "application/pdf",
+                    });
+
+                    const link = document.createElement("a");
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "jobDescription.pdf";
+                    link.click();
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              });
           </script>
         </div>
         <div id="navbarEmailBox">
@@ -535,9 +571,28 @@
           </div>
 
           <script>
-            document.getElementById("jobDescriptionCopy").addEventListener("click",()=>{
-              navigator.clipboard.writeText(copyText);
-            })
+            document
+              .getElementById("jobDescriptionCopy")
+              .addEventListener("click", () => {
+                if (copyText !== null && copyText !== "" && copyText.length) {
+                  navigator.clipboard.writeText(copyText);
+                  document.getElementById("jobDescriptionCopy").innerText =
+                    "COPY✅";
+                  clearInterval(cpoied);
+                  var cpoied = setInterval(() => {
+                    document.getElementById("jobDescriptionCopy").innerText =
+                      "COPY";
+                  }, 3000);
+                }else{
+                  document.getElementById("jobDescriptionCopy").innerText =
+                    "COPY❌";
+                  clearInterval(cpoied);
+                  var cpoied = setInterval(() => {
+                    document.getElementById("jobDescriptionCopy").innerText =
+                      "COPY";
+                  }, 3000);
+                }
+              });
 
             document
               .getElementById("formName")
@@ -585,7 +640,7 @@
                   .then((response) => {
                     const res = response.data;
                     jobDescriptionResult.innerText = res.message;
-                    copyText = res.message
+                    copyText = res.message;
                     document.getElementById("mainFormSubmit").disabled = false;
                   })
                   .catch((error) => {
@@ -615,7 +670,7 @@
                 document.getElementById("education").value = "";
                 document.getElementById("personality").value = "";
                 document.getElementById("lang").value = "";
-                copyText = ""
+                copyText = "";
               });
           </script>
         </div>
