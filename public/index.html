@@ -429,7 +429,8 @@
             document
               .getElementById("saveAsPDF")
               .addEventListener("click", async function () {
-                await axios
+                if(copyText !== null && copyText !== "" && copyText.length){
+                  await axios
                   .post("./pdf", {
                     data: copyText,
                   })
@@ -446,6 +447,16 @@
                   .catch((error) => {
                     console.error(error);
                   });
+                }else{
+                  document.getElementById("saveAsPDF").innerText =
+                    "Save as PDF❌";
+                  clearInterval(pdfed);
+                  var pdfed = setInterval(() => {
+                    document.getElementById("saveAsPDF").innerText =
+                      "Save as PDF";
+                  }, 3000);
+                }
+                
               });
           </script>
         </div>
