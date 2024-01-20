@@ -401,6 +401,7 @@
                           "jobDescriptionResult"
                         ).innerText = chats[n].assistantAnswer;
                         copyText = chats[n].assistantAnswer;
+                        console.log(copyText);
                       });
                     }
                   }
@@ -425,29 +426,85 @@
             };
           </script>
           <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
+          <button id="edit" class="dropbtn" onclick="edit()">Edit</button>
+          <script>
+            let editing = false;
+            let editing_text;
+            async function edit() {
+              editing = !editing;
+              console.log(editing);
+              if (editing) {
+                const texts = copyText.split("\n");
+
+                const container = document.getElementById(
+                  "jobDescriptionResultcontainer"
+                );
+                const div = document.getElementById("jobDescriptionResult");
+                let text = div.textContent;
+                div.remove();
+                const textarea = document.createElement("textarea");
+                container.append(textarea);
+                textarea.id = "jobDescriptionResult";
+                const button = document.getElementById("edit");
+                button.innerHTML = "stop-edit";
+
+                let new_text = "";
+                for (const texte of texts) new_text += `${texte} &NewLine;`;
+
+                editing_text = new_text;
+
+                console.log(editing_text);
+
+                textarea.innerHTML = new_text;
+              } else {
+                const texts = editing_text.split("&NewLine;");
+
+                console.log(texts);
+
+                const container = document.getElementById(
+                  "jobDescriptionResultcontainer"
+                );
+                const textarea = document.getElementById(
+                  "jobDescriptionResult"
+                );
+                textarea.remove();
+                const a = document.createElement("a");
+                container.append(a);
+                a.id = "jobDescriptionResult";
+                const button = document.getElementById("edit");
+                button.innerHTML = "edit";
+
+                let new_text = "";
+                for (const texte of texts) new_text += `${texte} \n`;
+
+                console.log(new_text);
+                a.innerText = new_text;
+              }
+            }
+          </script>
           <script>
             document
               .getElementById("saveAsPDF")
               .addEventListener("click", async function () {
-                if(copyText !== null && copyText !== "" && copyText.length){
+                if (copyText !== null && copyText !== "" && copyText.length) {
                   await axios
-                  .post("./pdf", {
-                    data: copyText,
-                  })
-                  .then((response) => {
-                    const blob = new Blob([response.data], {
-                      type: "application/pdf",
-                    });
+                    .post("./pdf", {
+                      data: copyText,
+                    })
+                    .then((response) => {
+                      const blob = new Blob([response.data], {
+                        type: "application/pdf",
+                      });
 
-                    const link = document.createElement("a");
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = "jobDescription.pdf";
-                    link.click();
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-                }else{
+                      const link = document.createElement("a");
+                      link.href = window.URL.createObjectURL(blob);
+                      link.download = "jobDescription.pdf";
+                      link.click();
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                } else {
                   document.getElementById("saveAsPDF").innerText =
                     "Save as PDF❌";
                   clearInterval(pdfed);
@@ -456,7 +513,6 @@
                       "Save as PDF";
                   }, 3000);
                 }
-                
               });
           </script>
         </div>
@@ -594,7 +650,7 @@
                     document.getElementById("jobDescriptionCopy").innerText =
                       "COPY";
                   }, 3000);
-                }else{
+                } else {
                   document.getElementById("jobDescriptionCopy").innerText =
                     "COPY❌";
                   clearInterval(cpoied);
