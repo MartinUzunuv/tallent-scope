@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Talent Scope</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="icon" href="/logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
     <style>
       #navbar {
         display: flex;
@@ -122,32 +124,6 @@
         border-radius: 5px;
       }
 
-      #navbar {
-        color: white;
-        border-radius: 5px;
-        padding: 10px;
-      }
-
-      #logoutButton {
-        background-color: #4c5c6b;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        padding: 5px;
-        font-weight: 600;
-        margin-left: 10px;
-      }
-
-      #navbarTitle {
-        font-size: 22px;
-      }
-
-      #navbarEmailBox {
-        display: flex;
-        align-items: baseline;
-      }
-
       #mainForm {
         text-align: center;
       }
@@ -259,6 +235,7 @@
         border: none;
         padding: 10px;
         cursor: pointer;
+        max-height: 35.33px;
       }
 
       /* Dropdown button on hover & focus */
@@ -324,6 +301,55 @@
       #lang::-ms-expand {
         border-radius: 0px;
       }
+
+      #logoutButton {
+        background-color: #4c5c6b;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 5px;
+        font-weight: 600;
+        margin-left: 10px;
+      }
+
+      #navbarTitle {
+        font-size: 22px;
+      }
+
+      @media screen and (max-width: 586px) {
+
+        #navbar {
+          display: flex;
+          flex-wrap: wrap-reverse;
+        }
+
+        #navbarEmailBox {
+          flex-direction: row-reverse;
+          margin-bottom: 18px;
+        }
+
+        #logoutButton {
+          margin-left: 0px;
+          margin-right: 10px;
+        }
+
+        #edit {
+          margin-right: 40px;
+        }
+      }
+
+      #navbar {
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+      }
+
+      #navbarEmailBox {
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-end;
+      }
     </style>
   </head>
   <body>
@@ -335,237 +361,259 @@
     <!-- home -->
     <div id="home">
       <div id="navbar">
-        <div>
-          <a id="navbarTitle">Talent Scope</a>
-          <div class="dropdown">
-            <button onclick="dropdownTogle()" class="dropbtn">History</button>
-            <div id="historyDropdown" class="dropdown-content">
-              <a>Loading...</a>
+        <div style="display: flex; align-items: flex-start">
+          <img
+            src="/logo.png"
+            width="60"
+            height="60"
+            style="margin-right: 10px"
+          />
+
+          <div style="display: flex; align-items: center">
+            <!-- <a id="navbarTitle">Talent Scope</a> -->
+            <div class="dropdown">
+              <button
+                style="border-radius: 5px 0 0 5px"
+                onclick="dropdownTogle()"
+                class="dropbtn"
+              >
+                History
+              </button>
+              <div id="historyDropdown" class="dropdown-content">
+                <a>Loading...</a>
+              </div>
             </div>
-          </div>
-          <script>
-            function dropdownTogle() {
-              const dropdownContent =
-                document.getElementById("historyDropdown");
-              dropdownContent.classList.toggle("show");
+            <script>
+              function dropdownTogle() {
+                const dropdownContent =
+                  document.getElementById("historyDropdown");
+                dropdownContent.classList.toggle("show");
 
-              axios
-                .post("./getHistory", {
-                  email: localStorage.getItem("talentScopeEmail"),
-                  pass: localStorage.getItem("talentScopePass"),
-                })
-                .then((response) => {
-                  const res = response.data;
-                  var chats = JSON.parse(res.message);
-                  console.log(chats);
-                  dropdownContent.innerHTML = "";
-                  if (chats.length <= 0) {
-                    var button = document.createElement("a");
-
-                    button.innerHTML = "No history yet❌";
-
-                    button.classList.add("highlighted");
-
-                    dropdownContent.appendChild(button);
-
-                    // clearInterval(noHistory);
-                    // var noHistory = setInterval(() => {
-                    //   button.innerText =
-                    //     "History";
-                    // }, 3000);
-                  }
-                  for (let i = chats.length; i >= 0; i--) {
-                    if (i < chats.length) {
+                axios
+                  .post("./getHistory", {
+                    email: localStorage.getItem("talentScopeEmail"),
+                    pass: localStorage.getItem("talentScopePass"),
+                  })
+                  .then((response) => {
+                    const res = response.data;
+                    var chats = JSON.parse(res.message);
+                    console.log(chats);
+                    dropdownContent.innerHTML = "";
+                    if (chats.length <= 0) {
                       var button = document.createElement("a");
 
-                      button.innerHTML = chats[i].jobTitle;
-
-                      button.id = i + "-history";
+                      button.innerHTML = "No history yet";
 
                       button.classList.add("highlighted");
 
                       dropdownContent.appendChild(button);
 
-                      button.addEventListener("click", (event) => {
-                        let n = parseInt(event.target.id[0]);
-                        document.getElementById("jobTitle").value =
-                          chats[n].jobTitle;
-                        document.getElementById("aboutTheEmployer").value =
-                          chats[n].aboutTheEmployer;
-                        document.getElementById("salary").value =
-                          chats[n].salary;
-                        document.getElementById("remote").value =
-                          chats[n].remote;
-                        document.getElementById("locationText").value =
-                          chats[n].locationText;
-                        document.getElementById("jobType").value =
-                          chats[n].jobType;
-                        document.getElementById("employmentType").value =
-                          chats[n].employmentType;
-                        document.getElementById("description").value =
-                          chats[n].description;
-                        document.getElementById("requirements").value =
-                          chats[n].requirements;
-                        document.getElementById("keywords").value =
-                          chats[n].keywords;
-                        document.getElementById("skills").value =
-                          chats[n].skills;
-                        document.getElementById("education").value =
-                          chats[n].education;
-                        document.getElementById("personality").value =
-                          chats[n].personality;
-                        document.getElementById("lang").value = chats[n].lang;
-                        document.getElementById(
-                          "jobDescriptionResult"
-                        ).innerText = chats[n].assistantAnswer;
-                        copyText = chats[n].assistantAnswer;
-                        currentTextDbId = chats[n].id;
-                        // console.log(copyText);
-                      });
+                      // clearInterval(noHistory);
+                      // var noHistory = setInterval(() => {
+                      //   button.innerText =
+                      //     "History";
+                      // }, 3000);
+                    }
+                    for (let i = chats.length; i >= 0; i--) {
+                      if (i < chats.length) {
+                        var button = document.createElement("a");
+
+                        button.innerHTML = chats[i].jobTitle;
+
+                        button.id = i + "-history";
+
+                        button.classList.add("highlighted");
+
+                        dropdownContent.appendChild(button);
+
+                        button.addEventListener("click", (event) => {
+                          let n = parseInt(event.target.id[0]);
+                          document.getElementById("jobTitle").value =
+                            chats[n].jobTitle;
+                          document.getElementById("aboutTheEmployer").value =
+                            chats[n].aboutTheEmployer;
+                          document.getElementById("salary").value =
+                            chats[n].salary;
+                          document.getElementById("remote").value =
+                            chats[n].remote;
+                          document.getElementById("locationText").value =
+                            chats[n].locationText;
+                          document.getElementById("jobType").value =
+                            chats[n].jobType;
+                          document.getElementById("employmentType").value =
+                            chats[n].employmentType;
+                          document.getElementById("description").value =
+                            chats[n].description;
+                          document.getElementById("requirements").value =
+                            chats[n].requirements;
+                          document.getElementById("keywords").value =
+                            chats[n].keywords;
+                          document.getElementById("skills").value =
+                            chats[n].skills;
+                          document.getElementById("education").value =
+                            chats[n].education;
+                          document.getElementById("personality").value =
+                            chats[n].personality;
+                          document.getElementById("lang").value = chats[n].lang;
+                          document.getElementById(
+                            "jobDescriptionResult"
+                          ).innerText = chats[n].assistantAnswer;
+                          copyText = chats[n].assistantAnswer;
+                          currentTextDbId = chats[n].id;
+                          // console.log(copyText);
+                        });
+                      }
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              }
+
+              window.onclick = function (event) {
+                if (!event.target.matches(".dropbtn")) {
+                  var dropdowns =
+                    document.getElementsByClassName("dropdown-content");
+                  var i;
+                  for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains("show")) {
+                      openDropdown.classList.remove("show");
                     }
                   }
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-            }
+                }
+              };
+            </script>
+            <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
+            <button
+              id="edit"
+              style="border-radius: 0 5px 5px 0"
+              class="dropbtn"
+              onclick="edit()"
+            >
+              Edit
+            </button>
+            <script>
+              let editing = false;
+              let editing_text;
+              async function edit() {
+                if (currentTextDbId !== null) {
+                  editing = !editing;
+                  if (editing) {
+                    const texts = copyText.split("\n");
 
-            window.onclick = function (event) {
-              if (!event.target.matches(".dropbtn")) {
-                var dropdowns =
-                  document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                  var openDropdown = dropdowns[i];
-                  if (openDropdown.classList.contains("show")) {
-                    openDropdown.classList.remove("show");
+                    const container = document.getElementById(
+                      "jobDescriptionResultcontainer"
+                    );
+                    const div = document.getElementById("jobDescriptionResult");
+                    let text = div.textContent;
+                    div.remove();
+                    const textarea = document.createElement("textarea");
+                    container.append(textarea);
+                    textarea.id = "jobDescriptionResult";
+                    const button = document.getElementById("edit");
+                    button.innerHTML = "Stop editing and save";
+
+                    let new_text = "";
+                    for (const texte of texts) new_text += `${texte} &NewLine;`;
+
+                    editing_text = new_text;
+
+                    textarea.innerHTML = new_text;
+                    copyText = new_text;
+
+                    textarea.addEventListener("input", function () {
+                      copyText = textarea.value;
+                    });
+                  } else {
+                    const texts = document
+                      .getElementById("jobDescriptionResult")
+                      .value.split("&NewLine;");
+
+                    const container = document.getElementById(
+                      "jobDescriptionResultcontainer"
+                    );
+                    const textarea = document.getElementById(
+                      "jobDescriptionResult"
+                    );
+                    textarea.remove();
+                    const a = document.createElement("a");
+                    container.append(a);
+                    a.id = "jobDescriptionResult";
+                    const button = document.getElementById("edit");
+                    button.innerHTML = "edit";
+
+                    let new_text = "";
+                    for (const texte of texts) new_text += `${texte} \n`;
+
+                    a.innerText = new_text;
+                    copyText = new_text;
+                    if (new_text && currentTextDbId !== null) {
+                      axios
+                        .post("./updateText", {
+                          email: localStorage.getItem("talentScopeEmail"),
+                          pass: localStorage.getItem("talentScopePass"),
+                          newText: new_text,
+                          currentTextDbId: currentTextDbId,
+                        })
+                        .then((response) => {
+                          const res = response.data;
+                          if (res.message !== "ok") {
+                            console.error(
+                              "couldn't save the updated job description"
+                            );
+                          }
+                        })
+                        .catch((error) => {
+                          console.error(error);
+                        });
+                    }
                   }
+                } else {
+                  document.getElementById("edit").innerText = "Unable to edit";
+                  clearInterval(editInterval);
+                  var editInterval = setInterval(() => {
+                    document.getElementById("edit").innerText = editing
+                      ? "Stop editing and save"
+                      : "Edit";
+                  }, 3000);
                 }
               }
-            };
-          </script>
-          <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
-          <button id="edit" class="dropbtn" onclick="edit()">Edit</button>
-          <script>
-            let editing = false;
-            let editing_text;
-            async function edit() {
-              if (currentTextDbId !== null) {
-                editing = !editing;
-                if (editing) {
-                  const texts = copyText.split("\n");
-
-                  const container = document.getElementById(
-                    "jobDescriptionResultcontainer"
-                  );
-                  const div = document.getElementById("jobDescriptionResult");
-                  let text = div.textContent;
-                  div.remove();
-                  const textarea = document.createElement("textarea");
-                  container.append(textarea);
-                  textarea.id = "jobDescriptionResult";
-                  const button = document.getElementById("edit");
-                  button.innerHTML = "Stop editing and save";
-
-                  let new_text = "";
-                  for (const texte of texts) new_text += `${texte} &NewLine;`;
-
-                  editing_text = new_text;
-
-                  textarea.innerHTML = new_text;
-                  copyText = new_text;
-
-                  textarea.addEventListener("input", function () {
-                    copyText = textarea.value;
-                  });
-                } else {
-                  const texts = document
-                    .getElementById("jobDescriptionResult")
-                    .value.split("&NewLine;");
-
-                  const container = document.getElementById(
-                    "jobDescriptionResultcontainer"
-                  );
-                  const textarea = document.getElementById(
-                    "jobDescriptionResult"
-                  );
-                  textarea.remove();
-                  const a = document.createElement("a");
-                  container.append(a);
-                  a.id = "jobDescriptionResult";
-                  const button = document.getElementById("edit");
-                  button.innerHTML = "edit";
-
-                  let new_text = "";
-                  for (const texte of texts) new_text += `${texte} \n`;
-
-                  a.innerText = new_text;
-                  copyText = new_text;
-                  if (new_text && currentTextDbId !== null) {
-                    axios
-                      .post("./updateText", {
-                        email: localStorage.getItem("talentScopeEmail"),
-                        pass: localStorage.getItem("talentScopePass"),
-                        newText: new_text,
-                        currentTextDbId: currentTextDbId,
+            </script>
+            <script>
+              document
+                .getElementById("saveAsPDF")
+                .addEventListener("click", async function () {
+                  if (copyText !== null && copyText !== "" && copyText.length) {
+                    await axios
+                      .post("./pdf", {
+                        data: copyText,
                       })
                       .then((response) => {
-                        const res = response.data;
-                        if (res.message !== "ok") {
-                          console.error(
-                            "couldn't save the updated job description"
-                          );
-                        }
+                        const blob = new Blob([response.data], {
+                          type: "application/pdf",
+                        });
+
+                        const link = document.createElement("a");
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = "jobDescription.pdf";
+                        link.click();
                       })
                       .catch((error) => {
                         console.error(error);
                       });
-                  }
-                }
-              } else {
-                document.getElementById("edit").innerText = "Unable to edit❌";
-                clearInterval(editInterval);
-                var editInterval = setInterval(() => {
-                  document.getElementById("edit").innerText = editing
-                    ? "Stop editing and save"
-                    : "Edit";
-                }, 3000);
-              }
-            }
-          </script>
-          <script>
-            document
-              .getElementById("saveAsPDF")
-              .addEventListener("click", async function () {
-                if (copyText !== null && copyText !== "" && copyText.length) {
-                  await axios
-                    .post("./pdf", {
-                      data: copyText,
-                    })
-                    .then((response) => {
-                      const blob = new Blob([response.data], {
-                        type: "application/pdf",
-                      });
-
-                      const link = document.createElement("a");
-                      link.href = window.URL.createObjectURL(blob);
-                      link.download = "jobDescription.pdf";
-                      link.click();
-                    })
-                    .catch((error) => {
-                      console.error(error);
-                    });
-                } else {
-                  document.getElementById("saveAsPDF").innerText =
-                    "Save as PDF❌";
-                  clearInterval(pdfed);
-                  var pdfed = setInterval(() => {
+                  } else {
                     document.getElementById("saveAsPDF").innerText =
-                      "Save as PDF";
-                  }, 3000);
-                }
-              });
-          </script>
+                      "Nothing to save as PDF";
+                    clearInterval(pdfed);
+                    var pdfed = setInterval(() => {
+                      document.getElementById("saveAsPDF").innerText =
+                        "Save as PDF";
+                    }, 3000);
+                  }
+                });
+            </script>
+          </div>
         </div>
         <div id="navbarEmailBox">
           <a id="navbarEmail"></a>
@@ -717,6 +765,8 @@
               .getElementById("formName")
               .addEventListener("submit", async (event) => {
                 document.getElementById("mainFormSubmit").disabled = true;
+                document.getElementById("mainFormSubmit").value =
+                  "GENERATING...";
                 jobDescriptionResult.innerText =
                   "Generating(it could take some time)...";
                 event.preventDefault();
@@ -761,6 +811,7 @@
                     jobDescriptionResult.innerText = res.message;
                     copyText = res.message;
                     document.getElementById("mainFormSubmit").disabled = false;
+                    document.getElementById("mainFormSubmit").value = "SUBMIT";
                     currentTextDbId = res.databaseNumber;
                   })
                   .catch((error) => {
