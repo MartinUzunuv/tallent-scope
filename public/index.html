@@ -329,7 +329,9 @@
   <body>
     <script>
       var copyText = "";
+      var currentTextDbId = null;
     </script>
+
     <!-- home -->
     <div id="home">
       <div id="navbar">
@@ -355,7 +357,23 @@
                 .then((response) => {
                   const res = response.data;
                   var chats = JSON.parse(res.message);
+                  console.log(chats);
                   dropdownContent.innerHTML = "";
+                  if (chats.length <= 0) {
+                    var button = document.createElement("a");
+
+                    button.innerHTML = "No history yet❌";
+
+                    button.classList.add("highlighted");
+
+                    dropdownContent.appendChild(button);
+
+                    // clearInterval(noHistory);
+                    // var noHistory = setInterval(() => {
+                    //   button.innerText =
+                    //     "History";
+                    // }, 3000);
+                  }
                   for (let i = chats.length; i >= 0; i--) {
                     if (i < chats.length) {
                       var button = document.createElement("a");
@@ -401,6 +419,8 @@
                           "jobDescriptionResult"
                         ).innerText = chats[n].assistantAnswer;
                         copyText = chats[n].assistantAnswer;
+                        currentTextDbId = chats[n].id;
+                        // console.log(copyText);
                       });
                     }
                   }
@@ -425,29 +445,117 @@
             };
           </script>
           <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
+          <button id="edit" class="dropbtn" onclick="edit()">Edit</button>
+          <script>
+            let editing = false;
+            let editing_text;
+            async function edit() {
+              if (currentTextDbId !== null) {
+                editing = !editing;
+                if (editing) {
+                  const texts = copyText.split("\n");
+
+                  const container = document.getElementById(
+                    "jobDescriptionResultcontainer"
+                  );
+                  const div = document.getElementById("jobDescriptionResult");
+                  let text = div.textContent;
+                  div.remove();
+                  const textarea = document.createElement("textarea");
+                  container.append(textarea);
+                  textarea.id = "jobDescriptionResult";
+                  const button = document.getElementById("edit");
+                  button.innerHTML = "Stop editing and save";
+
+                  let new_text = "";
+                  for (const texte of texts) new_text += `${texte} &NewLine;`;
+
+                  editing_text = new_text;
+
+                  textarea.innerHTML = new_text;
+                  copyText = new_text;
+
+                  textarea.addEventListener("input", function () {
+                    copyText = textarea.value;
+                  });
+                } else {
+                  const texts = document
+                    .getElementById("jobDescriptionResult")
+                    .value.split("&NewLine;");
+
+                  const container = document.getElementById(
+                    "jobDescriptionResultcontainer"
+                  );
+                  const textarea = document.getElementById(
+                    "jobDescriptionResult"
+                  );
+                  textarea.remove();
+                  const a = document.createElement("a");
+                  container.append(a);
+                  a.id = "jobDescriptionResult";
+                  const button = document.getElementById("edit");
+                  button.innerHTML = "edit";
+
+                  let new_text = "";
+                  for (const texte of texts) new_text += `${texte} \n`;
+
+                  a.innerText = new_text;
+                  copyText = new_text;
+                  if (new_text && currentTextDbId !== null) {
+                    axios
+                      .post("./updateText", {
+                        email: localStorage.getItem("talentScopeEmail"),
+                        pass: localStorage.getItem("talentScopePass"),
+                        newText: new_text,
+                        currentTextDbId: currentTextDbId,
+                      })
+                      .then((response) => {
+                        const res = response.data;
+                        if (res.message !== "ok") {
+                          console.error(
+                            "couldn't save the updated job description"
+                          );
+                        }
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      });
+                  }
+                }
+              } else {
+                document.getElementById("edit").innerText = "Unable to edit❌";
+                clearInterval(editInterval);
+                var editInterval = setInterval(() => {
+                  document.getElementById("edit").innerText = editing
+                    ? "Stop editing and save"
+                    : "Edit";
+                }, 3000);
+              }
+            }
+          </script>
           <script>
             document
               .getElementById("saveAsPDF")
               .addEventListener("click", async function () {
-                if(copyText !== null && copyText !== "" && copyText.length){
+                if (copyText !== null && copyText !== "" && copyText.length) {
                   await axios
-                  .post("./pdf", {
-                    data: copyText,
-                  })
-                  .then((response) => {
-                    const blob = new Blob([response.data], {
-                      type: "application/pdf",
-                    });
+                    .post("./pdf", {
+                      data: copyText,
+                    })
+                    .then((response) => {
+                      const blob = new Blob([response.data], {
+                        type: "application/pdf",
+                      });
 
-                    const link = document.createElement("a");
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = "jobDescription.pdf";
-                    link.click();
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-                }else{
+                      const link = document.createElement("a");
+                      link.href = window.URL.createObjectURL(blob);
+                      link.download = "jobDescription.pdf";
+                      link.click();
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                } else {
                   document.getElementById("saveAsPDF").innerText =
                     "Save as PDF❌";
                   clearInterval(pdfed);
@@ -456,7 +564,6 @@
                       "Save as PDF";
                   }, 3000);
                 }
-                
               });
           </script>
         </div>
@@ -474,6 +581,7 @@
                 localStorage.setItem("talentScopePass", null);
                 home.style.display = "none";
                 signIn.style.display = "block";
+                location.reload();
               });
           </script>
         </div>
@@ -594,7 +702,7 @@
                     document.getElementById("jobDescriptionCopy").innerText =
                       "COPY";
                   }, 3000);
-                }else{
+                } else {
                   document.getElementById("jobDescriptionCopy").innerText =
                     "COPY❌";
                   clearInterval(cpoied);
@@ -653,6 +761,7 @@
                     jobDescriptionResult.innerText = res.message;
                     copyText = res.message;
                     document.getElementById("mainFormSubmit").disabled = false;
+                    currentTextDbId = res.databaseNumber;
                   })
                   .catch((error) => {
                     console.error(error);
@@ -682,6 +791,7 @@
                 document.getElementById("personality").value = "";
                 document.getElementById("lang").value = "";
                 copyText = "";
+                currentTextDbId = null;
               });
           </script>
         </div>
@@ -742,7 +852,7 @@
               .then((response) => {
                 const res = response.data;
                 if (res.message === "account verifyed") {
-                  console.log(signInEmail, signInPass);
+                  // console.log(signInEmail, signInPass);
                   localStorage.setItem("talentScopeEmail", signInEmail);
                   localStorage.setItem("talentScopePass", signInPass);
                   signIn.style.display = "none";
@@ -801,7 +911,7 @@
               .then((response) => {
                 const res = response.data;
                 if (res.message === "account created") {
-                  console.log(signUpEmail, signUpPass);
+                  // console.log(signUpEmail, signUpPass);
                   localStorage.setItem("talentScopeEmail", signUpEmail);
                   localStorage.setItem("talentScopePass", signUpPass);
                   signUp.style.display = "none";
@@ -886,10 +996,10 @@
       let emailInit = localStorage.getItem("talentScopeEmail");
       let passInit = localStorage.getItem("talentScopePass");
       if (emailInit && passInit && emailInit !== "null") {
-        console.log(emailInit, passInit);
+        // console.log(emailInit, passInit);
         home.style.display = "block";
       } else {
-        console.log("no acc");
+        // console.log("no acc");
         signIn.style.display = "block";
       }
     </script>
