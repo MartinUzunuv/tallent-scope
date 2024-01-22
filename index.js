@@ -65,6 +65,12 @@ function checkStatus(
   getStatus(threadId, runId, async (status) => {
     if (status == "completed") {
       const threadMessages = await openai.beta.threads.messages.list(threadId);
+
+      let databaseNumber = await collection.findOne({
+        email: email,
+        pass: pass,
+      });
+
       await collection.updateOne(
         { email: email, pass: pass },
         {
@@ -90,7 +96,10 @@ function checkStatus(
           },
         }
       );
-      res.send({ message: threadMessages.data[0].content[0].text.value });
+      res.send({
+        message: threadMessages.data[0].content[0].text.value,
+        databaseNumber: databaseNumber.chats.length,
+      });
     } else if (status == "in_progress") {
       setTimeout(
         () =>
@@ -119,6 +128,7 @@ function checkStatus(
         1500
       );
     } else {
+      console.log(status)
       console.log("error");
       res.send({ message: "error try again" });
     }
@@ -213,13 +223,17 @@ app.post("/signUpSendData", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  const checkIfAccountExists = await collection.findOne({ email: email });
+  try {
+    const checkIfAccountExists = await collection.findOne({ email: email });
 
-  if (!checkIfAccountExists) {
-    await collection.insertOne({ email: email, pass: pass, chats: [] });
-    res.send({ message: "account created" });
-  } else {
-    res.send({ message: "email taken" });
+    if (!checkIfAccountExists) {
+      await collection.insertOne({ email: email, pass: pass, chats: [] });
+      res.send({ message: "account created" });
+    } else {
+      res.send({ message: "email taken" });
+    }
+  } catch (e) {
+    res.send("error");
   }
 });
 
@@ -231,15 +245,19 @@ app.post("/signInSendData", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  const verifyAcc = await collection.findOne({
-    email: email,
-    pass: pass,
-  });
+  try {
+    const verifyAcc = await collection.findOne({
+      email: email,
+      pass: pass,
+    });
 
-  if (verifyAcc) {
-    res.send({ message: "account verifyed" });
-  } else {
-    res.send({ message: "wrong name or pass" });
+    if (verifyAcc) {
+      res.send({ message: "account verifyed" });
+    } else {
+      res.send({ message: "wrong name or pass" });
+    }
+  } catch (e) {
+    res.send("error");
   }
 });
 
@@ -265,34 +283,38 @@ app.post("/sendData", async (req, res) => {
   const personality = requestData.personality;
   const lang = requestData.lang;
 
-  const checkIfAccountExists = await collection.findOne({
-    email: email,
-    pass: pass,
-  });
+  try {
+    const checkIfAccountExists = await collection.findOne({
+      email: email,
+      pass: pass,
+    });
 
-  if (checkIfAccountExists) {
-    await contactAssistant(
-      email,
-      pass,
-      jobTitle,
-      aboutTheEmployer,
-      salary,
-      remote,
-      locationText,
-      jobType,
-      employmentType,
-      description,
-      requirements,
-      keywords,
-      skills,
-      education,
-      personality,
-      res,
-      collection,
-      lang
-    );
-  } else {
-    res.send({ message: "account error" });
+    if (checkIfAccountExists) {
+      await contactAssistant(
+        email,
+        pass,
+        jobTitle,
+        aboutTheEmployer,
+        salary,
+        remote,
+        locationText,
+        jobType,
+        employmentType,
+        description,
+        requirements,
+        keywords,
+        skills,
+        education,
+        personality,
+        res,
+        collection,
+        lang
+      );
+    } else {
+      res.send({ message: "account error" });
+    }
+  } catch (e) {
+    res.send("error");
   }
 });
 
@@ -304,16 +326,23 @@ app.post("/getHistory", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  const account = await collection.findOne({
-    email: email,
-    pass: pass,
-  });
+  try {
+    const account = await collection.findOne({
+      email: email,
+      pass: pass,
+    });
 
-  if (account) {
-    let historyArray = account.chats.slice(-10) || [];
-    res.send({ message: JSON.stringify(historyArray) });
-  } else {
-    res.send({ message: "wrong name or pass" });
+    if (account) {
+      account.chats.forEach((obj, index) => {
+        obj.id = index;
+      });
+      let historyArray = account.chats.slice(-10) || [];
+      res.send({ message: JSON.stringify(historyArray) });
+    } else {
+      res.send({ message: "wrong name or pass" });
+    }
+  } catch (e) {
+    res.send("error");
   }
 });
 
@@ -325,23 +354,27 @@ app.post("/fPassSendData", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  let randomString = Array.from(
-    { length: 30 },
-    () => Math.random().toString(36)[2]
-  ).join("");
+  try {
+    let randomString = Array.from(
+      { length: 30 },
+      () => Math.random().toString(36)[2]
+    ).join("");
 
-  await collection.updateOne(
-    {
-      email: email,
-    },
-    { $set: { newPass: pass, resetKey: randomString } }
-  );
+    await collection.updateOne(
+      {
+        email: email,
+      },
+      { $set: { newPass: pass, resetKey: randomString } }
+    );
 
-  let emailLink = url + "updatePass/" + randomString + "/" + email;
+    let emailLink = url + "updatePass/" + randomString + "/" + email;
 
-  console.log(emailLink);
+    console.log(emailLink);
 
-  res.send({ message: "ok" });
+    res.send({ message: "ok" });
+  } catch (e) {
+    res.send("error");
+  }
 });
 
 app.get("/updatePass/:key/:email", async (req, res) => {
@@ -351,38 +384,72 @@ app.get("/updatePass/:key/:email", async (req, res) => {
   const key = req.params.key;
   const email = req.params.email;
 
-  let acc = await collection.findOne({
-    email: email,
-    resetKey: key,
-  });
+  try {
+    let acc = await collection.findOne({
+      email: email,
+      resetKey: key,
+    });
 
-  const newPass = acc.newPass;
+    const newPass = acc.newPass;
 
-  if (key !== "" && key) {
-    await collection.updateOne(
-      {
-        email: email,
-        resetKey: key,
-      },
-      { $set: { newPass: "", resetKey: "", pass: newPass } }
-    );
+    if (key !== "" && key) {
+      await collection.updateOne(
+        {
+          email: email,
+          resetKey: key,
+        },
+        { $set: { newPass: "", resetKey: "", pass: newPass } }
+      );
 
-    // res.sendFile("index.html", { root: __dirname });
-    res.send("password reset");
-  } else {
+      // res.sendFile("index.html", { root: __dirname });
+      res.send("password reset");
+    } else {
+      res.send("error");
+    }
+  } catch (e) {
     res.send("error");
   }
 });
 
 app.post("/pdf", (req, res) => {
   const requestData = req.body;
-  const doc = new jsPDF();
+  try {
+    const doc = new jsPDF();
 
-  doc.text(requestData.data, 10, 10);
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", "attachment; filename=a4.pdf");
+    doc.text(requestData.data, 10, 10);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=a4.pdf");
 
-  res.send(doc.output());
+    res.send(doc.output());
+  } catch (e) {
+    res.send("error");
+  }
+});
+
+app.post("/updateText", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+  const newText = requestData.newText;
+  const currentTextDbId = requestData.currentTextDbId;
+  // console.log(requestData);
+
+  try {
+    await collection.updateOne(
+      {
+        email: email,
+        pass: pass,
+      },
+      { $set: { [`chats.${currentTextDbId}.assistantAnswer`]: newText } }
+    );
+
+    res.send({ message: "ok" });
+  } catch (e) {
+    res.send({ message: "error" });
+  }
 });
 
 app.listen(3000, () => {
