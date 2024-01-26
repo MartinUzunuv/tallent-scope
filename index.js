@@ -5,6 +5,7 @@ import OpenAI from "openai";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { jsPDF } from "jspdf";
+import * as postmark from "postmark";
 
 const url = "http://localhost:3000/";
 
@@ -33,6 +34,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.use(express.static("public"));
+
+const postmarkServerToken = "082416e9-c744-445e-ad00-82a61409bc8c";
+const client = new postmark.ServerClient(postmarkServerToken);
+
+// client.sendEmail({
+//   From: "hello@writenhire.ai",
+//   To: "uzunovm0@gmail.com",
+//   Subject: "Test",
+//   TextBody: "Hello from Postmark!",
+// });
 
 async function getStatus(threadId, runId, callback) {
   const run = await openai.beta.threads.runs.retrieve(threadId, runId);
@@ -209,6 +220,28 @@ async function contactAssistant(
     personality,
     lang
   );
+}
+
+function formatString(inputString, maxLineLength) {
+  const lines = inputString.split("\n");
+
+  const formattedLines = lines.map((line) => {
+    const words = line.split(/\s+/);
+    let currentLine = "";
+
+    const formattedLine = words.reduce((result, word) => {
+      if ((currentLine + word).length > maxLineLength) {
+        result += currentLine.trim() + "\n";
+        currentLine = "";
+      }
+      currentLine += word + " ";
+      return result;
+    }, "");
+
+    return formattedLine + currentLine.trim();
+  });
+
+  return formattedLines.join("\n");
 }
 
 app.get("/", async (req, res) => {
@@ -416,7 +449,15 @@ app.post("/pdf", (req, res) => {
   try {
     const doc = new jsPDF();
 
-    doc.text(requestData.data, 10, 10);
+    const lines = formatString(requestData.data, 65).split("\n");
+    for (let i = 0; i < lines.length; i += 40) {
+      const chunk = lines.slice(i,i + 40).join("\n");
+      if (i !== 0) {
+        doc.addPage();
+      }
+      doc.text(chunk,10,10);
+    }
+
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=a4.pdf");
 
@@ -435,7 +476,6 @@ app.post("/updateText", async (req, res) => {
   const pass = requestData.pass;
   const newText = requestData.newText;
   const currentTextDbId = requestData.currentTextDbId;
-  // console.log(requestData);
 
   try {
     await collection.updateOne(
