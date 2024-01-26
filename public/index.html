@@ -310,33 +310,28 @@
         border-radius: 3px;
         padding: 5px;
         font-weight: 600;
-        margin-left: 10px;
+      }
+
+      #logoutButton:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+      }
+
+      #accountBack {
+        background-color: #4c5c6b;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 5px;
+        font-weight: 600;
+      }
+
+      #accountBack:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #navbarTitle {
         font-size: 22px;
-      }
-
-      @media screen and (max-width: 586px) {
-
-        #navbar {
-          display: flex;
-          flex-wrap: wrap-reverse;
-        }
-
-        #navbarEmailBox {
-          flex-direction: row-reverse;
-          margin-bottom: 18px;
-        }
-
-        #logoutButton {
-          margin-left: 0px;
-          margin-right: 10px;
-        }
-
-        #edit {
-          margin-right: 40px;
-        }
       }
 
       #navbar {
@@ -418,7 +413,8 @@
                       if (i < chats.length) {
                         var button = document.createElement("a");
 
-                        button.innerHTML = chats[i].jobTitle + " " + chats[i].date;
+                        button.innerHTML =
+                          chats[i].jobTitle + " " + chats[i].date;
 
                         button.id = i + "-history";
 
@@ -616,20 +612,13 @@
           </div>
         </div>
         <div id="navbarEmailBox">
-          <a id="navbarEmail"></a>
-          <button id="logoutButton">Logout</button>
+          <button id="openMyAccount">My Account</button>
           <script>
-            document.getElementById("navbarEmail").innerText =
-              localStorage.getItem("talentScopeEmail");
-
             document
-              .getElementById("logoutButton")
+              .getElementById("openMyAccount")
               .addEventListener("click", () => {
-                localStorage.setItem("talentScopeEmail", null);
-                localStorage.setItem("talentScopePass", null);
+                myAccount.style.display = "block";
                 home.style.display = "none";
-                signIn.style.display = "block";
-                location.reload();
               });
           </script>
         </div>
@@ -1035,15 +1024,51 @@
       </script>
     </div>
 
+    <!-- my account -->
+    <div id="myAccount">
+      <div class="centerAccountForm">
+        <div class="accountForm">
+          <a id="navbarEmail"></a>
+          <br />
+          <button id="logoutButton">Logout</button>
+          <br />
+          <button id="accountBack">Back</button>
+          <script>
+            document.getElementById("navbarEmail").innerText =
+              localStorage.getItem("talentScopeEmail");
+
+            document
+              .getElementById("logoutButton")
+              .addEventListener("click", () => {
+                localStorage.setItem("talentScopeEmail", null);
+                localStorage.setItem("talentScopePass", null);
+                home.style.display = "none";
+                signIn.style.display = "block";
+                location.reload();
+              });
+
+              document
+              .getElementById("accountBack")
+              .addEventListener("click", () => {
+                myAccount.style.display = "none";
+                home.style.display = "block";
+              });
+          </script>
+        </div>
+      </div>
+    </div>
+
     <script>
       var signUp = document.getElementById("signUp");
       var home = document.getElementById("home");
       var signIn = document.getElementById("signIn");
       var fPass = document.getElementById("fPass");
+      var myAccount = document.getElementById("myAccount");
       home.style.display = "none";
       signIn.style.display = "none";
       signUp.style.display = "none";
       fPass.style.display = "none";
+      myAccount.style.display = "none";
       let emailInit = localStorage.getItem("talentScopeEmail");
       let passInit = localStorage.getItem("talentScopePass");
       if (emailInit && passInit && emailInit !== "null") {
