@@ -481,6 +481,30 @@
               };
             </script>
             <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
+            <button onclick="downloadAsWord()">Save as DOCX</button>
+
+            <script>
+              function downloadAsWord() {
+                // Convert the string to a Blob
+                var blob = new Blob([copyText], { type: "application/msword" });
+
+                // Create a download link
+                var link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+
+                // Set the file name
+                link.download = "document.docx";
+
+                // Append the link to the body
+                document.body.appendChild(link);
+
+                // Trigger the click event to start the download
+                link.click();
+
+                // Remove the link from the DOM
+                document.body.removeChild(link);
+              }
+            </script>
             <button
               id="edit"
               style="border-radius: 0 5px 5px 0"
@@ -1047,7 +1071,7 @@
                 location.reload();
               });
 
-              document
+            document
               .getElementById("accountBack")
               .addEventListener("click", () => {
                 myAccount.style.display = "none";
