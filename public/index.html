@@ -356,6 +356,24 @@
         }
       }
 
+      .loader {
+        border: 6px solid #f3f3f3; /* Light grey */
+        border-top: 6px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 2s linear infinite;
+        margin-top: 30px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
   <body>
@@ -372,7 +390,7 @@
             src="/logo.png"
             width="60"
             height="60"
-            style="margin-right: 10px; margin-bottom: 10px;"
+            style="margin-right: 10px; margin-bottom: 10px"
           />
 
           <div style="display: flex; align-items: center">
@@ -492,7 +510,9 @@
               };
             </script>
             <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
-            <button onclick="downloadAsWord()" class="dropbtn">Save as DOCX</button>
+            <button onclick="downloadAsWord()" class="dropbtn">
+              Save as DOCX
+            </button>
 
             <script>
               function downloadAsWord() {
@@ -649,7 +669,9 @@
           </div>
         </div>
         <div id="navbarEmailBox">
-          <button id="openMyAccount" class="dropbtn" style="border-radius: 5px;">My Account</button>
+          <button id="openMyAccount" class="dropbtn" style="border-radius: 5px">
+            My Account
+          </button>
           <script>
             document
               .getElementById("openMyAccount")
@@ -757,6 +779,7 @@
               <button id="jobDescriptionClear">CLEAR</button>
             </div>
             <div id="jobDescriptionResultcontainer">
+              <div id="generatingSpinner" class="loader"></div>
               <a id="jobDescriptionResult"
                 >Submit the parameters to get a job description</a
               >
@@ -764,6 +787,8 @@
           </div>
 
           <script>
+            document.getElementById("generatingSpinner").style.display = "none";
+
             document
               .getElementById("jobDescriptionCopy")
               .addEventListener("click", () => {
@@ -795,7 +820,9 @@
                   "GENERATING...";
                 jobDescriptionResult.innerText =
                   "Generating(it could take some time)...";
-                  
+                document.getElementById("generatingSpinner").style.display =
+                  "block";
+                jobDescriptionResult.style.display = "none";
                 event.preventDefault();
                 jobTitle = document.getElementById("jobTitle").value;
                 aboutTheEmployer =
@@ -840,6 +867,9 @@
                     document.getElementById("mainFormSubmit").disabled = false;
                     document.getElementById("mainFormSubmit").value = "SUBMIT";
                     currentTextDbId = res.databaseNumber;
+                    document.getElementById("generatingSpinner").style.display =
+                      "none";
+                    jobDescriptionResult.style.display = "block";
                   })
                   .catch((error) => {
                     console.error(error);
