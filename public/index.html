@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Talent Scope</title>
+    <title>Writenhire</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="icon" href="/logo.png" type="image/x-icon" />
     <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
@@ -345,6 +345,17 @@
         align-items: baseline;
         justify-content: flex-end;
       }
+
+      @media screen and (max-width: 436px) {
+        .dropbtn {
+          padding-bottom: 40px;
+        }
+
+        #openMyAccount {
+          padding-bottom: 10px !important;
+        }
+      }
+
     </style>
   </head>
   <body>
@@ -361,7 +372,7 @@
             src="/logo.png"
             width="60"
             height="60"
-            style="margin-right: 10px"
+            style="margin-right: 10px; margin-bottom: 10px;"
           />
 
           <div style="display: flex; align-items: center">
@@ -481,7 +492,7 @@
               };
             </script>
             <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
-            <button onclick="downloadAsWord()">Save as DOCX</button>
+            <button onclick="downloadAsWord()" class="dropbtn">Save as DOCX</button>
 
             <script>
               function downloadAsWord() {
@@ -545,6 +556,7 @@
                     textarea.addEventListener("input", function () {
                       copyText = textarea.value;
                     });
+                    document.getElementById("mainFormSubmit").disabled = true;
                   } else {
                     const texts = document
                       .getElementById("jobDescriptionResult")
@@ -588,6 +600,7 @@
                           console.error(error);
                         });
                     }
+                    document.getElementById("mainFormSubmit").disabled = false;
                   }
                 } else {
                   document.getElementById("edit").innerText = "Unable to edit";
@@ -636,7 +649,7 @@
           </div>
         </div>
         <div id="navbarEmailBox">
-          <button id="openMyAccount">My Account</button>
+          <button id="openMyAccount" class="dropbtn" style="border-radius: 5px;">My Account</button>
           <script>
             document
               .getElementById("openMyAccount")
@@ -782,6 +795,7 @@
                   "GENERATING...";
                 jobDescriptionResult.innerText =
                   "Generating(it could take some time)...";
+                  
                 event.preventDefault();
                 jobTitle = document.getElementById("jobTitle").value;
                 aboutTheEmployer =
