@@ -38,13 +38,6 @@ app.use(express.static("public"));
 const postmarkServerToken = "082416e9-c744-445e-ad00-82a61409bc8c";
 const client = new postmark.ServerClient(postmarkServerToken);
 
-// client.sendEmail({
-//   From: "hello@writenhire.ai",
-//   To: "uzunovm0@gmail.com",
-//   Subject: "Test",
-//   TextBody: "Hello from Postmark!",
-// });
-
 async function getStatus(threadId, runId, callback) {
   const run = await openai.beta.threads.runs.retrieve(threadId, runId);
   const status = run.status;
@@ -402,7 +395,12 @@ app.post("/fPassSendData", async (req, res) => {
 
     let emailLink = url + "updatePass/" + randomString + "/" + email;
 
-    console.log(emailLink);
+    client.sendEmail({
+      From: "hello@writenhire.ai",
+      To: email,
+      Subject: "Reset password",
+      TextBody: "Reset password: " + emailLink,
+    });
 
     res.send({ message: "ok" });
   } catch (e) {
@@ -434,10 +432,9 @@ app.get("/updatePass/:key/:email", async (req, res) => {
         { $set: { newPass: "", resetKey: "", pass: newPass } }
       );
 
-      // res.sendFile("index.html", { root: __dirname });
-      res.send("password reset");
+      res.redirect("http://localhost:3000");
     } else {
-      res.send("error");
+      res.send("invalid key");
     }
   } catch (e) {
     res.send("error");

@@ -61,6 +61,11 @@
         margin-top: 35px;
       }
 
+      .accountFormSubmit:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+        cursor: pointer;
+      }
+
       #dontHaveAnAccountSignUp {
         text-align: left;
         color: #0755dc;
@@ -1059,9 +1064,12 @@
             type="submit"
             value="Send Confirmation Email"
           />
+          <br />
+          <a id="checkEailMessage">Now check your email for a comfirmation, please</a>
         </form>
       </div>
       <script>
+        document.getElementById("checkEailMessage").style.display = 'none'
         document
           .getElementById("fPassform")
           .addEventListener("submit", (event) => {
@@ -1075,14 +1083,12 @@
               })
               .then((response) => {
                 const res = response.data;
-                if (res.message === "account created") {
-                  // console.log(signUpEmail, signUpPass);
-                  // localStorage.setItem("talentScopeEmail", signUpEmail);
-                  // localStorage.setItem("talentScopePass", signUpPass);
-                  // signUp.style.display = "none";
-                  // home.style.display = "block";
-                  // document.getElementById("navbarEmail").innerText =
-                  //   signUpEmail;
+                if (res.message === "ok") {
+                  document.getElementById("fPassEmail").value = "";
+                  document.getElementById("fPassPass").value = "";
+                  document.getElementById("checkEailMessage").style.display = 'block'
+                } else {
+                  alert("Error, please try again");
                 }
               })
               .catch((error) => {
