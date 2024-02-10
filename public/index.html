@@ -255,7 +255,7 @@
         color: #1f3245;
         border: none;
         padding: 10px;
-        padding-bottom: 15px;
+        /* padding-bottom: 15px; */
         cursor: pointer;
         margin-left: 10px;
         margin-right: 10px;
@@ -279,11 +279,11 @@
 
       /* Dropdown Content (Hidden by Default) */
       .dropdown-content {
-        display: none;
-        position: absolute;
+        /* display: none;
+        position: absolute; */
         background-color: #f1f1f1;
         min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
         z-index: 1;
       }
 
@@ -294,6 +294,7 @@
         text-decoration: none;
         display: block;
         font-size: 13.3;
+        width: 250px;
       }
 
       /* Change color of dropdown links on hover */
@@ -363,7 +364,6 @@
 
       #navbar {
         background-color: #eeb120;
-        padding: 10px;
         border: solid black 3px;
       }
 
@@ -391,6 +391,7 @@
         padding-left: 30px;
         padding-right: 30px;
         font-weight: 900;
+        margin: 10px;
         /* font-size: 15px; */
       }
 
@@ -412,129 +413,50 @@
           transform: rotate(360deg);
         }
       }
+
+      #historyOpenButton {
+        height: 100%;
+        width: 250px;
+        border-right: black solid 4px;
+        border-bottom: none;
+        border-top: none;
+        border-left: none;
+        background-color: unset;
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      #historySpace {
+        width: 250px;
+        height: 200px;
+      }
+
+      #appSpace {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+      }
+
+      #formName {
+        flex-grow: 1;
+      }
     </style>
   </head>
   <body>
     <script>
       var copyText = "";
       var currentTextDbId = null;
+      var historyOpened = true;
     </script>
 
     <!-- home -->
     <div id="home">
       <div id="navbar">
         <div class="dropdown">
-                  <button onclick="dropdownTogle()" class="dropbtn">
-                    History
-                  </button>
-                  <div id="historyDropdown" class="dropdown-content">
-                    <a>Loading...</a>
-                  </div>
-                </div>
-                <script>
-                  function dropdownTogle() {
-                    const dropdownContent =
-                      document.getElementById("historyDropdown");
-                    dropdownContent.classList.toggle("show");
-
-                    axios
-                      .post("./getHistory", {
-                        email: localStorage.getItem("talentScopeEmail"),
-                        pass: localStorage.getItem("talentScopePass"),
-                      })
-                      .then((response) => {
-                        const res = response.data;
-                        var chats = JSON.parse(res.message);
-                        console.log(chats);
-                        dropdownContent.innerHTML = "";
-                        if (chats.length <= 0) {
-                          var button = document.createElement("a");
-
-                          button.innerHTML = "No history yet";
-
-                          button.classList.add("highlighted");
-
-                          dropdownContent.appendChild(button);
-
-                          // clearInterval(noHistory);
-                          // var noHistory = setInterval(() => {
-                          //   button.innerText =
-                          //     "History";
-                          // }, 3000);
-                        }
-                        for (let i = chats.length; i >= 0; i--) {
-                          if (i < chats.length) {
-                            var button = document.createElement("a");
-
-                            button.innerHTML =
-                              chats[i].jobTitle + " " + chats[i].date;
-
-                            button.id = i + "-history";
-
-                            button.classList.add("highlighted");
-
-                            dropdownContent.appendChild(button);
-
-                            button.addEventListener("click", (event) => {
-                              let n = parseInt(event.target.id[0]);
-                              document.getElementById("jobTitle").value =
-                                chats[n].jobTitle;
-                              document.getElementById(
-                                "aboutTheEmployer"
-                              ).value = chats[n].aboutTheEmployer;
-                              document.getElementById("salary").value =
-                                chats[n].salary;
-                              document.getElementById("remote").value =
-                                chats[n].remote;
-                              document.getElementById("locationText").value =
-                                chats[n].locationText;
-                              document.getElementById("jobType").value =
-                                chats[n].jobType;
-                              document.getElementById("employmentType").value =
-                                chats[n].employmentType;
-                              document.getElementById("description").value =
-                                chats[n].description;
-                              document.getElementById("requirements").value =
-                                chats[n].requirements;
-                              document.getElementById("keywords").value =
-                                chats[n].keywords;
-                              document.getElementById("skills").value =
-                                chats[n].skills;
-                              document.getElementById("education").value =
-                                chats[n].education;
-                              document.getElementById("personality").value =
-                                chats[n].personality;
-                              document.getElementById("lang").value =
-                                chats[n].lang;
-                              document.getElementById(
-                                "jobDescriptionResult"
-                              ).innerText = chats[n].assistantAnswer;
-                              copyText = chats[n].assistantAnswer;
-                              currentTextDbId = chats[n].id;
-                              // console.log(copyText);
-                            });
-                          }
-                        }
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
-                  }
-
-                  window.onclick = function (event) {
-                    if (!event.target.matches(".dropbtn")) {
-                      var dropdowns =
-                        document.getElementsByClassName("dropdown-content");
-                      var i;
-                      for (i = 0; i < dropdowns.length; i++) {
-                        var openDropdown = dropdowns[i];
-                        if (openDropdown.classList.contains("show")) {
-                          openDropdown.classList.remove("show");
-                        }
-                      }
-                    }
-                  };
-                </script>
+          <button onclick="dropdownTogle()" id="historyOpenButton">
+            History
+          </button>
+        </div>
         <div id="navbarEmailBox">
           <button id="openMyAccount" style="border-radius: 5px">Account</button>
           <script>
@@ -548,21 +470,148 @@
         </div>
       </div>
 
-      <form id="formName">
-        <div id="main">
-          <div
-            id="mainForm"
-            class="mainFormAndDescription"
-            style="margin-top: 0px; padding-top: 0px"
-          >
-            <!-- <p>Attract Top Candidates with AI-Generated Job Descriptions</p>
+      <div id="appSpace">
+        <div id="historySpace">
+          <div id="historyDropdown" class="dropdown-content">
+            <a id="histotyItem">Loading...</a>
+          </div>
+        </div>
+        <script>
+          function dropdownTogle() {
+            historyOpened = !historyOpened;
+            if (historyOpened) {
+              document.getElementById("historySpace").style.width = "250px";
+              document.getElementById("histotyItem").style.width = "250px";
+              // document.getElementById("histotyItem").style.display = "block";
+              let elements = document.querySelectorAll("#histotyItem");
+              elements.forEach(function (element) {
+                element.style.display = "block";
+              });
+            } else {
+              document.getElementById("historySpace").style.width = "0px";
+              document.getElementById("histotyItem").style.width = "0px";
+              // document.getElementById("histotyItem").style.display = "none";
+              let elements = document.querySelectorAll("#histotyItem");
+              elements.forEach(function (element) {
+                element.style.display = "none";
+              });
+            }
+          }
+
+          function refreshHistory() {
+            const dropdownContent = document.getElementById("historyDropdown");
+            // dropdownContent.classList.toggle("show");
+
+            axios
+              .post("./getHistory", {
+                email: localStorage.getItem("talentScopeEmail"),
+                pass: localStorage.getItem("talentScopePass"),
+              })
+              .then((response) => {
+                const res = response.data;
+                var chats = JSON.parse(res.message);
+                console.log(chats);
+                dropdownContent.innerHTML = "";
+                if (chats.length <= 0) {
+                  var button = document.createElement("a");
+
+                  button.innerHTML = "No history yet";
+
+                  button.classList.add("highlighted");
+
+                  dropdownContent.appendChild(button);
+
+                  // clearInterval(noHistory);
+                  // var noHistory = setInterval(() => {
+                  //   button.innerText =
+                  //     "History";
+                  // }, 3000);
+                }
+                for (let i = chats.length; i >= 0; i--) {
+                  if (i < chats.length) {
+                    var button = document.createElement("a");
+
+                    button.innerHTML = chats[i].jobTitle + " " + chats[i].date;
+
+                    button.id = i + "-history";
+
+                    button.classList.add("highlighted");
+                    button.setAttribute("id", "histotyItem");
+
+                    dropdownContent.appendChild(button);
+
+                    button.addEventListener("click", (event) => {
+                      let n = parseInt(event.target.id[0]);
+                      document.getElementById("jobTitle").value =
+                        chats[n].jobTitle;
+                      document.getElementById("aboutTheEmployer").value =
+                        chats[n].aboutTheEmployer;
+                      document.getElementById("salary").value = chats[n].salary;
+                      document.getElementById("remote").value = chats[n].remote;
+                      document.getElementById("locationText").value =
+                        chats[n].locationText;
+                      document.getElementById("jobType").value =
+                        chats[n].jobType;
+                      document.getElementById("employmentType").value =
+                        chats[n].employmentType;
+                      document.getElementById("description").value =
+                        chats[n].description;
+                      document.getElementById("requirements").value =
+                        chats[n].requirements;
+                      document.getElementById("keywords").value =
+                        chats[n].keywords;
+                      document.getElementById("skills").value = chats[n].skills;
+                      document.getElementById("education").value =
+                        chats[n].education;
+                      document.getElementById("personality").value =
+                        chats[n].personality;
+                      document.getElementById("lang").value = chats[n].lang;
+                      document.getElementById(
+                        "jobDescriptionResult"
+                      ).innerText = chats[n].assistantAnswer;
+                      copyText = chats[n].assistantAnswer;
+                      currentTextDbId = chats[n].id;
+                      // console.log(copyText);
+                    });
+                  }
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+
+          refreshHistory();
+
+          window.onclick = function (event) {
+            if (!event.target.matches(".dropbtn")) {
+              var dropdowns =
+                document.getElementsByClassName("dropdown-content");
+              var i;
+              for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains("show")) {
+                  openDropdown.classList.remove("show");
+                }
+              }
+            }
+          };
+        </script>
+        <form id="formName">
+          <div id="main">
+            <div
+              id="mainForm"
+              class="mainFormAndDescription"
+              style="margin-top: 0px; padding-top: 0px"
+            >
+              <!-- <p>Attract Top Candidates with AI-Generated Job Descriptions</p>
           <p>
             Input vacancy key details below and Talent Scope will create a job
             description that will rank high on any Job Board & Google For Jobs
           </p> -->
-            <div id="mainFormQuestionsQuestion">
-              <br />
-              <!-- <div class="dropdownLang">
+              <div id="mainFormQuestionsQuestion">
+                <br />
+                <!-- <div class="dropdownLang">
                 <button onclick="dropdownTogle()" class="dropbtnLang">
                   History
                 </button>
@@ -570,386 +619,410 @@
                   <a>Loading...</a>
                 </div>
               </div> -->
-              <div style="width: 100%; text-align: right">
-                <select name="lang" id="lang">
-                  <option value="english">English</option>
-                  <option value="russian">Russian</option>
-                  <option value="spanish">Spanish</option>
-                  <option value="japanese">Japanese</option>
-                  <option value="mandarin">Mandarin</option>
-                  <option value="hindi">Hindi</option>
-                  <option value="arabic">Arabic</option>
-                  <option value="french">French</option>
-                  <option value="portuguese">Portuguese</option>
-                </select>
-              </div>
+                <div style="width: 100%; text-align: right">
+                  <select name="lang" id="lang">
+                    <option value="english">English</option>
+                    <option value="russian">Russian</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="mandarin">Mandarin</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="arabic">Arabic</option>
+                    <option value="french">French</option>
+                    <option value="portuguese">Portuguese</option>
+                  </select>
+                </div>
 
-              <br />
-              <input
-                id="jobTitle"
-                placeholder="JOB TITLE*"
-                required
-                type="text"
-              />
-              <br />
-              <input
-                id="aboutTheEmployer"
-                placeholder="ABOUT THE EMPLOYER"
-                type="text"
-              />
-              <br />
-              <input id="salary" placeholder="SALARY" type="text" />
-              <br />
-              <input id="remote" placeholder="REMOTE" type="text" />
-              <br />
-              <input id="locationText" placeholder="LOCATION" type="text" />
-              <br />
-              <input id="jobType" placeholder="JOB TYPE" type="text" />
-              <br />
-              <input
-                id="employmentType"
-                placeholder="EMPLOYMENT TYPE"
-                type="text"
-              />
-              <br />
-              <input
-                id="description"
-                placeholder="DESCRIPTION*"
-                required
-                type="text"
-              />
-              <br />
-              <input id="requirements" placeholder="REQUIREMENTS" type="text" />
-              <br />
-              <input
-                id="keywords"
-                placeholder="KEYWORDS*"
-                required
-                type="text"
-              />
-              <br />
-              <input id="skills" placeholder="SKILLS" type="text" />
-              <br />
-              <input id="education" placeholder="EDUCATION" type="text" />
-              <br />
-              <input id="personality" placeholder="PERSONALITY" type="text" />
-            </div>
-            <!-- <div>
+                <br />
+                <input
+                  id="jobTitle"
+                  placeholder="JOB TITLE*"
+                  required
+                  type="text"
+                />
+                <br />
+                <input
+                  id="aboutTheEmployer"
+                  placeholder="ABOUT THE EMPLOYER"
+                  type="text"
+                />
+                <br />
+                <input id="salary" placeholder="SALARY" type="text" />
+                <br />
+                <input id="remote" placeholder="REMOTE" type="text" />
+                <br />
+                <input id="locationText" placeholder="LOCATION" type="text" />
+                <br />
+                <input id="jobType" placeholder="JOB TYPE" type="text" />
+                <br />
+                <input
+                  id="employmentType"
+                  placeholder="EMPLOYMENT TYPE"
+                  type="text"
+                />
+                <br />
+                <input
+                  id="description"
+                  placeholder="DESCRIPTION*"
+                  required
+                  type="text"
+                />
+                <br />
+                <input
+                  id="requirements"
+                  placeholder="REQUIREMENTS"
+                  type="text"
+                />
+                <br />
+                <input
+                  id="keywords"
+                  placeholder="KEYWORDS*"
+                  required
+                  type="text"
+                />
+                <br />
+                <input id="skills" placeholder="SKILLS" type="text" />
+                <br />
+                <input id="education" placeholder="EDUCATION" type="text" />
+                <br />
+                <input id="personality" placeholder="PERSONALITY" type="text" />
+              </div>
+              <!-- <div>
             <input type="submit" value="Submit" />
           </div> -->
-          </div>
+            </div>
 
-          <div id="jobDescription" class="mainFormAndDescription">
-            <div style="display: flex; width: 100%; justify-content: space-between;">
-              <!-- <img
+            <div id="jobDescription" class="mainFormAndDescription">
+              <div
+                style="
+                  display: flex;
+                  width: 100%;
+                  justify-content: space-between;
+                "
+              >
+                <!-- <img
             src="/logo.png"
             width="60"
             height="60"
             style="margin-right: 10px; margin-bottom: 10px"
           /> -->
 
-              <div style="display: flex; align-items: center; justify-content: space-evenly;">
-                <!-- <a id="navbarTitle">Talent Scope</a> -->
-                
-                <a id="saveAsPDF" class="dropbtn">Save as PDF</a>
-                <a onclick="downloadAsWord()" class="dropbtn">
-                  Save as DOCX
-                </a>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-evenly;
+                  "
+                >
+                  <!-- <a id="navbarTitle">Talent Scope</a> -->
 
-                <script>
-                  function downloadAsWord() {
-                    // Convert the string to a Blob
-                    var blob = new Blob([copyText], {
-                      type: "application/msword",
-                    });
+                  <a id="saveAsPDF" class="dropbtn">Save as PDF</a>
+                  <a onclick="downloadAsWord()" class="dropbtn">
+                    Save as DOCX
+                  </a>
 
-                    // Create a download link
-                    var link = document.createElement("a");
-                    link.href = URL.createObjectURL(blob);
+                  <script>
+                    function downloadAsWord() {
+                      // Convert the string to a Blob
+                      var blob = new Blob([copyText], {
+                        type: "application/msword",
+                      });
 
-                    // Set the file name
-                    link.download = "document.docx";
+                      // Create a download link
+                      var link = document.createElement("a");
+                      link.href = URL.createObjectURL(blob);
 
-                    // Append the link to the body
-                    document.body.appendChild(link);
+                      // Set the file name
+                      link.download = "document.docx";
 
-                    // Trigger the click event to start the download
-                    link.click();
+                      // Append the link to the body
+                      document.body.appendChild(link);
 
-                    // Remove the link from the DOM
-                    document.body.removeChild(link);
-                  }
-                </script>
-                <a id="edit" class="dropbtn" onclick="edit()">Edit</a>
-                <script>
-                  let editing = false;
-                  let editing_text;
-                  async function edit() {
-                    if (currentTextDbId !== null) {
-                      editing = !editing;
-                      if (editing) {
-                        const texts = copyText.split("\n");
+                      // Trigger the click event to start the download
+                      link.click();
 
-                        const container = document.getElementById(
-                          "jobDescriptionResultcontainer"
-                        );
-                        const div = document.getElementById(
-                          "jobDescriptionResult"
-                        );
-                        let text = div.textContent;
-                        div.remove();
-                        const textarea = document.createElement("textarea");
-                        container.append(textarea);
-                        textarea.id = "jobDescriptionResult";
-                        const button = document.getElementById("edit");
-                        button.innerHTML = "Stop editing and save";
+                      // Remove the link from the DOM
+                      document.body.removeChild(link);
+                    }
+                  </script>
+                  <a id="edit" class="dropbtn" onclick="edit()">Edit</a>
+                  <script>
+                    let editing = false;
+                    let editing_text;
+                    async function edit() {
+                      if (currentTextDbId !== null) {
+                        editing = !editing;
+                        if (editing) {
+                          const texts = copyText.split("\n");
 
-                        let new_text = "";
-                        for (const texte of texts)
-                          new_text += `${texte} &NewLine;`;
+                          const container = document.getElementById(
+                            "jobDescriptionResultcontainer"
+                          );
+                          const div = document.getElementById(
+                            "jobDescriptionResult"
+                          );
+                          let text = div.textContent;
+                          div.remove();
+                          const textarea = document.createElement("textarea");
+                          container.append(textarea);
+                          textarea.id = "jobDescriptionResult";
+                          const button = document.getElementById("edit");
+                          button.innerHTML = "Stop editing and save";
 
-                        editing_text = new_text;
+                          let new_text = "";
+                          for (const texte of texts)
+                            new_text += `${texte} &NewLine;`;
 
-                        textarea.innerHTML = new_text;
-                        copyText = new_text;
+                          editing_text = new_text;
 
-                        textarea.addEventListener("input", function () {
-                          copyText = textarea.value;
-                        });
-                        document.getElementById(
-                          "mainFormSubmit"
-                        ).disabled = true;
+                          textarea.innerHTML = new_text;
+                          copyText = new_text;
+
+                          textarea.addEventListener("input", function () {
+                            copyText = textarea.value;
+                          });
+                          document.getElementById(
+                            "mainFormSubmit"
+                          ).disabled = true;
+                        } else {
+                          const texts = document
+                            .getElementById("jobDescriptionResult")
+                            .value.split("&NewLine;");
+
+                          const container = document.getElementById(
+                            "jobDescriptionResultcontainer"
+                          );
+                          const textarea = document.getElementById(
+                            "jobDescriptionResult"
+                          );
+                          textarea.remove();
+                          const a = document.createElement("a");
+                          container.append(a);
+                          a.id = "jobDescriptionResult";
+                          const button = document.getElementById("edit");
+                          button.innerHTML = "edit";
+
+                          let new_text = "";
+                          for (const texte of texts) new_text += `${texte} \n`;
+
+                          a.innerText = new_text;
+                          copyText = new_text;
+                          if (new_text && currentTextDbId !== null) {
+                            axios
+                              .post("./updateText", {
+                                email: localStorage.getItem("talentScopeEmail"),
+                                pass: localStorage.getItem("talentScopePass"),
+                                newText: new_text,
+                                currentTextDbId: currentTextDbId,
+                              })
+                              .then((response) => {
+                                const res = response.data;
+                                if (res.message !== "ok") {
+                                  console.error(
+                                    "couldn't save the updated job description"
+                                  );
+                                }
+                              })
+                              .catch((error) => {
+                                console.error(error);
+                              });
+                          }
+                          document.getElementById(
+                            "mainFormSubmit"
+                          ).disabled = false;
+                        }
                       } else {
-                        const texts = document
-                          .getElementById("jobDescriptionResult")
-                          .value.split("&NewLine;");
-
-                        const container = document.getElementById(
-                          "jobDescriptionResultcontainer"
-                        );
-                        const textarea = document.getElementById(
-                          "jobDescriptionResult"
-                        );
-                        textarea.remove();
-                        const a = document.createElement("a");
-                        container.append(a);
-                        a.id = "jobDescriptionResult";
-                        const button = document.getElementById("edit");
-                        button.innerHTML = "edit";
-
-                        let new_text = "";
-                        for (const texte of texts) new_text += `${texte} \n`;
-
-                        a.innerText = new_text;
-                        copyText = new_text;
-                        if (new_text && currentTextDbId !== null) {
-                          axios
-                            .post("./updateText", {
-                              email: localStorage.getItem("talentScopeEmail"),
-                              pass: localStorage.getItem("talentScopePass"),
-                              newText: new_text,
-                              currentTextDbId: currentTextDbId,
+                        document.getElementById("edit").innerText =
+                          "Unable to edit";
+                        clearInterval(editInterval);
+                        var editInterval = setInterval(() => {
+                          document.getElementById("edit").innerText = editing
+                            ? "Stop editing and save"
+                            : "Edit";
+                        }, 3000);
+                      }
+                    }
+                  </script>
+                  <script>
+                    document
+                      .getElementById("saveAsPDF")
+                      .addEventListener("click", async function () {
+                        if (
+                          copyText !== null &&
+                          copyText !== "" &&
+                          copyText.length
+                        ) {
+                          await axios
+                            .post("./pdf", {
+                              data: copyText,
                             })
                             .then((response) => {
-                              const res = response.data;
-                              if (res.message !== "ok") {
-                                console.error(
-                                  "couldn't save the updated job description"
-                                );
-                              }
+                              const blob = new Blob([response.data], {
+                                type: "application/pdf",
+                              });
+
+                              const link = document.createElement("a");
+                              link.href = window.URL.createObjectURL(blob);
+                              link.download = "jobDescription.pdf";
+                              link.click();
                             })
                             .catch((error) => {
                               console.error(error);
                             });
-                        }
-                        document.getElementById(
-                          "mainFormSubmit"
-                        ).disabled = false;
-                      }
-                    } else {
-                      document.getElementById("edit").innerText =
-                        "Unable to edit";
-                      clearInterval(editInterval);
-                      var editInterval = setInterval(() => {
-                        document.getElementById("edit").innerText = editing
-                          ? "Stop editing and save"
-                          : "Edit";
-                      }, 3000);
-                    }
-                  }
-                </script>
-                <script>
-                  document
-                    .getElementById("saveAsPDF")
-                    .addEventListener("click", async function () {
-                      if (
-                        copyText !== null &&
-                        copyText !== "" &&
-                        copyText.length
-                      ) {
-                        await axios
-                          .post("./pdf", {
-                            data: copyText,
-                          })
-                          .then((response) => {
-                            const blob = new Blob([response.data], {
-                              type: "application/pdf",
-                            });
-
-                            const link = document.createElement("a");
-                            link.href = window.URL.createObjectURL(blob);
-                            link.download = "jobDescription.pdf";
-                            link.click();
-                          })
-                          .catch((error) => {
-                            console.error(error);
-                          });
-                      } else {
-                        document.getElementById("saveAsPDF").innerText =
-                          "Nothing to save as PDF";
-                        clearInterval(pdfed);
-                        var pdfed = setInterval(() => {
+                        } else {
                           document.getElementById("saveAsPDF").innerText =
-                            "Save as PDF";
-                        }, 3000);
-                      }
-                    });
-                </script>
+                            "Nothing to save as PDF";
+                          clearInterval(pdfed);
+                          var pdfed = setInterval(() => {
+                            document.getElementById("saveAsPDF").innerText =
+                              "Save as PDF";
+                          }, 3000);
+                        }
+                      });
+                  </script>
+                </div>
+              </div>
+              <br />
+              <div id="submitClearGroup">
+                <!-- <a>Job Description</a> -->
+                <input type="submit" value="SUBMIT" id="mainFormSubmit" />
+                <a id="jobDescriptionCopy">COPY</a>
+                <button id="jobDescriptionClear">CLEAR</button>
+              </div>
+              <div id="jobDescriptionResultcontainer">
+                <div id="generatingSpinner" class="loader"></div>
+                <a id="jobDescriptionResult"
+                  >Submit the parameters to get a job description</a
+                >
               </div>
             </div>
-            <br />
-            <div id="submitClearGroup">
-              <!-- <a>Job Description</a> -->
-              <input type="submit" value="SUBMIT" id="mainFormSubmit" />
-              <a id="jobDescriptionCopy">COPY</a>
-              <button id="jobDescriptionClear">CLEAR</button>
-            </div>
-            <div id="jobDescriptionResultcontainer">
-              <div id="generatingSpinner" class="loader"></div>
-              <a id="jobDescriptionResult"
-                >Submit the parameters to get a job description</a
-              >
-            </div>
+
+            <script>
+              document.getElementById("generatingSpinner").style.display =
+                "none";
+
+              document
+                .getElementById("jobDescriptionCopy")
+                .addEventListener("click", () => {
+                  if (copyText !== null && copyText !== "" && copyText.length) {
+                    navigator.clipboard.writeText(copyText);
+                    document.getElementById("jobDescriptionCopy").innerText =
+                      "COPY✅";
+                    clearInterval(cpoied);
+                    var cpoied = setInterval(() => {
+                      document.getElementById("jobDescriptionCopy").innerText =
+                        "COPY";
+                    }, 3000);
+                  } else {
+                    document.getElementById("jobDescriptionCopy").innerText =
+                      "COPY❌";
+                    clearInterval(cpoied);
+                    var cpoied = setInterval(() => {
+                      document.getElementById("jobDescriptionCopy").innerText =
+                        "COPY";
+                    }, 3000);
+                  }
+                });
+
+              document
+                .getElementById("formName")
+                .addEventListener("submit", async (event) => {
+                  document.getElementById("mainFormSubmit").disabled = true;
+                  document.getElementById("mainFormSubmit").value =
+                    "GENERATING...";
+                  jobDescriptionResult.innerText =
+                    "Generating(it could take some time)...";
+                  document.getElementById("generatingSpinner").style.display =
+                    "block";
+                  jobDescriptionResult.style.display = "none";
+                  event.preventDefault();
+                  jobTitle = document.getElementById("jobTitle").value;
+                  aboutTheEmployer =
+                    document.getElementById("aboutTheEmployer").value;
+                  salary = document.getElementById("salary").value;
+                  remote = document.getElementById("remote").value;
+                  locationText = document.getElementById("locationText").value;
+                  jobType = document.getElementById("jobType").value;
+                  employmentType =
+                    document.getElementById("employmentType").value;
+                  description = document.getElementById("description").value;
+                  requirements = document.getElementById("requirements").value;
+                  keywords = document.getElementById("keywords").value;
+                  skills = document.getElementById("skills").value;
+                  education = document.getElementById("education").value;
+                  personality = document.getElementById("personality").value;
+                  lang = document.getElementById("lang").value;
+
+                  await axios
+                    .post("./sendData", {
+                      email: localStorage.getItem("talentScopeEmail"),
+                      pass: localStorage.getItem("talentScopePass"),
+                      jobTitle: jobTitle,
+                      aboutTheEmployer: aboutTheEmployer,
+                      salary: salary,
+                      remote: remote,
+                      locationText: locationText,
+                      jobType: jobType,
+                      employmentType: employmentType,
+                      description: description,
+                      requirements: requirements,
+                      keywords: keywords,
+                      skills: skills,
+                      education: education,
+                      personality: personality,
+                      lang: lang,
+                    })
+                    .then((response) => {
+                      const res = response.data;
+                      jobDescriptionResult.innerText = res.message;
+                      copyText = res.message;
+                      document.getElementById(
+                        "mainFormSubmit"
+                      ).disabled = false;
+                      document.getElementById("mainFormSubmit").value =
+                        "SUBMIT";
+                      currentTextDbId = res.databaseNumber;
+                      document.getElementById(
+                        "generatingSpinner"
+                      ).style.display = "none";
+                      jobDescriptionResult.style.display = "block";
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                      document.getElementById(
+                        "mainFormSubmit"
+                      ).disabled = false;
+                    });
+                });
+
+              document
+                .getElementById("jobDescriptionClear")
+                .addEventListener("click", () => {
+                  jobDescriptionResult.value = "";
+                  jobDescriptionResult.innerText =
+                    "Submit the parameters to get a job description";
+                  document.getElementById("jobTitle").value = "";
+                  document.getElementById("jobTitle").value = "";
+                  document.getElementById("aboutTheEmployer").value = "";
+                  document.getElementById("salary").value = "";
+                  document.getElementById("remote").value = "";
+                  document.getElementById("locationText").value = "";
+                  document.getElementById("jobType").value = "";
+                  document.getElementById("employmentType").value = "";
+                  document.getElementById("description").value = "";
+                  document.getElementById("requirements").value = "";
+                  document.getElementById("keywords").value = "";
+                  document.getElementById("skills").value = "";
+                  document.getElementById("education").value = "";
+                  document.getElementById("personality").value = "";
+                  document.getElementById("lang").value = "";
+                  copyText = "";
+                  currentTextDbId = null;
+                });
+            </script>
           </div>
-
-          <script>
-            document.getElementById("generatingSpinner").style.display = "none";
-
-            document
-              .getElementById("jobDescriptionCopy")
-              .addEventListener("click", () => {
-                if (copyText !== null && copyText !== "" && copyText.length) {
-                  navigator.clipboard.writeText(copyText);
-                  document.getElementById("jobDescriptionCopy").innerText =
-                    "COPY✅";
-                  clearInterval(cpoied);
-                  var cpoied = setInterval(() => {
-                    document.getElementById("jobDescriptionCopy").innerText =
-                      "COPY";
-                  }, 3000);
-                } else {
-                  document.getElementById("jobDescriptionCopy").innerText =
-                    "COPY❌";
-                  clearInterval(cpoied);
-                  var cpoied = setInterval(() => {
-                    document.getElementById("jobDescriptionCopy").innerText =
-                      "COPY";
-                  }, 3000);
-                }
-              });
-
-            document
-              .getElementById("formName")
-              .addEventListener("submit", async (event) => {
-                document.getElementById("mainFormSubmit").disabled = true;
-                document.getElementById("mainFormSubmit").value =
-                  "GENERATING...";
-                jobDescriptionResult.innerText =
-                  "Generating(it could take some time)...";
-                document.getElementById("generatingSpinner").style.display =
-                  "block";
-                jobDescriptionResult.style.display = "none";
-                event.preventDefault();
-                jobTitle = document.getElementById("jobTitle").value;
-                aboutTheEmployer =
-                  document.getElementById("aboutTheEmployer").value;
-                salary = document.getElementById("salary").value;
-                remote = document.getElementById("remote").value;
-                locationText = document.getElementById("locationText").value;
-                jobType = document.getElementById("jobType").value;
-                employmentType =
-                  document.getElementById("employmentType").value;
-                description = document.getElementById("description").value;
-                requirements = document.getElementById("requirements").value;
-                keywords = document.getElementById("keywords").value;
-                skills = document.getElementById("skills").value;
-                education = document.getElementById("education").value;
-                personality = document.getElementById("personality").value;
-                lang = document.getElementById("lang").value;
-
-                await axios
-                  .post("./sendData", {
-                    email: localStorage.getItem("talentScopeEmail"),
-                    pass: localStorage.getItem("talentScopePass"),
-                    jobTitle: jobTitle,
-                    aboutTheEmployer: aboutTheEmployer,
-                    salary: salary,
-                    remote: remote,
-                    locationText: locationText,
-                    jobType: jobType,
-                    employmentType: employmentType,
-                    description: description,
-                    requirements: requirements,
-                    keywords: keywords,
-                    skills: skills,
-                    education: education,
-                    personality: personality,
-                    lang: lang,
-                  })
-                  .then((response) => {
-                    const res = response.data;
-                    jobDescriptionResult.innerText = res.message;
-                    copyText = res.message;
-                    document.getElementById("mainFormSubmit").disabled = false;
-                    document.getElementById("mainFormSubmit").value = "SUBMIT";
-                    currentTextDbId = res.databaseNumber;
-                    document.getElementById("generatingSpinner").style.display =
-                      "none";
-                    jobDescriptionResult.style.display = "block";
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                    document.getElementById("mainFormSubmit").disabled = false;
-                  });
-              });
-
-            document
-              .getElementById("jobDescriptionClear")
-              .addEventListener("click", () => {
-                jobDescriptionResult.value = "";
-                jobDescriptionResult.innerText =
-                  "Submit the parameters to get a job description";
-                document.getElementById("jobTitle").value = "";
-                document.getElementById("jobTitle").value = "";
-                document.getElementById("aboutTheEmployer").value = "";
-                document.getElementById("salary").value = "";
-                document.getElementById("remote").value = "";
-                document.getElementById("locationText").value = "";
-                document.getElementById("jobType").value = "";
-                document.getElementById("employmentType").value = "";
-                document.getElementById("description").value = "";
-                document.getElementById("requirements").value = "";
-                document.getElementById("keywords").value = "";
-                document.getElementById("skills").value = "";
-                document.getElementById("education").value = "";
-                document.getElementById("personality").value = "";
-                document.getElementById("lang").value = "";
-                copyText = "";
-                currentTextDbId = null;
-              });
-          </script>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
 
     <!-- sign in -->
