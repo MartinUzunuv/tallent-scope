@@ -20,8 +20,8 @@
       }
 
       body {
-        background: radial-gradient(circle, #3ee8fd, #3769fd);
         font-family: Arial, Helvetica, sans-serif;
+        margin: 0px;
       }
 
       .accountForm {
@@ -140,23 +140,27 @@
 
       #mainForm input {
         background-color: white;
-        color: #4c5c6b;
+        color: #5c6771;
         border: none;
         padding: 10px;
         margin: 10px;
+        border-radius: 3px;
+        border: solid #dcdcdc 1px;
+        width: 85%;
+        font-weight: 900;
       }
 
       #mainForm input:required {
-        background-color: #4c5c6b;
-        color: white;
+        background-color: #f7f7f7;
+        color: #4c5c6b;
       }
-      #mainForm input:required::placeholder {
+
+      /* #mainForm input:required::placeholder {
         color: white;
-      }
+      } */
 
       #mainFormQuestionsQuestion {
         text-align: center;
-        padding-top: 20px;
       }
 
       #submitClearGroup {
@@ -167,16 +171,19 @@
       #submitClearGroup button {
         width: 30%;
         padding: 5px;
-        border-radius: 100px;
+        border-radius: 5px;
         border: none;
         font-weight: 800;
         font-size: small;
       }
 
       #jobDescriptionClear {
-        border: solid 1.5px #cf5068 !important;
+        /* border: solid 1.5px #cf5068 !important; */
         background-color: #f7dade;
         color: #1f3245;
+        margin-left: 10px;
+        margin-right: 10px;
+        flex-grow: 1;
       }
 
       #jobDescriptionClear:hover {
@@ -186,14 +193,17 @@
       #jobDescriptionCopy {
         width: 30%;
         padding: 5px;
-        border-radius: 100px;
+        border-radius: 5px;
         border: none;
         font-weight: 800;
         font-size: small;
-        border: solid 1.5px #14867a !important;
-        background-color: #1bae9f;
-        color: white;
+        border: solid 1.5px #1f3245 !important;
+        background-color: white;
+        color: #1f3245;
         text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
+        flex-grow: 1;
       }
 
       #jobDescriptionCopy:hover {
@@ -203,12 +213,15 @@
       #mainFormSubmit {
         width: 30%;
         padding: 5px;
-        border-radius: 100px;
+        border-radius: 5px;
         border: none;
         font-weight: 800;
         font-size: small;
-        background-color: #f7c325;
-        color: #1f3245;
+        background-color: #50ab4a;
+        color: white;
+        flex-grow: 2;
+        margin-left: 10px;
+        margin-right: 10px;
       }
 
       #mainFormSubmit:hover {
@@ -222,6 +235,8 @@
         padding: 10px;
         width: 100%;
         min-height: 800px;
+        border: solid 2px black;
+        border-radius: 7px;
       }
 
       #jobDescriptionResultcontainer {
@@ -235,19 +250,21 @@
 
       /* Dropdown Button */
       .dropbtn {
-        background-color: #4c5c6b;
-        color: white;
+        background-color: #ffffff;
+        color: #1f3245;
         border: none;
         padding: 10px;
         cursor: pointer;
         max-height: 35.33px;
+        border: solid #1f3245 3px;
+        border-radius: 4px;
       }
 
       /* Dropdown button on hover & focus */
-      .dropbtn:hover,
+      /* .dropbtn:hover,
       .dropbtn:focus {
         background-color: #3b464f;
-      }
+      } */
 
       /* The container <div> - needed to position the dropdown content */
       .dropdown {
@@ -287,9 +304,9 @@
       #lang {
         background-color: white;
         color: #4c5c6b;
-        border: none;
+        border: solid black 2px;
+        border-radius: 3px;
         padding: 10px;
-        margin: 10px;
         width: 182px;
       }
 
@@ -340,9 +357,9 @@
       }
 
       #navbar {
-        color: white;
-        border-radius: 5px;
+        background-color: #eeb120;
         padding: 10px;
+        border: solid black 3px;
       }
 
       #navbarEmailBox {
@@ -351,7 +368,7 @@
         justify-content: flex-end;
       }
 
-      @media screen and (max-width: 436px) {
+      /* @media screen and (max-width: 436px) {
         .dropbtn {
           padding-bottom: 40px;
         }
@@ -359,6 +376,17 @@
         #openMyAccount {
           padding-bottom: 10px !important;
         }
+      } */
+
+      #openMyAccount {
+        background-color: #eeb120;
+        border: solid black 2px;
+        border-radius: 50px !important;
+        padding: 7px;
+        padding-left: 30px;
+        padding-right: 30px;
+        font-weight: 900;
+        /* font-size: 15px; */
       }
 
       .loader {
@@ -390,293 +418,9 @@
     <!-- home -->
     <div id="home">
       <div id="navbar">
-        <div style="display: flex; align-items: flex-start">
-          <img
-            src="/logo.png"
-            width="60"
-            height="60"
-            style="margin-right: 10px; margin-bottom: 10px"
-          />
-
-          <div style="display: flex; align-items: center">
-            <!-- <a id="navbarTitle">Talent Scope</a> -->
-            <div class="dropdown">
-              <button
-                style="border-radius: 5px 0 0 5px"
-                onclick="dropdownTogle()"
-                class="dropbtn"
-              >
-                History
-              </button>
-              <div id="historyDropdown" class="dropdown-content">
-                <a>Loading...</a>
-              </div>
-            </div>
-            <script>
-              function dropdownTogle() {
-                const dropdownContent =
-                  document.getElementById("historyDropdown");
-                dropdownContent.classList.toggle("show");
-
-                axios
-                  .post("./getHistory", {
-                    email: localStorage.getItem("talentScopeEmail"),
-                    pass: localStorage.getItem("talentScopePass"),
-                  })
-                  .then((response) => {
-                    const res = response.data;
-                    var chats = JSON.parse(res.message);
-                    console.log(chats);
-                    dropdownContent.innerHTML = "";
-                    if (chats.length <= 0) {
-                      var button = document.createElement("a");
-
-                      button.innerHTML = "No history yet";
-
-                      button.classList.add("highlighted");
-
-                      dropdownContent.appendChild(button);
-
-                      // clearInterval(noHistory);
-                      // var noHistory = setInterval(() => {
-                      //   button.innerText =
-                      //     "History";
-                      // }, 3000);
-                    }
-                    for (let i = chats.length; i >= 0; i--) {
-                      if (i < chats.length) {
-                        var button = document.createElement("a");
-
-                        button.innerHTML =
-                          chats[i].jobTitle + " " + chats[i].date;
-
-                        button.id = i + "-history";
-
-                        button.classList.add("highlighted");
-
-                        dropdownContent.appendChild(button);
-
-                        button.addEventListener("click", (event) => {
-                          let n = parseInt(event.target.id[0]);
-                          document.getElementById("jobTitle").value =
-                            chats[n].jobTitle;
-                          document.getElementById("aboutTheEmployer").value =
-                            chats[n].aboutTheEmployer;
-                          document.getElementById("salary").value =
-                            chats[n].salary;
-                          document.getElementById("remote").value =
-                            chats[n].remote;
-                          document.getElementById("locationText").value =
-                            chats[n].locationText;
-                          document.getElementById("jobType").value =
-                            chats[n].jobType;
-                          document.getElementById("employmentType").value =
-                            chats[n].employmentType;
-                          document.getElementById("description").value =
-                            chats[n].description;
-                          document.getElementById("requirements").value =
-                            chats[n].requirements;
-                          document.getElementById("keywords").value =
-                            chats[n].keywords;
-                          document.getElementById("skills").value =
-                            chats[n].skills;
-                          document.getElementById("education").value =
-                            chats[n].education;
-                          document.getElementById("personality").value =
-                            chats[n].personality;
-                          document.getElementById("lang").value = chats[n].lang;
-                          document.getElementById(
-                            "jobDescriptionResult"
-                          ).innerText = chats[n].assistantAnswer;
-                          copyText = chats[n].assistantAnswer;
-                          currentTextDbId = chats[n].id;
-                          // console.log(copyText);
-                        });
-                      }
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              }
-
-              window.onclick = function (event) {
-                if (!event.target.matches(".dropbtn")) {
-                  var dropdowns =
-                    document.getElementsByClassName("dropdown-content");
-                  var i;
-                  for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains("show")) {
-                      openDropdown.classList.remove("show");
-                    }
-                  }
-                }
-              };
-            </script>
-            <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
-            <button onclick="downloadAsWord()" class="dropbtn">
-              Save as DOCX
-            </button>
-
-            <script>
-              function downloadAsWord() {
-                // Convert the string to a Blob
-                var blob = new Blob([copyText], { type: "application/msword" });
-
-                // Create a download link
-                var link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-
-                // Set the file name
-                link.download = "document.docx";
-
-                // Append the link to the body
-                document.body.appendChild(link);
-
-                // Trigger the click event to start the download
-                link.click();
-
-                // Remove the link from the DOM
-                document.body.removeChild(link);
-              }
-            </script>
-            <button
-              id="edit"
-              style="border-radius: 0 5px 5px 0"
-              class="dropbtn"
-              onclick="edit()"
-            >
-              Edit
-            </button>
-            <script>
-              let editing = false;
-              let editing_text;
-              async function edit() {
-                if (currentTextDbId !== null) {
-                  editing = !editing;
-                  if (editing) {
-                    const texts = copyText.split("\n");
-
-                    const container = document.getElementById(
-                      "jobDescriptionResultcontainer"
-                    );
-                    const div = document.getElementById("jobDescriptionResult");
-                    let text = div.textContent;
-                    div.remove();
-                    const textarea = document.createElement("textarea");
-                    container.append(textarea);
-                    textarea.id = "jobDescriptionResult";
-                    const button = document.getElementById("edit");
-                    button.innerHTML = "Stop editing and save";
-
-                    let new_text = "";
-                    for (const texte of texts) new_text += `${texte} &NewLine;`;
-
-                    editing_text = new_text;
-
-                    textarea.innerHTML = new_text;
-                    copyText = new_text;
-
-                    textarea.addEventListener("input", function () {
-                      copyText = textarea.value;
-                    });
-                    document.getElementById("mainFormSubmit").disabled = true;
-                  } else {
-                    const texts = document
-                      .getElementById("jobDescriptionResult")
-                      .value.split("&NewLine;");
-
-                    const container = document.getElementById(
-                      "jobDescriptionResultcontainer"
-                    );
-                    const textarea = document.getElementById(
-                      "jobDescriptionResult"
-                    );
-                    textarea.remove();
-                    const a = document.createElement("a");
-                    container.append(a);
-                    a.id = "jobDescriptionResult";
-                    const button = document.getElementById("edit");
-                    button.innerHTML = "edit";
-
-                    let new_text = "";
-                    for (const texte of texts) new_text += `${texte} \n`;
-
-                    a.innerText = new_text;
-                    copyText = new_text;
-                    if (new_text && currentTextDbId !== null) {
-                      axios
-                        .post("./updateText", {
-                          email: localStorage.getItem("talentScopeEmail"),
-                          pass: localStorage.getItem("talentScopePass"),
-                          newText: new_text,
-                          currentTextDbId: currentTextDbId,
-                        })
-                        .then((response) => {
-                          const res = response.data;
-                          if (res.message !== "ok") {
-                            console.error(
-                              "couldn't save the updated job description"
-                            );
-                          }
-                        })
-                        .catch((error) => {
-                          console.error(error);
-                        });
-                    }
-                    document.getElementById("mainFormSubmit").disabled = false;
-                  }
-                } else {
-                  document.getElementById("edit").innerText = "Unable to edit";
-                  clearInterval(editInterval);
-                  var editInterval = setInterval(() => {
-                    document.getElementById("edit").innerText = editing
-                      ? "Stop editing and save"
-                      : "Edit";
-                  }, 3000);
-                }
-              }
-            </script>
-            <script>
-              document
-                .getElementById("saveAsPDF")
-                .addEventListener("click", async function () {
-                  if (copyText !== null && copyText !== "" && copyText.length) {
-                    await axios
-                      .post("./pdf", {
-                        data: copyText,
-                      })
-                      .then((response) => {
-                        const blob = new Blob([response.data], {
-                          type: "application/pdf",
-                        });
-
-                        const link = document.createElement("a");
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = "jobDescription.pdf";
-                        link.click();
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
-                  } else {
-                    document.getElementById("saveAsPDF").innerText =
-                      "Nothing to save as PDF";
-                    clearInterval(pdfed);
-                    var pdfed = setInterval(() => {
-                      document.getElementById("saveAsPDF").innerText =
-                        "Save as PDF";
-                    }, 3000);
-                  }
-                });
-            </script>
-          </div>
-        </div>
+        <button>HIstory</button>
         <div id="navbarEmailBox">
-          <button id="openMyAccount" class="dropbtn" style="border-radius: 5px">
-            My Account
-          </button>
+          <button id="openMyAccount" style="border-radius: 5px">Account</button>
           <script>
             document
               .getElementById("openMyAccount")
@@ -687,9 +431,14 @@
           </script>
         </div>
       </div>
+
       <form id="formName">
         <div id="main">
-          <div id="mainForm" class="mainFormAndDescription">
+          <div
+            id="mainForm"
+            class="mainFormAndDescription"
+            style="margin-top: 0px; padding-top: 0px"
+          >
             <!-- <p>Attract Top Candidates with AI-Generated Job Descriptions</p>
           <p>
             Input vacancy key details below and Talent Scope will create a job
@@ -705,21 +454,24 @@
                   <a>Loading...</a>
                 </div>
               </div> -->
-              <select name="lang" id="lang">
-                <option value="english">English</option>
-                <option value="russian">Russian</option>
-                <option value="spanish">Spanish</option>
-                <option value="japanese">Japanese</option>
-                <option value="mandarin">Mandarin</option>
-                <option value="hindi">Hindi</option>
-                <option value="arabic">Arabic</option>
-                <option value="french">French</option>
-                <option value="portuguese">Portuguese</option>
-              </select>
+              <div style="width: 100%; text-align: right">
+                <select name="lang" id="lang">
+                  <option value="english">English</option>
+                  <option value="russian">Russian</option>
+                  <option value="spanish">Spanish</option>
+                  <option value="japanese">Japanese</option>
+                  <option value="mandarin">Mandarin</option>
+                  <option value="hindi">Hindi</option>
+                  <option value="arabic">Arabic</option>
+                  <option value="french">French</option>
+                  <option value="portuguese">Portuguese</option>
+                </select>
+              </div>
+
               <br />
               <input
                 id="jobTitle"
-                placeholder="JOB TITLE"
+                placeholder="JOB TITLE*"
                 required
                 type="text"
               />
@@ -736,7 +488,6 @@
               <br />
               <input id="locationText" placeholder="LOCATION" type="text" />
               <br />
-              <br />
               <input id="jobType" placeholder="JOB TYPE" type="text" />
               <br />
               <input
@@ -745,29 +496,25 @@
                 type="text"
               />
               <br />
-              <br />
               <input
                 id="description"
-                placeholder="DESCRIPTION"
+                placeholder="DESCRIPTION*"
                 required
                 type="text"
               />
               <br />
               <input id="requirements" placeholder="REQUIREMENTS" type="text" />
               <br />
-              <br />
               <input
                 id="keywords"
-                placeholder="KEYWORDS"
+                placeholder="KEYWORDS*"
                 required
                 type="text"
               />
               <br />
               <input id="skills" placeholder="SKILLS" type="text" />
               <br />
-              <br />
               <input id="education" placeholder="EDUCATION" type="text" />
-              <br />
               <br />
               <input id="personality" placeholder="PERSONALITY" type="text" />
             </div>
@@ -777,6 +524,295 @@
           </div>
 
           <div id="jobDescription" class="mainFormAndDescription">
+            <div style="display: flex; align-items: flex-start">
+              <!-- <img
+            src="/logo.png"
+            width="60"
+            height="60"
+            style="margin-right: 10px; margin-bottom: 10px"
+          /> -->
+
+              <div style="display: flex; align-items: center; justify-content: space-evenly;">
+                <!-- <a id="navbarTitle">Talent Scope</a> -->
+                <div class="dropdown">
+                  <button onclick="dropdownTogle()" class="dropbtn">
+                    History
+                  </button>
+                  <div id="historyDropdown" class="dropdown-content">
+                    <a>Loading...</a>
+                  </div>
+                </div>
+                <script>
+                  function dropdownTogle() {
+                    const dropdownContent =
+                      document.getElementById("historyDropdown");
+                    dropdownContent.classList.toggle("show");
+
+                    axios
+                      .post("./getHistory", {
+                        email: localStorage.getItem("talentScopeEmail"),
+                        pass: localStorage.getItem("talentScopePass"),
+                      })
+                      .then((response) => {
+                        const res = response.data;
+                        var chats = JSON.parse(res.message);
+                        console.log(chats);
+                        dropdownContent.innerHTML = "";
+                        if (chats.length <= 0) {
+                          var button = document.createElement("a");
+
+                          button.innerHTML = "No history yet";
+
+                          button.classList.add("highlighted");
+
+                          dropdownContent.appendChild(button);
+
+                          // clearInterval(noHistory);
+                          // var noHistory = setInterval(() => {
+                          //   button.innerText =
+                          //     "History";
+                          // }, 3000);
+                        }
+                        for (let i = chats.length; i >= 0; i--) {
+                          if (i < chats.length) {
+                            var button = document.createElement("a");
+
+                            button.innerHTML =
+                              chats[i].jobTitle + " " + chats[i].date;
+
+                            button.id = i + "-history";
+
+                            button.classList.add("highlighted");
+
+                            dropdownContent.appendChild(button);
+
+                            button.addEventListener("click", (event) => {
+                              let n = parseInt(event.target.id[0]);
+                              document.getElementById("jobTitle").value =
+                                chats[n].jobTitle;
+                              document.getElementById(
+                                "aboutTheEmployer"
+                              ).value = chats[n].aboutTheEmployer;
+                              document.getElementById("salary").value =
+                                chats[n].salary;
+                              document.getElementById("remote").value =
+                                chats[n].remote;
+                              document.getElementById("locationText").value =
+                                chats[n].locationText;
+                              document.getElementById("jobType").value =
+                                chats[n].jobType;
+                              document.getElementById("employmentType").value =
+                                chats[n].employmentType;
+                              document.getElementById("description").value =
+                                chats[n].description;
+                              document.getElementById("requirements").value =
+                                chats[n].requirements;
+                              document.getElementById("keywords").value =
+                                chats[n].keywords;
+                              document.getElementById("skills").value =
+                                chats[n].skills;
+                              document.getElementById("education").value =
+                                chats[n].education;
+                              document.getElementById("personality").value =
+                                chats[n].personality;
+                              document.getElementById("lang").value =
+                                chats[n].lang;
+                              document.getElementById(
+                                "jobDescriptionResult"
+                              ).innerText = chats[n].assistantAnswer;
+                              copyText = chats[n].assistantAnswer;
+                              currentTextDbId = chats[n].id;
+                              // console.log(copyText);
+                            });
+                          }
+                        }
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      });
+                  }
+
+                  window.onclick = function (event) {
+                    if (!event.target.matches(".dropbtn")) {
+                      var dropdowns =
+                        document.getElementsByClassName("dropdown-content");
+                      var i;
+                      for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains("show")) {
+                          openDropdown.classList.remove("show");
+                        }
+                      }
+                    }
+                  };
+                </script>
+                <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
+                <button onclick="downloadAsWord()" class="dropbtn">
+                  Save as DOCX
+                </button>
+
+                <script>
+                  function downloadAsWord() {
+                    // Convert the string to a Blob
+                    var blob = new Blob([copyText], {
+                      type: "application/msword",
+                    });
+
+                    // Create a download link
+                    var link = document.createElement("a");
+                    link.href = URL.createObjectURL(blob);
+
+                    // Set the file name
+                    link.download = "document.docx";
+
+                    // Append the link to the body
+                    document.body.appendChild(link);
+
+                    // Trigger the click event to start the download
+                    link.click();
+
+                    // Remove the link from the DOM
+                    document.body.removeChild(link);
+                  }
+                </script>
+                <button id="edit" class="dropbtn" onclick="edit()">Edit</button>
+                <script>
+                  let editing = false;
+                  let editing_text;
+                  async function edit() {
+                    if (currentTextDbId !== null) {
+                      editing = !editing;
+                      if (editing) {
+                        const texts = copyText.split("\n");
+
+                        const container = document.getElementById(
+                          "jobDescriptionResultcontainer"
+                        );
+                        const div = document.getElementById(
+                          "jobDescriptionResult"
+                        );
+                        let text = div.textContent;
+                        div.remove();
+                        const textarea = document.createElement("textarea");
+                        container.append(textarea);
+                        textarea.id = "jobDescriptionResult";
+                        const button = document.getElementById("edit");
+                        button.innerHTML = "Stop editing and save";
+
+                        let new_text = "";
+                        for (const texte of texts)
+                          new_text += `${texte} &NewLine;`;
+
+                        editing_text = new_text;
+
+                        textarea.innerHTML = new_text;
+                        copyText = new_text;
+
+                        textarea.addEventListener("input", function () {
+                          copyText = textarea.value;
+                        });
+                        document.getElementById(
+                          "mainFormSubmit"
+                        ).disabled = true;
+                      } else {
+                        const texts = document
+                          .getElementById("jobDescriptionResult")
+                          .value.split("&NewLine;");
+
+                        const container = document.getElementById(
+                          "jobDescriptionResultcontainer"
+                        );
+                        const textarea = document.getElementById(
+                          "jobDescriptionResult"
+                        );
+                        textarea.remove();
+                        const a = document.createElement("a");
+                        container.append(a);
+                        a.id = "jobDescriptionResult";
+                        const button = document.getElementById("edit");
+                        button.innerHTML = "edit";
+
+                        let new_text = "";
+                        for (const texte of texts) new_text += `${texte} \n`;
+
+                        a.innerText = new_text;
+                        copyText = new_text;
+                        if (new_text && currentTextDbId !== null) {
+                          axios
+                            .post("./updateText", {
+                              email: localStorage.getItem("talentScopeEmail"),
+                              pass: localStorage.getItem("talentScopePass"),
+                              newText: new_text,
+                              currentTextDbId: currentTextDbId,
+                            })
+                            .then((response) => {
+                              const res = response.data;
+                              if (res.message !== "ok") {
+                                console.error(
+                                  "couldn't save the updated job description"
+                                );
+                              }
+                            })
+                            .catch((error) => {
+                              console.error(error);
+                            });
+                        }
+                        document.getElementById(
+                          "mainFormSubmit"
+                        ).disabled = false;
+                      }
+                    } else {
+                      document.getElementById("edit").innerText =
+                        "Unable to edit";
+                      clearInterval(editInterval);
+                      var editInterval = setInterval(() => {
+                        document.getElementById("edit").innerText = editing
+                          ? "Stop editing and save"
+                          : "Edit";
+                      }, 3000);
+                    }
+                  }
+                </script>
+                <script>
+                  document
+                    .getElementById("saveAsPDF")
+                    .addEventListener("click", async function () {
+                      if (
+                        copyText !== null &&
+                        copyText !== "" &&
+                        copyText.length
+                      ) {
+                        await axios
+                          .post("./pdf", {
+                            data: copyText,
+                          })
+                          .then((response) => {
+                            const blob = new Blob([response.data], {
+                              type: "application/pdf",
+                            });
+
+                            const link = document.createElement("a");
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = "jobDescription.pdf";
+                            link.click();
+                          })
+                          .catch((error) => {
+                            console.error(error);
+                          });
+                      } else {
+                        document.getElementById("saveAsPDF").innerText =
+                          "Nothing to save as PDF";
+                        clearInterval(pdfed);
+                        var pdfed = setInterval(() => {
+                          document.getElementById("saveAsPDF").innerText =
+                            "Save as PDF";
+                        }, 3000);
+                      }
+                    });
+                </script>
+              </div>
+            </div>
+            <br />
             <div id="submitClearGroup">
               <!-- <a>Job Description</a> -->
               <input type="submit" value="SUBMIT" id="mainFormSubmit" />
@@ -1065,11 +1101,13 @@
             value="Send Confirmation Email"
           />
           <br />
-          <a id="checkEailMessage">Now check your email for a comfirmation, please</a>
+          <a id="checkEailMessage"
+            >Now check your email for a comfirmation, please</a
+          >
         </form>
       </div>
       <script>
-        document.getElementById("checkEailMessage").style.display = 'none'
+        document.getElementById("checkEailMessage").style.display = "none";
         document
           .getElementById("fPassform")
           .addEventListener("submit", (event) => {
@@ -1086,7 +1124,8 @@
                 if (res.message === "ok") {
                   document.getElementById("fPassEmail").value = "";
                   document.getElementById("fPassPass").value = "";
-                  document.getElementById("checkEailMessage").style.display = 'block'
+                  document.getElementById("checkEailMessage").style.display =
+                    "block";
                 } else {
                   alert("Error, please try again");
                 }
