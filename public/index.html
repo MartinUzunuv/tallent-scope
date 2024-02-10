@@ -25,7 +25,8 @@
       }
 
       .accountForm {
-        background-color: #f8f9fa;
+        background-color: #f5b721;
+        border: solid black 2px;
         color: #1c1f22;
         display: flex;
         flex-direction: column;
@@ -68,14 +69,14 @@
 
       #dontHaveAnAccountSignUp {
         text-align: left;
-        color: #0755dc;
+        color: black;
         text-decoration: underline;
         cursor: pointer;
       }
 
       #forgotPassSignUp {
         text-align: left;
-        color: #0755dc;
+        color: black;
         text-decoration: underline;
         cursor: pointer;
       }
@@ -329,12 +330,12 @@
       }
 
       #logoutButton {
-        background-color: #4c5c6b;
+        background-color: black;
         color: white;
         border: none;
         cursor: pointer;
         border-radius: 3px;
-        padding: 5px;
+        padding: 10px;
         font-weight: 600;
       }
 
@@ -343,12 +344,12 @@
       }
 
       #accountBack {
-        background-color: #4c5c6b;
+        background-color: black;
         color: white;
         border: none;
         cursor: pointer;
         border-radius: 3px;
-        padding: 5px;
+        padding: 10px;
         font-weight: 600;
       }
 
@@ -422,7 +423,118 @@
     <!-- home -->
     <div id="home">
       <div id="navbar">
-        <button>HIstory</button>
+        <div class="dropdown">
+                  <button onclick="dropdownTogle()" class="dropbtn">
+                    History
+                  </button>
+                  <div id="historyDropdown" class="dropdown-content">
+                    <a>Loading...</a>
+                  </div>
+                </div>
+                <script>
+                  function dropdownTogle() {
+                    const dropdownContent =
+                      document.getElementById("historyDropdown");
+                    dropdownContent.classList.toggle("show");
+
+                    axios
+                      .post("./getHistory", {
+                        email: localStorage.getItem("talentScopeEmail"),
+                        pass: localStorage.getItem("talentScopePass"),
+                      })
+                      .then((response) => {
+                        const res = response.data;
+                        var chats = JSON.parse(res.message);
+                        console.log(chats);
+                        dropdownContent.innerHTML = "";
+                        if (chats.length <= 0) {
+                          var button = document.createElement("a");
+
+                          button.innerHTML = "No history yet";
+
+                          button.classList.add("highlighted");
+
+                          dropdownContent.appendChild(button);
+
+                          // clearInterval(noHistory);
+                          // var noHistory = setInterval(() => {
+                          //   button.innerText =
+                          //     "History";
+                          // }, 3000);
+                        }
+                        for (let i = chats.length; i >= 0; i--) {
+                          if (i < chats.length) {
+                            var button = document.createElement("a");
+
+                            button.innerHTML =
+                              chats[i].jobTitle + " " + chats[i].date;
+
+                            button.id = i + "-history";
+
+                            button.classList.add("highlighted");
+
+                            dropdownContent.appendChild(button);
+
+                            button.addEventListener("click", (event) => {
+                              let n = parseInt(event.target.id[0]);
+                              document.getElementById("jobTitle").value =
+                                chats[n].jobTitle;
+                              document.getElementById(
+                                "aboutTheEmployer"
+                              ).value = chats[n].aboutTheEmployer;
+                              document.getElementById("salary").value =
+                                chats[n].salary;
+                              document.getElementById("remote").value =
+                                chats[n].remote;
+                              document.getElementById("locationText").value =
+                                chats[n].locationText;
+                              document.getElementById("jobType").value =
+                                chats[n].jobType;
+                              document.getElementById("employmentType").value =
+                                chats[n].employmentType;
+                              document.getElementById("description").value =
+                                chats[n].description;
+                              document.getElementById("requirements").value =
+                                chats[n].requirements;
+                              document.getElementById("keywords").value =
+                                chats[n].keywords;
+                              document.getElementById("skills").value =
+                                chats[n].skills;
+                              document.getElementById("education").value =
+                                chats[n].education;
+                              document.getElementById("personality").value =
+                                chats[n].personality;
+                              document.getElementById("lang").value =
+                                chats[n].lang;
+                              document.getElementById(
+                                "jobDescriptionResult"
+                              ).innerText = chats[n].assistantAnswer;
+                              copyText = chats[n].assistantAnswer;
+                              currentTextDbId = chats[n].id;
+                              // console.log(copyText);
+                            });
+                          }
+                        }
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      });
+                  }
+
+                  window.onclick = function (event) {
+                    if (!event.target.matches(".dropbtn")) {
+                      var dropdowns =
+                        document.getElementsByClassName("dropdown-content");
+                      var i;
+                      for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains("show")) {
+                          openDropdown.classList.remove("show");
+                        }
+                      }
+                    }
+                  };
+                </script>
         <div id="navbarEmailBox">
           <button id="openMyAccount" style="border-radius: 5px">Account</button>
           <script>
@@ -538,122 +650,11 @@
 
               <div style="display: flex; align-items: center; justify-content: space-evenly;">
                 <!-- <a id="navbarTitle">Talent Scope</a> -->
-                <div class="dropdown">
-                  <button onclick="dropdownTogle()" class="dropbtn">
-                    History
-                  </button>
-                  <div id="historyDropdown" class="dropdown-content">
-                    <a>Loading...</a>
-                  </div>
-                </div>
-                <script>
-                  function dropdownTogle() {
-                    const dropdownContent =
-                      document.getElementById("historyDropdown");
-                    dropdownContent.classList.toggle("show");
-
-                    axios
-                      .post("./getHistory", {
-                        email: localStorage.getItem("talentScopeEmail"),
-                        pass: localStorage.getItem("talentScopePass"),
-                      })
-                      .then((response) => {
-                        const res = response.data;
-                        var chats = JSON.parse(res.message);
-                        console.log(chats);
-                        dropdownContent.innerHTML = "";
-                        if (chats.length <= 0) {
-                          var button = document.createElement("a");
-
-                          button.innerHTML = "No history yet";
-
-                          button.classList.add("highlighted");
-
-                          dropdownContent.appendChild(button);
-
-                          // clearInterval(noHistory);
-                          // var noHistory = setInterval(() => {
-                          //   button.innerText =
-                          //     "History";
-                          // }, 3000);
-                        }
-                        for (let i = chats.length; i >= 0; i--) {
-                          if (i < chats.length) {
-                            var button = document.createElement("a");
-
-                            button.innerHTML =
-                              chats[i].jobTitle + " " + chats[i].date;
-
-                            button.id = i + "-history";
-
-                            button.classList.add("highlighted");
-
-                            dropdownContent.appendChild(button);
-
-                            button.addEventListener("click", (event) => {
-                              let n = parseInt(event.target.id[0]);
-                              document.getElementById("jobTitle").value =
-                                chats[n].jobTitle;
-                              document.getElementById(
-                                "aboutTheEmployer"
-                              ).value = chats[n].aboutTheEmployer;
-                              document.getElementById("salary").value =
-                                chats[n].salary;
-                              document.getElementById("remote").value =
-                                chats[n].remote;
-                              document.getElementById("locationText").value =
-                                chats[n].locationText;
-                              document.getElementById("jobType").value =
-                                chats[n].jobType;
-                              document.getElementById("employmentType").value =
-                                chats[n].employmentType;
-                              document.getElementById("description").value =
-                                chats[n].description;
-                              document.getElementById("requirements").value =
-                                chats[n].requirements;
-                              document.getElementById("keywords").value =
-                                chats[n].keywords;
-                              document.getElementById("skills").value =
-                                chats[n].skills;
-                              document.getElementById("education").value =
-                                chats[n].education;
-                              document.getElementById("personality").value =
-                                chats[n].personality;
-                              document.getElementById("lang").value =
-                                chats[n].lang;
-                              document.getElementById(
-                                "jobDescriptionResult"
-                              ).innerText = chats[n].assistantAnswer;
-                              copyText = chats[n].assistantAnswer;
-                              currentTextDbId = chats[n].id;
-                              // console.log(copyText);
-                            });
-                          }
-                        }
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
-                  }
-
-                  window.onclick = function (event) {
-                    if (!event.target.matches(".dropbtn")) {
-                      var dropdowns =
-                        document.getElementsByClassName("dropdown-content");
-                      var i;
-                      for (i = 0; i < dropdowns.length; i++) {
-                        var openDropdown = dropdowns[i];
-                        if (openDropdown.classList.contains("show")) {
-                          openDropdown.classList.remove("show");
-                        }
-                      }
-                    }
-                  };
-                </script>
-                <button id="saveAsPDF" class="dropbtn">Save as PDF</button>
-                <button onclick="downloadAsWord()" class="dropbtn">
+                
+                <a id="saveAsPDF" class="dropbtn">Save as PDF</a>
+                <a onclick="downloadAsWord()" class="dropbtn">
                   Save as DOCX
-                </button>
+                </a>
 
                 <script>
                   function downloadAsWord() {
@@ -679,7 +680,7 @@
                     document.body.removeChild(link);
                   }
                 </script>
-                <button id="edit" class="dropbtn" onclick="edit()">Edit</button>
+                <a id="edit" class="dropbtn" onclick="edit()">Edit</a>
                 <script>
                   let editing = false;
                   let editing_text;
