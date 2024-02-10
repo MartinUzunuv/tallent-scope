@@ -427,8 +427,8 @@
       }
 
       #historySpace {
-        width: 250px;
-        height: 200px;
+        /* width: 250px; */
+        /* height: 200px; */
       }
 
       #appSpace {
@@ -446,7 +446,7 @@
     <script>
       var copyText = "";
       var currentTextDbId = null;
-      var historyOpened = true;
+      var historyOpened = false;
     </script>
 
     <!-- home -->
@@ -479,24 +479,49 @@
         <script>
           function dropdownTogle() {
             historyOpened = !historyOpened;
-            if (historyOpened) {
-              document.getElementById("historySpace").style.width = "250px";
-              document.getElementById("histotyItem").style.width = "250px";
-              // document.getElementById("histotyItem").style.display = "block";
-              let elements = document.querySelectorAll("#histotyItem");
-              elements.forEach(function (element) {
-                element.style.display = "block";
-              });
+            if (window.innerWidth > 600) {
+              document.getElementById("historySpace").style.position = "unset";
+              if (historyOpened) {
+                document.getElementById("historySpace").style.width = "250px";
+                document.getElementById("histotyItem").style.width = "250px";
+                // document.getElementById("histotyItem").style.display = "block";
+                let elements = document.querySelectorAll("#histotyItem");
+                elements.forEach(function (element) {
+                  element.style.display = "block";
+                });
+              } else {
+                document.getElementById("historySpace").style.width = "0px";
+                document.getElementById("histotyItem").style.width = "0px";
+                // document.getElementById("histotyItem").style.display = "none";
+                let elements = document.querySelectorAll("#histotyItem");
+                elements.forEach(function (element) {
+                  element.style.display = "none";
+                });
+              }
             } else {
-              document.getElementById("historySpace").style.width = "0px";
-              document.getElementById("histotyItem").style.width = "0px";
-              // document.getElementById("histotyItem").style.display = "none";
-              let elements = document.querySelectorAll("#histotyItem");
-              elements.forEach(function (element) {
-                element.style.display = "none";
-              });
+              document.getElementById("historySpace").style.position =
+                "absolute";
+              if (historyOpened) {
+                document.getElementById("historySpace").style.width = "250px";
+                document.getElementById("histotyItem").style.width = "250px";
+                // document.getElementById("histotyItem").style.display = "block";
+                let elements = document.querySelectorAll("#histotyItem");
+                elements.forEach(function (element) {
+                  element.style.display = "block";
+                });
+              } else {
+                document.getElementById("historySpace").style.width = "0px";
+                document.getElementById("histotyItem").style.width = "0px";
+                // document.getElementById("histotyItem").style.display = "none";
+                let elements = document.querySelectorAll("#histotyItem");
+                elements.forEach(function (element) {
+                  element.style.display = "none";
+                });
+              }
             }
           }
+
+          dropdownTogle();
 
           function refreshHistory() {
             const dropdownContent = document.getElementById("historyDropdown");
