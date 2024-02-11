@@ -87,7 +87,7 @@
         justify-content: center;
       }
 
-      @media screen and (min-width: 586px) {
+      @media screen and (min-width: 1038px) {
         /* .mainFormAndDescription {
           width: 43% !important;
         } */
@@ -259,7 +259,7 @@
         cursor: pointer;
         margin-left: 10px;
         margin-right: 10px;
-        max-height: 35.33px;
+        /* max-height: 35.33px; */
         border: solid #1f3245 1px;
         border-radius: 4px;
         font-weight: 900;
@@ -290,16 +290,19 @@
       /* Links inside the dropdown */
       .dropdown-content a {
         color: black;
-        padding: 12px 16px;
+        /* padding: 12px 16px; */
         text-decoration: none;
         display: block;
         font-size: 13.3;
-        width: 250px;
+        width: 240px;
+        margin: none;
+        padding: 4px;
+        background-color: #ffffff;
       }
 
       /* Change color of dropdown links on hover */
       .dropdown-content a:hover {
-        background-color: #ddd;
+        background-color: #d9d9d9;
       }
 
       /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
@@ -392,12 +395,17 @@
         padding-right: 30px;
         font-weight: 900;
         margin: 10px;
+        cursor: pointer;
         /* font-size: 15px; */
+      }
+
+      #openMyAccount:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       .loader {
         border: 6px solid #f3f3f3; /* Light grey */
-        border-top: 6px solid #3498db; /* Blue */
+        border-top: 6px solid #f8d23c; /* Blue */
         border-radius: 50%;
         width: 30px;
         height: 30px;
@@ -415,6 +423,7 @@
       }
 
       #historyOpenButton {
+        cursor: pointer;
         height: 100%;
         width: 250px;
         border-right: black solid 4px;
@@ -429,6 +438,13 @@
       #historySpace {
         /* width: 250px; */
         /* height: 200px; */
+        border: solid black 4px;
+        /* border-bottom: none; */
+        border-top: none;
+        border-left: none;
+        transition: 0.5s;
+        height: 100vh;
+        background-color: white;
       }
 
       #appSpace {
@@ -439,6 +455,37 @@
 
       #formName {
         flex-grow: 1;
+      }
+
+      #histotyItem {
+        transition: 0.5s;
+        border: solid rgb(186, 186, 186) 0.5px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      * {
+        transition: 0.5s;
+      }
+
+      /* #blackout {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.25);
+        width: 10000px;
+        height: 10000px;
+        position: fixed;
+        margin-top: -100px;
+      } */
+
+      #PageTitle {
+        color: white;
+        font-weight: 900;
+        font-size: 40px;
+      }
+
+      .dropbtn:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
     </style>
   </head>
@@ -454,9 +501,10 @@
       <div id="navbar">
         <div class="dropdown">
           <button onclick="dropdownTogle()" id="historyOpenButton">
-            History
+            History <img src="historyIcon.png" width="20px" />
           </button>
         </div>
+        <a id="PageTitle">write N hire</a>
         <div id="navbarEmailBox">
           <button id="openMyAccount" style="border-radius: 5px">Account</button>
           <script>
@@ -482,8 +530,8 @@
             if (window.innerWidth > 600) {
               document.getElementById("historySpace").style.position = "unset";
               if (historyOpened) {
-                document.getElementById("historySpace").style.width = "250px";
-                document.getElementById("histotyItem").style.width = "250px";
+                document.getElementById("historySpace").style.width = "248.5px";
+                document.getElementById("histotyItem").style.width = "240px";
                 // document.getElementById("histotyItem").style.display = "block";
                 let elements = document.querySelectorAll("#histotyItem");
                 elements.forEach(function (element) {
@@ -502,8 +550,8 @@
               document.getElementById("historySpace").style.position =
                 "absolute";
               if (historyOpened) {
-                document.getElementById("historySpace").style.width = "250px";
-                document.getElementById("histotyItem").style.width = "250px";
+                document.getElementById("historySpace").style.width = "248.5px";
+                document.getElementById("histotyItem").style.width = "240px";
                 // document.getElementById("histotyItem").style.display = "block";
                 let elements = document.querySelectorAll("#histotyItem");
                 elements.forEach(function (element) {
@@ -521,7 +569,9 @@
             }
           }
 
-          dropdownTogle();
+          // if (window.innerWidth > 600) {
+            dropdownTogle();
+          // }
 
           function refreshHistory() {
             const dropdownContent = document.getElementById("historyDropdown");
@@ -558,7 +608,7 @@
 
                     button.innerHTML = chats[i].jobTitle + " " + chats[i].date;
 
-                    button.id = i + "-history";
+                    button.name = i + "-history";
 
                     button.classList.add("highlighted");
                     button.setAttribute("id", "histotyItem");
@@ -566,7 +616,8 @@
                     dropdownContent.appendChild(button);
 
                     button.addEventListener("click", (event) => {
-                      let n = parseInt(event.target.id[0]);
+                      let n = parseInt(event.target.name[0]);
+                      console.log(event.target.name);
                       document.getElementById("jobTitle").value =
                         chats[n].jobTitle;
                       document.getElementById("aboutTheEmployer").value =
@@ -623,6 +674,7 @@
           };
         </script>
         <form id="formName">
+          <!-- <div id="blackout"></div> -->
           <div id="main">
             <div
               id="mainForm"
@@ -733,6 +785,7 @@
           /> -->
 
                 <div
+                  id="buttonContainerSaveAndEdit"
                   style="
                     display: flex;
                     align-items: center;
@@ -742,7 +795,7 @@
                   <!-- <a id="navbarTitle">Talent Scope</a> -->
 
                   <a id="saveAsPDF" class="dropbtn">Save as PDF</a>
-                  <a onclick="downloadAsWord()" class="dropbtn">
+                  <a onclick="downloadAsWord()" id="saveAsDOXS" class="dropbtn">
                     Save as DOCX
                   </a>
 
@@ -1273,6 +1326,33 @@
         </div>
       </div>
     </div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        var myDiv = document.getElementById("buttonContainerSaveAndEdit");
+
+        function adjustHeight() {
+          console.log(myDiv.offsetWidth);
+          if (myDiv.offsetWidth < 288) {
+            document.getElementById("saveAsPDF").style.height = "65px";
+            document.getElementById("saveAsDOXS").style.height = "65px";
+            document.getElementById("edit").style.height = "65px";
+          } else if (myDiv.offsetWidth < 390) {
+            document.getElementById("saveAsPDF").style.height = "45px";
+            document.getElementById("saveAsDOXS").style.height = "45px";
+            document.getElementById("edit").style.height = "45px";
+          } else {
+            document.getElementById("saveAsPDF").style.height = "25px";
+            document.getElementById("saveAsDOXS").style.height = "25px";
+            document.getElementById("edit").style.height = "25px";
+          }
+        }
+
+        adjustHeight();
+
+        window.addEventListener("resize", adjustHeight);
+      });
+    </script>
 
     <script>
       var signUp = document.getElementById("signUp");
