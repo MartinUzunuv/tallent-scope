@@ -263,6 +263,7 @@
         border: solid #1f3245 1px;
         border-radius: 4px;
         font-weight: 900;
+        font-size: 14px;
       }
 
       /* Dropdown button on hover & focus */
@@ -317,6 +318,7 @@
         border-radius: 3px;
         padding: 10px;
         width: 182px;
+        margin-right: 25px;
       }
 
       #lang option {
@@ -1334,17 +1336,17 @@
         function adjustHeight() {
           console.log(myDiv.offsetWidth);
           if (myDiv.offsetWidth < 288) {
-            document.getElementById("saveAsPDF").style.height = "65px";
-            document.getElementById("saveAsDOXS").style.height = "65px";
-            document.getElementById("edit").style.height = "65px";
+            document.getElementById("saveAsPDF").style.height = "55px";
+            document.getElementById("saveAsDOXS").style.height = "55px";
+            document.getElementById("edit").style.height = "55px";
           } else if (myDiv.offsetWidth < 390) {
-            document.getElementById("saveAsPDF").style.height = "45px";
-            document.getElementById("saveAsDOXS").style.height = "45px";
-            document.getElementById("edit").style.height = "45px";
+            document.getElementById("saveAsPDF").style.height = "20px";
+            document.getElementById("saveAsDOXS").style.height = "20px";
+            document.getElementById("edit").style.height = "20px";
           } else {
-            document.getElementById("saveAsPDF").style.height = "25px";
-            document.getElementById("saveAsDOXS").style.height = "25px";
-            document.getElementById("edit").style.height = "25px";
+            document.getElementById("saveAsPDF").style.height = "20px";
+            document.getElementById("saveAsDOXS").style.height = "20px";
+            document.getElementById("edit").style.height = "20px";
           }
         }
 
