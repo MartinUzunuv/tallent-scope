@@ -489,6 +489,12 @@
       .dropbtn:hover {
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
+
+      @media screen and (max-width: 720px) {
+        #PageTitle {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -503,7 +509,17 @@
       <div id="navbar">
         <div class="dropdown">
           <button onclick="dropdownTogle()" id="historyOpenButton">
-            <a style="border-radius: 200px; border: solid black 2px; padding: 4px; margin-right: 10px; padding-left: 10px; padding-right: 10px;">History</a><img src="historyIcon.png" width="20px" />
+            <a
+              style="
+                border-radius: 200px;
+                border: solid black 2px;
+                padding: 4px;
+                margin-right: 10px;
+                padding-left: 10px;
+                padding-right: 10px;
+              "
+              >History</a
+            ><img src="historyIcon.png" width="20px" />
           </button>
         </div>
         <a id="PageTitle">write N hire</a>
@@ -536,16 +552,21 @@
                 document.getElementById("histotyItem").style.width = "240px";
                 // document.getElementById("histotyItem").style.display = "block";
                 let elements = document.querySelectorAll("#histotyItem");
-                elements.forEach(function (element) {
+                setTimeout(()=>{
+                  elements.forEach(function (element) {
                   element.style.display = "block";
+                  // element.style.marginLeft = "0px";
                 });
+                },400)
+                
               } else {
                 document.getElementById("historySpace").style.width = "0px";
-                document.getElementById("histotyItem").style.width = "0px";
+                // document.getElementById("histotyItem").style.width = "0px";
                 // document.getElementById("histotyItem").style.display = "none";
                 let elements = document.querySelectorAll("#histotyItem");
                 elements.forEach(function (element) {
                   element.style.display = "none";
+                  // element.style.marginLeft = "-240px";
                 });
               }
             } else {
@@ -554,25 +575,33 @@
               if (historyOpened) {
                 document.getElementById("historySpace").style.width = "248.5px";
                 document.getElementById("histotyItem").style.width = "240px";
+                document.getElementById("histotyItem").style.marginLeft = "0px";
+
                 // document.getElementById("histotyItem").style.display = "block";
                 let elements = document.querySelectorAll("#histotyItem");
                 elements.forEach(function (element) {
                   element.style.display = "block";
+                  // element.style.marginLeft = "0px";
                 });
               } else {
                 document.getElementById("historySpace").style.width = "0px";
-                document.getElementById("histotyItem").style.width = "0px";
+                // document.getElementById("histotyItem").style.width = "0px";
+                document.getElementById("histotyItem").style.marginLeft = "-240px";
+
                 // document.getElementById("histotyItem").style.display = "none";
                 let elements = document.querySelectorAll("#histotyItem");
+                setTimeout(()=>{
                 elements.forEach(function (element) {
                   element.style.display = "none";
+                  // element.style.marginLeft = "-240px";
                 });
+                },400)
               }
             }
           }
 
           // if (window.innerWidth > 600) {
-            dropdownTogle();
+          dropdownTogle();
           // }
 
           function refreshHistory() {
