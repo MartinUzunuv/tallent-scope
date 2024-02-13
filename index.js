@@ -7,7 +7,7 @@ import { dirname } from "path";
 import { jsPDF } from "jspdf";
 import * as postmark from "postmark";
 
-const url = "http://localhost:3000/";
+const url = "http://172.31.34.138:3000/";
 
 const openai = new OpenAI({
   apiKey: "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",
@@ -432,7 +432,7 @@ app.get("/updatePass/:key/:email", async (req, res) => {
         { $set: { newPass: "", resetKey: "", pass: newPass } }
       );
 
-      res.redirect("http://localhost:3000");
+      res.redirect("http://172.31.34.138:3000");
     } else {
       res.send("invalid key");
     }
