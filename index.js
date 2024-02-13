@@ -489,6 +489,6 @@ app.post("/updateText", async (req, res) => {
   }
 });
 
-app.listen(80, '0.0.0.0', () => {
+app.listen(80, () => {
   console.log(`Server is listening at ` + url);
 });
