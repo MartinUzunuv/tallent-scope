@@ -7,7 +7,7 @@ import { dirname } from "path";
 import { jsPDF } from "jspdf";
 import * as postmark from "postmark";
 
-const url = "https://35.175.226.121:80/";
+const url = "http://35.175.226.121:80/";
 
 const openai = new OpenAI({
   apiKey: "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",
@@ -432,7 +432,7 @@ app.get("/updatePass/:key/:email", async (req, res) => {
         { $set: { newPass: "", resetKey: "", pass: newPass } }
       );
 
-      res.redirect("https://35.175.226.121:80");
+      res.redirect("http://35.175.226.121:80");
     } else {
       res.send("invalid key");
     }
