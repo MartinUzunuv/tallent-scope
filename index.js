@@ -6,14 +6,16 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { jsPDF } from "jspdf";
 import * as postmark from "postmark";
+import { config } from "dotenv";
+config();
 
 const url = "http://35.175.226.121:80/";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_KEY,
 });
 
-const assistId = "asst_iGSyxroyszEAfDtWXTWklRg0";
+const assistId = "asst_hjukRSGYHya5q4NqWr2d3r9i";
 
 const app = express();
 
@@ -314,7 +316,6 @@ app.post("/sendData", async (req, res) => {
       email: email,
       pass: pass,
     });
-
     if (checkIfAccountExists) {
       await contactAssistant(
         email,
