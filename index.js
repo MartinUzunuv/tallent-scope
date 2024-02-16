@@ -10,7 +10,7 @@ import * as postmark from "postmark";
 const url = "http://35.175.226.121:80/";
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const assistId = "asst_iGSyxroyszEAfDtWXTWklRg0";
