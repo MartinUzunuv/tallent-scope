@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Writenhire</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="icon" href="/logo.png" type="image/x-icon" />
-    <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
+    <!-- <link rel="icon" href="/logo.png" type="image/x-icon" /> -->
+    <!-- <link rel="shortcut icon" href="/logo.png" type="image/x-icon" /> -->
     <style>
       #navbar {
         display: flex;
@@ -500,6 +500,7 @@
       var copyText = "";
       var currentTextDbId = null;
       var historyOpened = false;
+      var baseUrl = "http://localhost:3000"
     </script>
 
     <!-- home -->
@@ -607,7 +608,7 @@
             // dropdownContent.classList.toggle("show");
 
             axios
-              .post("./getHistory", {
+              .post(baseUrl+"/getHistory", {
                 email: localStorage.getItem("talentScopeEmail"),
                 pass: localStorage.getItem("talentScopePass"),
               })
@@ -916,7 +917,7 @@
                           copyText = new_text;
                           if (new_text && currentTextDbId !== null) {
                             axios
-                              .post("./updateText", {
+                              .post(baseUrl+"/updateText", {
                                 email: localStorage.getItem("talentScopeEmail"),
                                 pass: localStorage.getItem("talentScopePass"),
                                 newText: new_text,
@@ -960,7 +961,7 @@
                           copyText.length
                         ) {
                           await axios
-                            .post("./pdf", {
+                            .post(baseUrl+"/pdf", {
                               data: copyText,
                             })
                             .then((response) => {
@@ -1061,7 +1062,7 @@
                   lang = document.getElementById("lang").value;
 
                   await axios
-                    .post("./sendData", {
+                    .post(baseUrl+"/sendData", {
                       email: localStorage.getItem("talentScopeEmail"),
                       pass: localStorage.getItem("talentScopePass"),
                       jobTitle: jobTitle,
@@ -1179,7 +1180,7 @@
             let signInEmail = document.getElementById("signInEmail").value;
             let signInPass = document.getElementById("signInPass").value;
             axios
-              .post("./signInSendData", {
+              .post(baseUrl+"/signInSendData", {
                 email: signInEmail,
                 pass: signInPass,
               })
@@ -1238,7 +1239,7 @@
             let signUpEmail = document.getElementById("signUpEmail").value;
             let signUpPass = document.getElementById("signUpPass").value;
             axios
-              .post("./signUpSendData", {
+              .post(baseUrl+"/signUpSendData", {
                 email: signUpEmail,
                 pass: signUpPass,
               })
@@ -1300,7 +1301,7 @@
             let signUpEmail = document.getElementById("fPassEmail").value;
             let signUpPass = document.getElementById("fPassPass").value;
             axios
-              .post("./fPassSendData", {
+              .post(baseUrl+"/fPassSendData", {
                 email: signUpEmail,
                 pass: signUpPass,
               })

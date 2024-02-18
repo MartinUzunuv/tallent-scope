@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { jsPDF } from "jspdf";
 import * as postmark from "postmark";
+import cors from "cors";
 
 const url = "http://localhost:3000/";
 
@@ -16,6 +17,8 @@ const openai = new OpenAI({
 const assistId = "asst_iGSyxroyszEAfDtWXTWklRg0";
 
 const app = express();
+
+app.use(cors({ origin: true }));
 
 const uri =
   "mongodb+srv://123:123@ts.urop3ax.mongodb.net/?retryWrites=true&w=majority";
