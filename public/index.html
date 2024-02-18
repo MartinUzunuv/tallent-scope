@@ -193,6 +193,9 @@
 
       #jobDescriptionCopy {
         width: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding: 5px;
         border-radius: 5px;
         border: none;
@@ -205,6 +208,8 @@
         margin-left: 10px;
         margin-right: 10px;
         flex-grow: 1;
+        background-color: black;
+        color: white;
       }
 
       #jobDescriptionCopy:hover {
@@ -213,6 +218,7 @@
 
       #mainFormSubmit {
         width: 30%;
+        height: 40px;
         padding: 5px;
         border-radius: 5px;
         border: none;
@@ -253,6 +259,9 @@
       .dropbtn {
         background-color: #ffffff;
         color: #1f3245;
+        display: flex;
+        justify-content: center;
+        width: 30%;
         border: none;
         padding: 10px;
         /* padding-bottom: 15px; */
@@ -263,6 +272,7 @@
         border: solid #1f3245 1px;
         border-radius: 4px;
         font-weight: 900;
+        font-size: 14px;
       }
 
       /* Dropdown button on hover & focus */
@@ -317,6 +327,8 @@
         border-radius: 3px;
         padding: 10px;
         width: 182px;
+        margin-right: 25px;
+        margin-top: 9px;
       }
 
       #lang option {
@@ -374,6 +386,7 @@
         display: flex;
         align-items: baseline;
         justify-content: flex-end;
+        margin-right: 30px;
       }
 
       /* @media screen and (max-width: 436px) {
@@ -480,8 +493,9 @@
 
       #PageTitle {
         color: white;
-        font-weight: 900;
+        font-weight: 500;
         font-size: 40px;
+        margin-top: 5px;
       }
 
       .dropbtn:hover {
@@ -514,8 +528,9 @@
                 border: solid black 2px;
                 padding: 4px;
                 margin-right: 10px;
-                padding-left: 10px;
-                padding-right: 10px;
+                padding-left: 35px;
+                padding-right: 35px;
+                box-sizing: border-box;
               "
               >History</a
             ><img src="historyIcon.png" width="20px" />
@@ -746,6 +761,7 @@
                   placeholder="JOB TITLE*"
                   required
                   type="text"
+                  style="margin-top: 75px;"
                 />
                 <br />
                 <input
@@ -820,10 +836,11 @@
                     display: flex;
                     align-items: center;
                     justify-content: space-evenly;
+                    width: 100%;
                   "
                 >
                   <!-- <a id="navbarTitle">Talent Scope</a> -->
-
+                  <a id="edit" class="dropbtn" onclick="edit()">Edit</a>
                   <a id="saveAsPDF" class="dropbtn">Save as PDF</a>
                   <a onclick="downloadAsWord()" id="saveAsDOXS" class="dropbtn">
                     Save as DOCX
@@ -853,7 +870,6 @@
                       document.body.removeChild(link);
                     }
                   </script>
-                  <a id="edit" class="dropbtn" onclick="edit()">Edit</a>
                   <script>
                     let editing = false;
                     let editing_text;
@@ -1364,17 +1380,17 @@
         function adjustHeight() {
           console.log(myDiv.offsetWidth);
           if (myDiv.offsetWidth < 288) {
-            document.getElementById("saveAsPDF").style.height = "65px";
-            document.getElementById("saveAsDOXS").style.height = "65px";
-            document.getElementById("edit").style.height = "65px";
+            document.getElementById("saveAsPDF").style.height = "55px";
+            document.getElementById("saveAsDOXS").style.height = "55px";
+            document.getElementById("edit").style.height = "55px";
           } else if (myDiv.offsetWidth < 390) {
-            document.getElementById("saveAsPDF").style.height = "45px";
-            document.getElementById("saveAsDOXS").style.height = "45px";
-            document.getElementById("edit").style.height = "45px";
+            document.getElementById("saveAsPDF").style.height = "20px";
+            document.getElementById("saveAsDOXS").style.height = "20px";
+            document.getElementById("edit").style.height = "20px";
           } else {
-            document.getElementById("saveAsPDF").style.height = "25px";
-            document.getElementById("saveAsDOXS").style.height = "25px";
-            document.getElementById("edit").style.height = "25px";
+            document.getElementById("saveAsPDF").style.height = "20px";
+            document.getElementById("saveAsDOXS").style.height = "20px";
+            document.getElementById("edit").style.height = "20px";
           }
         }
 

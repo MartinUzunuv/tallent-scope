@@ -7,14 +7,16 @@ import { dirname } from "path";
 import { jsPDF } from "jspdf";
 import * as postmark from "postmark";
 import cors from "cors";
+import { config } from "dotenv";
+config();
 
-const url = "http://localhost:3000/";
+const url = "http://35.175.226.121:80/";
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: process.env.OPENAI_KEY,
 });
 
-const assistId = "asst_iGSyxroyszEAfDtWXTWklRg0";
+const assistId = "asst_hjukRSGYHya5q4NqWr2d3r9i";
 
 const app = express();
 
@@ -317,7 +319,6 @@ app.post("/sendData", async (req, res) => {
       email: email,
       pass: pass,
     });
-
     if (checkIfAccountExists) {
       await contactAssistant(
         email,
@@ -435,7 +436,7 @@ app.get("/updatePass/:key/:email", async (req, res) => {
         { $set: { newPass: "", resetKey: "", pass: newPass } }
       );
 
-      res.redirect("http://localhost:3000");
+      res.redirect("http://35.175.226.121:80");
     } else {
       res.send("invalid key");
     }
@@ -492,6 +493,6 @@ app.post("/updateText", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+app.listen(80, () => {
   console.log(`Server is listening at ` + url);
 });
