@@ -514,7 +514,7 @@
       var copyText = "";
       var currentTextDbId = null;
       var historyOpened = false;
-      var baseUrl = "http://35.175.226.121:80"
+      var baseUrl = "http://35.175.226.121:80";
     </script>
 
     <!-- home -->
@@ -566,13 +566,12 @@
                 document.getElementById("histotyItem").style.width = "240px";
                 // document.getElementById("histotyItem").style.display = "block";
                 let elements = document.querySelectorAll("#histotyItem");
-                setTimeout(()=>{
+                setTimeout(() => {
                   elements.forEach(function (element) {
-                  element.style.display = "block";
-                  // element.style.marginLeft = "0px";
-                });
-                },400)
-                
+                    element.style.display = "block";
+                    // element.style.marginLeft = "0px";
+                  });
+                }, 400);
               } else {
                 document.getElementById("historySpace").style.width = "0px";
                 // document.getElementById("histotyItem").style.width = "0px";
@@ -600,16 +599,17 @@
               } else {
                 document.getElementById("historySpace").style.width = "0px";
                 // document.getElementById("histotyItem").style.width = "0px";
-                document.getElementById("histotyItem").style.marginLeft = "-240px";
+                document.getElementById("histotyItem").style.marginLeft =
+                  "-240px";
 
                 // document.getElementById("histotyItem").style.display = "none";
                 let elements = document.querySelectorAll("#histotyItem");
-                setTimeout(()=>{
-                elements.forEach(function (element) {
-                  element.style.display = "none";
-                  // element.style.marginLeft = "-240px";
-                });
-                },400)
+                setTimeout(() => {
+                  elements.forEach(function (element) {
+                    element.style.display = "none";
+                    // element.style.marginLeft = "-240px";
+                  });
+                }, 400);
               }
             }
           }
@@ -623,7 +623,7 @@
             // dropdownContent.classList.toggle("show");
 
             axios
-              .post(baseUrl+"/getHistory", {
+              .post(baseUrl + "/getHistory", {
                 email: localStorage.getItem("talentScopeEmail"),
                 pass: localStorage.getItem("talentScopePass"),
               })
@@ -761,7 +761,7 @@
                   placeholder="JOB TITLE*"
                   required
                   type="text"
-                  style="margin-top: 75px;"
+                  style="margin-top: 75px"
                 />
                 <br />
                 <input
@@ -933,7 +933,7 @@
                           copyText = new_text;
                           if (new_text && currentTextDbId !== null) {
                             axios
-                              .post(baseUrl+"/updateText", {
+                              .post(baseUrl + "/updateText", {
                                 email: localStorage.getItem("talentScopeEmail"),
                                 pass: localStorage.getItem("talentScopePass"),
                                 newText: new_text,
@@ -977,7 +977,7 @@
                           copyText.length
                         ) {
                           await axios
-                            .post(baseUrl+"/pdf", {
+                            .post(baseUrl + "/pdf", {
                               data: copyText,
                             })
                             .then((response) => {
@@ -1078,7 +1078,7 @@
                   lang = document.getElementById("lang").value;
 
                   await axios
-                    .post(baseUrl+"/sendData", {
+                    .post(baseUrl + "/sendData", {
                       email: localStorage.getItem("talentScopeEmail"),
                       pass: localStorage.getItem("talentScopePass"),
                       jobTitle: jobTitle,
@@ -1196,7 +1196,7 @@
             let signInEmail = document.getElementById("signInEmail").value;
             let signInPass = document.getElementById("signInPass").value;
             axios
-              .post(baseUrl+"/signInSendData", {
+              .post(baseUrl + "/signInSendData", {
                 email: signInEmail,
                 pass: signInPass,
               })
@@ -1208,6 +1208,13 @@
                   localStorage.setItem("talentScopePass", signInPass);
                   signIn.style.display = "none";
                   home.style.display = "block";
+                  let url = window.location.href;
+                  if (url.endsWith("#payments")) {
+                    console.log("redirect to payments");
+                  } else if (url.endsWith("#account")) {
+                    home.style.display = "none";
+                    myAccount.style.display = "block";
+                  }
                   document.getElementById("navbarEmail").innerText =
                     signInEmail;
                 }
@@ -1255,7 +1262,7 @@
             let signUpEmail = document.getElementById("signUpEmail").value;
             let signUpPass = document.getElementById("signUpPass").value;
             axios
-              .post(baseUrl+"/signUpSendData", {
+              .post(baseUrl + "/signUpSendData", {
                 email: signUpEmail,
                 pass: signUpPass,
               })
@@ -1267,6 +1274,13 @@
                   localStorage.setItem("talentScopePass", signUpPass);
                   signUp.style.display = "none";
                   home.style.display = "block";
+                  let url = window.location.href;
+                  if (url.endsWith("#payments")) {
+                    console.log("redirect to payments");
+                  } else if (url.endsWith("#account")) {
+                    home.style.display = "none";
+                    myAccount.style.display = "block";
+                  }
                   document.getElementById("navbarEmail").innerText =
                     signUpEmail;
                 }
@@ -1317,7 +1331,7 @@
             let signUpEmail = document.getElementById("fPassEmail").value;
             let signUpPass = document.getElementById("fPassPass").value;
             axios
-              .post(baseUrl+"/fPassSendData", {
+              .post(baseUrl + "/fPassSendData", {
                 email: signUpEmail,
                 pass: signUpPass,
               })
@@ -1413,11 +1427,21 @@
       myAccount.style.display = "none";
       let emailInit = localStorage.getItem("talentScopeEmail");
       let passInit = localStorage.getItem("talentScopePass");
+      let url = window.location.href;
+      if (url.endsWith("#payments")) {
+        console.log("redirect to payments");
+      } else if (url.endsWith("#account")) {
+        myAccount.style.display = "block";
+      }
       if (emailInit && passInit && emailInit !== "null") {
-        // console.log(emailInit, passInit);
         home.style.display = "block";
+        if (url.endsWith("#payments")) {
+          console.log("redirect to payments");
+        } else if (url.endsWith("#account")) {
+          home.style.display = "none";
+          myAccount.style.display = "block";
+        }
       } else {
-        // console.log("no acc");
         signIn.style.display = "block";
       }
     </script>
