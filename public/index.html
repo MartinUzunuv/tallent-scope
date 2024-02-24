@@ -373,6 +373,20 @@
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
+      #accountGoPayments {
+        background-color: black;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 10px;
+        font-weight: 600;
+      }
+
+      #accountGoPayments:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+      }
+
       #navbarTitle {
         font-size: 22px;
       }
@@ -511,10 +525,32 @@
   </head>
   <body>
     <script>
+      function validate() {
+        axios
+          .post(baseUrl + "/validate", {
+            email: localStorage.getItem("talentScopeEmail"),
+            pass: localStorage.getItem("talentScopePass"),
+          })
+          .then((response) => {
+            const res = response.data;
+            if (res.message === "unpayed") {
+              home.style.display = "none";
+              signIn.style.display = "none";
+              signUp.style.display = "none";
+              fPass.style.display = "none";
+              myAccount.style.display = "none";
+              payments.style.display = "block";
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
       var copyText = "";
       var currentTextDbId = null;
       var historyOpened = false;
-      var baseUrl = "http://35.175.226.121:80";
+      // var baseUrl = "http://35.175.226.121:80";
+      var baseUrl = "http://localhost:3000";
     </script>
 
     <!-- home -->
@@ -1214,6 +1250,8 @@
                   } else if (url.endsWith("#account")) {
                     home.style.display = "none";
                     myAccount.style.display = "block";
+                  } else {
+                    validate();
                   }
                   document.getElementById("navbarEmail").innerText =
                     signInEmail;
@@ -1280,6 +1318,8 @@
                   } else if (url.endsWith("#account")) {
                     home.style.display = "none";
                     myAccount.style.display = "block";
+                  } else {
+                    validate();
                   }
                   document.getElementById("navbarEmail").innerText =
                     signUpEmail;
@@ -1362,9 +1402,18 @@
           <button id="logoutButton">Logout</button>
           <br />
           <button id="accountBack">Back</button>
+          <br />
+          <button id="accountGoPayments">Payments</button>
           <script>
             document.getElementById("navbarEmail").innerText =
               localStorage.getItem("talentScopeEmail");
+
+            document
+              .getElementById("accountGoPayments")
+              .addEventListener("click", () => {
+                myAccount.style.display = "none";
+                payments.style.display = "block";
+              });
 
             document
               .getElementById("logoutButton")
@@ -1381,6 +1430,33 @@
               .addEventListener("click", () => {
                 myAccount.style.display = "none";
                 home.style.display = "block";
+                validate();
+              });
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- payments -->
+    <div id="payments">
+      <div class="centerAccountForm">
+        <div class="accountForm">
+          <h1>Payments</h1>
+          <button id="payentsButton">chechout</button>
+          <script>
+            document
+              .getElementById("payentsButton")
+              .addEventListener("click", () => {
+                fetch(baseUrl+"/create-checkout-session", {
+                  method: "POST",
+                })
+                  .then((res) => res.json())
+                  .then(({ url }) => {
+                    window.location = url;
+                  })
+                  .catch((e) => {
+                    console.error(e.error);
+                  });
               });
           </script>
         </div>
@@ -1420,11 +1496,13 @@
       var signIn = document.getElementById("signIn");
       var fPass = document.getElementById("fPass");
       var myAccount = document.getElementById("myAccount");
+      var payments = document.getElementById("payments");
       home.style.display = "none";
       signIn.style.display = "none";
       signUp.style.display = "none";
       fPass.style.display = "none";
       myAccount.style.display = "none";
+      payments.style.display = "none";
       let emailInit = localStorage.getItem("talentScopeEmail");
       let passInit = localStorage.getItem("talentScopePass");
       let url = window.location.href;
@@ -1440,6 +1518,8 @@
         } else if (url.endsWith("#account")) {
           home.style.display = "none";
           myAccount.style.display = "block";
+        } else {
+          validate();
         }
       } else {
         signIn.style.display = "block";

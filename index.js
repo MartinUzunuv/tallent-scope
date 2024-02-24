@@ -9,8 +9,11 @@ import * as postmark from "postmark";
 import cors from "cors";
 import { config } from "dotenv";
 config();
+const { STRIPE_PRIVATE_KEY, STRIPE_PRICE_ID, CLIENT_URL, APP_PORT } =
+  process.env;
 
-const url = "http://35.175.226.121:80/";
+// const url = "http://35.175.226.121:80/";
+const url = CLIENT_URL+"/";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY,
@@ -436,7 +439,7 @@ app.get("/updatePass/:key/:email", async (req, res) => {
         { $set: { newPass: "", resetKey: "", pass: newPass } }
       );
 
-      res.redirect("http://35.175.226.121:80");
+      res.redirect(CLIENT_URL);
     } else {
       res.send("invalid key");
     }
@@ -493,6 +496,124 @@ app.post("/updateText", async (req, res) => {
   }
 });
 
-app.listen(80, () => {
+app.post("/validate", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+
+  try {
+    const account = await collection.findOne({
+      email: email,
+      pass: pass,
+    });
+
+    if (account) {
+      
+      // res.send({ message: "unpayed" });
+      res.send({ message: "ok" });
+    } else {
+      res.send({ message: "wrong name or pass" });
+    }
+  } catch (e) {
+    res.send("error");
+  }
+});
+
+const stripePromise = import("stripe");
+
+let stripe = 0
+
+stripePromise.then((module) => {
+  stripe = module.default(STRIPE_PRIVATE_KEY);
+});
+
+const quantity = 25;
+
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      success_url: `${CLIENT_URL}`,
+      cancel_url: `${CLIENT_URL}`,
+      line_items: [
+        {
+          price: STRIPE_PRICE_ID,
+          quantity: quantity,
+        },
+      ],
+      mode: "subscription",
+    });
+    console.log("session: ", session.id, session.url, session);
+
+    // get id, save to user, return url
+    const sessionId = session.id;
+    console.log("sessionId: ", sessionId);
+
+    // save session.id to the user in your database
+
+    res.json({ url: session.url });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get("/stripe-session", async (req, res) => {
+  console.log("req.body: ", req.body);
+  const { userId } = req.body;
+  console.log("userId: ", userId);
+
+  const db = req.app.get("db");
+
+  // get user from you database
+  const user = {
+    stripe_session_id: "asdfpouhwf;ljnqwfpqo",
+    paid_sub: false,
+  };
+
+  if (!user.stripe_session_id || user.paid_sub === true)
+    return res.send("fail");
+
+  try {
+    // check session
+    const session = await stripe.checkout.sessions.retrieve(
+      user.stripe_session_id
+    );
+    console.log("session: ", session);
+
+    // const sessionResult = {
+    //   id: 'cs_test_a1lpAti8opdtSIDZQIh9NZ6YhqMMwC0H5wrlwkUEYJc6GXokj2g5WyHkv4',
+    //   …
+    //   customer: 'cus_PD6t4AmeZrJ8zq',
+    //   …
+    //   status: 'complete',
+    //   …
+    //   subscription: 'sub_1OOgfhAikiJrlpwD7EQ5TLea',
+    //  …
+    // }
+
+    // update the user
+    if (session && session.status === "complete") {
+      let updatedUser = await db.update_user_stripe(userId, true);
+      updatedUser = updatedUser[0];
+      console.log(updatedUser);
+
+      return res.send("success");
+    } else {
+      return res.send("fail");
+    }
+  } catch (error) {
+    // handle the error
+    console.error(
+      "An error occurred while retrieving the Stripe session:",
+      error
+    );
+    return res.send("fail");
+  }
+});
+
+
+app.listen(APP_PORT, () => {
   console.log(`Server is listening at ` + url);
 });
