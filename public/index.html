@@ -533,7 +533,7 @@
           })
           .then((response) => {
             const res = response.data;
-            if (res.message === "unpayed") {
+            if (res.message !== "ok") {
               home.style.display = "none";
               signIn.style.display = "none";
               signUp.style.display = "none";
@@ -1442,12 +1442,29 @@
       <div class="centerAccountForm">
         <div class="accountForm">
           <h1>Payments</h1>
-          <button id="payentsButton">chechout</button>
+          <button id="payentsButton">29.99</button>
           <script>
             document
               .getElementById("payentsButton")
               .addEventListener("click", () => {
                 fetch(baseUrl+"/create-checkout-session", {
+                  method: "POST",
+                })
+                  .then((res) => res.json())
+                  .then(({ url }) => {
+                    window.location = url;
+                  })
+                  .catch((e) => {
+                    console.error(e.error);
+                  });
+              });
+          </script>
+          <button id="payentsButton2">39.99</button>
+          <script>
+            document
+              .getElementById("payentsButton2")
+              .addEventListener("click", () => {
+                fetch(baseUrl+"/create-checkout-session2", {
                   method: "POST",
                 })
                   .then((res) => res.json())

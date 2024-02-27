@@ -13,7 +13,7 @@ const { STRIPE_PRIVATE_KEY, STRIPE_PRICE_ID, CLIENT_URL, APP_PORT } =
   process.env;
 
 // const url = "http://35.175.226.121:80/";
-const url = CLIENT_URL+"/";
+const url = CLIENT_URL + "/";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY,
@@ -46,10 +46,42 @@ app.use(express.static("public"));
 const postmarkServerToken = "082416e9-c744-445e-ad00-82a61409bc8c";
 const client = new postmark.ServerClient(postmarkServerToken);
 
+const stripePromise = import("stripe");
+
+let stripe = 0;
+
+stripePromise.then((module) => {
+  stripe = module.default(STRIPE_PRIVATE_KEY);
+});
+
 async function getStatus(threadId, runId, callback) {
   const run = await openai.beta.threads.runs.retrieve(threadId, runId);
   const status = run.status;
   callback(status);
+}
+
+async function verifyPay(collection, email, pass, res) {
+  const user = collection.findOne({ email: email, pass: pass });
+
+  if (!user.stripeSessionId) return res.send("fail");
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(
+      user.stripeSessionId
+    );
+
+    if (session && session.status === "complete") {
+      //ok
+    } else {
+      return res.send("fail");
+    }
+  } catch (error) {
+    console.error(
+      "An error occurred while retrieving the Stripe session:",
+      error
+    );
+    return res.send("fail");
+  }
 }
 
 function checkStatus(
@@ -140,7 +172,7 @@ function checkStatus(
         1500
       );
     } else {
-      console.log(status)
+      console.log(status);
       console.log("error");
       res.send({ message: "error try again" });
     }
@@ -245,6 +277,30 @@ function formatString(inputString, maxLineLength) {
   return formattedLines.join("\n");
 }
 
+// async function verifyPayment(res, collection, email, pass) {
+//   const user = collection.findOne({ email: email, pass: pass });
+
+//   if (!user.stripeSessionId) return res.send("fail");
+
+//   try {
+//     const session = await stripe.checkout.sessions.retrieve(
+//       user.stripeSessionId
+//     );
+
+//     if (session && session.status === "complete") {
+//       //payment is ok
+//     } else {
+//       return res.send("fail");
+//     }
+//   } catch (error) {
+//     console.error(
+//       "An error occurred while retrieving the Stripe session:",
+//       error
+//     );
+//     return res.send("fail");
+//   }
+// }
+
 app.get("/", async (req, res) => {
   res.sendFile("index.html", { root: __dirname });
 });
@@ -317,6 +373,8 @@ app.post("/sendData", async (req, res) => {
   const personality = requestData.personality;
   const lang = requestData.lang;
 
+  await verifyPay(collection, email, pass, res);
+
   try {
     const checkIfAccountExists = await collection.findOne({
       email: email,
@@ -358,6 +416,8 @@ app.post("/getHistory", async (req, res) => {
   const requestData = req.body;
   const email = requestData.email;
   const pass = requestData.pass;
+
+  await verifyPay(collection, email, pass, res);
 
   try {
     const account = await collection.findOne({
@@ -455,11 +515,11 @@ app.post("/pdf", (req, res) => {
 
     const lines = formatString(requestData.data, 65).split("\n");
     for (let i = 0; i < lines.length; i += 40) {
-      const chunk = lines.slice(i,i + 40).join("\n");
+      const chunk = lines.slice(i, i + 40).join("\n");
       if (i !== 0) {
         doc.addPage();
       }
-      doc.text(chunk,10,10);
+      doc.text(chunk, 10, 10);
     }
 
     res.setHeader("Content-Type", "application/pdf");
@@ -480,6 +540,9 @@ app.post("/updateText", async (req, res) => {
   const pass = requestData.pass;
   const newText = requestData.newText;
   const currentTextDbId = requestData.currentTextDbId;
+
+  // verifyPayment(res, collection, email, pass);
+  await verifyPay(collection, email, pass, res);
 
   try {
     await collection.updateOne(
@@ -504,35 +567,19 @@ app.post("/validate", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  try {
-    const account = await collection.findOne({
-      email: email,
-      pass: pass,
-    });
+  await verifyPay(collection, email, pass, res);
 
-    if (account) {
-      
-      // res.send({ message: "unpayed" });
-      res.send({ message: "ok" });
-    } else {
-      res.send({ message: "wrong name or pass" });
-    }
-  } catch (e) {
-    res.send("error");
-  }
+  res.send({ message: "ok" });
 });
 
-const stripePromise = import("stripe");
-
-let stripe = 0
-
-stripePromise.then((module) => {
-  stripe = module.default(STRIPE_PRIVATE_KEY);
-});
-
-const quantity = 25;
+const quantity = 29;
 
 app.post("/create-checkout-session", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
   try {
     const session = await stripe.checkout.sessions.create({
       success_url: `${CLIENT_URL}`,
@@ -545,74 +592,62 @@ app.post("/create-checkout-session", async (req, res) => {
       ],
       mode: "subscription",
     });
-    console.log("session: ", session.id, session.url, session);
+    // console.log("session: ", session.id, session.url, session);
 
     // get id, save to user, return url
     const sessionId = session.id;
     console.log("sessionId: ", sessionId);
 
     // save session.id to the user in your database
+    collection.updateOne(
+      { email: email, pass: pass },
+      { $set: { stripeSessionId: sessionId } }
+    );
+
+    res.json({ url: session.url });
+  } catch (e) {
+    // console.log(e)
+    res.status(500).json({ error: e.message });
+  }
+});
+
+const quantity2 = 39;
+
+app.post("/create-checkout-session2", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+  try {
+    const session = await stripe.checkout.sessions.create({
+      success_url: `${CLIENT_URL}`,
+      cancel_url: `${CLIENT_URL}`,
+      line_items: [
+        {
+          price: STRIPE_PRICE_ID,
+          quantity: quantity2,
+        },
+      ],
+      mode: "subscription",
+    });
+    // console.log("session: ", session.id, session.url, session);
+
+    // get id, save to user, return url
+    const sessionId = session.id;
+    console.log("sessionId: ", sessionId);
+
+    // save session.id to the user in your database
+    collection.updateOne(
+      { email: email, pass: pass },
+      { $set: { stripeSessionId: sessionId } }
+    );
 
     res.json({ url: session.url });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
-
-app.get("/stripe-session", async (req, res) => {
-  console.log("req.body: ", req.body);
-  const { userId } = req.body;
-  console.log("userId: ", userId);
-
-  const db = req.app.get("db");
-
-  // get user from you database
-  const user = {
-    stripe_session_id: "asdfpouhwf;ljnqwfpqo",
-    paid_sub: false,
-  };
-
-  if (!user.stripe_session_id || user.paid_sub === true)
-    return res.send("fail");
-
-  try {
-    // check session
-    const session = await stripe.checkout.sessions.retrieve(
-      user.stripe_session_id
-    );
-    console.log("session: ", session);
-
-    // const sessionResult = {
-    //   id: 'cs_test_a1lpAti8opdtSIDZQIh9NZ6YhqMMwC0H5wrlwkUEYJc6GXokj2g5WyHkv4',
-    //   …
-    //   customer: 'cus_PD6t4AmeZrJ8zq',
-    //   …
-    //   status: 'complete',
-    //   …
-    //   subscription: 'sub_1OOgfhAikiJrlpwD7EQ5TLea',
-    //  …
-    // }
-
-    // update the user
-    if (session && session.status === "complete") {
-      let updatedUser = await db.update_user_stripe(userId, true);
-      updatedUser = updatedUser[0];
-      console.log(updatedUser);
-
-      return res.send("success");
-    } else {
-      return res.send("fail");
-    }
-  } catch (error) {
-    // handle the error
-    console.error(
-      "An error occurred while retrieving the Stripe session:",
-      error
-    );
-    return res.send("fail");
-  }
-});
-
 
 app.listen(APP_PORT, () => {
   console.log(`Server is listening at ` + url);
