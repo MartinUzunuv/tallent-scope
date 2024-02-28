@@ -60,27 +60,35 @@ async function getStatus(threadId, runId, callback) {
   callback(status);
 }
 
-async function verifyPay(collection, email, pass, res) {
-  const user = collection.findOne({ email: email, pass: pass });
+async function verifyPay(collection, email, pass) {
+  const user = await collection.findOne({ email: email,pass: pass });
+  
+  console.log(user.stripeSessionId)
 
-  if (!user.stripeSessionId) return res.send("fail");
+  if (!user.stripeSessionId) {
+    return false;
+  }
+
+  console.log(111);
 
   try {
     const session = await stripe.checkout.sessions.retrieve(
       user.stripeSessionId
     );
 
-    if (session && session.status === "complete") {
-      //ok
+console.log(session.status);
+
+    if (session && session.status === "complete" && session.payment_status === "paid") {
+      return true;
     } else {
-      return res.send("fail");
+      return false;
     }
   } catch (error) {
     console.error(
       "An error occurred while retrieving the Stripe session:",
       error
     );
-    return res.send("fail");
+    return false;
   }
 }
 
@@ -277,30 +285,6 @@ function formatString(inputString, maxLineLength) {
   return formattedLines.join("\n");
 }
 
-// async function verifyPayment(res, collection, email, pass) {
-//   const user = collection.findOne({ email: email, pass: pass });
-
-//   if (!user.stripeSessionId) return res.send("fail");
-
-//   try {
-//     const session = await stripe.checkout.sessions.retrieve(
-//       user.stripeSessionId
-//     );
-
-//     if (session && session.status === "complete") {
-//       //payment is ok
-//     } else {
-//       return res.send("fail");
-//     }
-//   } catch (error) {
-//     console.error(
-//       "An error occurred while retrieving the Stripe session:",
-//       error
-//     );
-//     return res.send("fail");
-//   }
-// }
-
 app.get("/", async (req, res) => {
   res.sendFile("index.html", { root: __dirname });
 });
@@ -373,39 +357,43 @@ app.post("/sendData", async (req, res) => {
   const personality = requestData.personality;
   const lang = requestData.lang;
 
-  await verifyPay(collection, email, pass, res);
+  const verified = await verifyPay(collection, email, pass);
 
-  try {
-    const checkIfAccountExists = await collection.findOne({
-      email: email,
-      pass: pass,
-    });
-    if (checkIfAccountExists) {
-      await contactAssistant(
-        email,
-        pass,
-        jobTitle,
-        aboutTheEmployer,
-        salary,
-        remote,
-        locationText,
-        jobType,
-        employmentType,
-        description,
-        requirements,
-        keywords,
-        skills,
-        education,
-        personality,
-        res,
-        collection,
-        lang
-      );
-    } else {
-      res.send({ message: "account error" });
+  if (!verified) {
+    res.send({ message: "not payed" });
+  } else {
+    try {
+      const checkIfAccountExists = await collection.findOne({
+        email: email,
+        pass: pass,
+      });
+      if (checkIfAccountExists) {
+        await contactAssistant(
+          email,
+          pass,
+          jobTitle,
+          aboutTheEmployer,
+          salary,
+          remote,
+          locationText,
+          jobType,
+          employmentType,
+          description,
+          requirements,
+          keywords,
+          skills,
+          education,
+          personality,
+          res,
+          collection,
+          lang
+        );
+      } else {
+        res.send({ message: "account error" });
+      }
+    } catch (e) {
+      res.send("error");
     }
-  } catch (e) {
-    res.send("error");
   }
 });
 
@@ -417,25 +405,31 @@ app.post("/getHistory", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  await verifyPay(collection, email, pass, res);
+  const verified = await verifyPay(collection, email, pass);
 
-  try {
-    const account = await collection.findOne({
-      email: email,
-      pass: pass,
-    });
-
-    if (account) {
-      account.chats.forEach((obj, index) => {
-        obj.id = index;
+  if (!verified) {
+    res.send({ message: "not payed" });
+  } else {
+    try {
+      const account = await collection.findOne({
+        email: email,
+        pass: pass,
       });
-      let historyArray = account.chats.slice(-10) || [];
-      res.send({ message: JSON.stringify(historyArray) });
-    } else {
-      res.send({ message: "wrong name or pass" });
+
+      if (account) {
+        account.chats.forEach((obj, index) => {
+          obj.id = index;
+        });
+        let historyArray = account.chats.slice(-10) || [];
+        res.send({ message: JSON.stringify(historyArray) });
+        return;
+      } else {
+        res.send({ message: "wrong name or pass" });
+        return;
+      }
+    } catch (e) {
+      res.send("error");
     }
-  } catch (e) {
-    res.send("error");
   }
 });
 
@@ -541,21 +535,24 @@ app.post("/updateText", async (req, res) => {
   const newText = requestData.newText;
   const currentTextDbId = requestData.currentTextDbId;
 
-  // verifyPayment(res, collection, email, pass);
-  await verifyPay(collection, email, pass, res);
+  const verified = await verifyPay(collection, email, pass);
 
-  try {
-    await collection.updateOne(
-      {
-        email: email,
-        pass: pass,
-      },
-      { $set: { [`chats.${currentTextDbId}.assistantAnswer`]: newText } }
-    );
+  if (!verified) {
+    res.send({ message: "not payed" });
+  } else {
+    try {
+      await collection.updateOne(
+        {
+          email: email,
+          pass: pass,
+        },
+        { $set: { [`chats.${currentTextDbId}.assistantAnswer`]: newText } }
+      );
 
-    res.send({ message: "ok" });
-  } catch (e) {
-    res.send({ message: "error" });
+      res.send({ message: "ok" });
+    } catch (e) {
+      res.send({ message: "error" });
+    }
   }
 });
 
@@ -567,9 +564,13 @@ app.post("/validate", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  await verifyPay(collection, email, pass, res);
-
-  res.send({ message: "ok" });
+  const verified = await verifyPay(collection, email, pass);
+  
+  if (!verified) {
+    res.send({ message: "not payed" });
+  } else {
+    res.send({ message: "ok" });
+  }
 });
 
 const quantity = 29;
@@ -599,10 +600,12 @@ app.post("/create-checkout-session", async (req, res) => {
     console.log("sessionId: ", sessionId);
 
     // save session.id to the user in your database
-    collection.updateOne(
+    await collection.updateOne(
       { email: email, pass: pass },
       { $set: { stripeSessionId: sessionId } }
     );
+
+    console.log({ email: email, pass: pass });
 
     res.json({ url: session.url });
   } catch (e) {

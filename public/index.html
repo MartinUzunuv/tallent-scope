@@ -1447,15 +1447,17 @@
             document
               .getElementById("payentsButton")
               .addEventListener("click", () => {
-                fetch(baseUrl+"/create-checkout-session", {
-                  method: "POST",
-                })
-                  .then((res) => res.json())
-                  .then(({ url }) => {
+                axios
+                  .post(baseUrl + "/create-checkout-session", {
+                    email: localStorage.getItem("talentScopeEmail"),
+                    pass: localStorage.getItem("talentScopePass"),
+                  })
+                  .then((response) => {
+                    const { url } = response.data;
                     window.location = url;
                   })
-                  .catch((e) => {
-                    console.error(e.error);
+                  .catch((error) => {
+                    console.error(error);
                   });
               });
           </script>
@@ -1464,15 +1466,17 @@
             document
               .getElementById("payentsButton2")
               .addEventListener("click", () => {
-                fetch(baseUrl+"/create-checkout-session2", {
-                  method: "POST",
-                })
-                  .then((res) => res.json())
-                  .then(({ url }) => {
+                axios
+                  .post(baseUrl + "/create-checkout-session2", {
+                    email: localStorage.getItem("talentScopeEmail"),
+                    pass: localStorage.getItem("talentScopePass"),
+                  })
+                  .then((response) => {
+                    const { url } = response.data;
                     window.location = url;
                   })
-                  .catch((e) => {
-                    console.error(e.error);
+                  .catch((error) => {
+                    console.error(error);
                   });
               });
           </script>
