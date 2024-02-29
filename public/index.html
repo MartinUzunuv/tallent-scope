@@ -1454,7 +1454,9 @@
                   })
                   .then((response) => {
                     const { url } = response.data;
-                    window.location = url;
+                    if (url) {
+                      window.location = url;
+                    }
                   })
                   .catch((error) => {
                     console.error(error);
@@ -1473,11 +1475,22 @@
                   })
                   .then((response) => {
                     const { url } = response.data;
-                    window.location = url;
+                    if (url) {
+                      window.location = url;
+                    }
                   })
                   .catch((error) => {
                     console.error(error);
                   });
+              });
+          </script>
+          <button id="paymentsBack">Back</button>
+          <script>
+            document
+              .getElementById("paymentsBack")
+              .addEventListener("click", () => {
+                payments.style.display = "none";
+                myAccount.style.display = "block";
               });
           </script>
         </div>
@@ -1533,15 +1546,31 @@
         myAccount.style.display = "block";
       }
       if (emailInit && passInit && emailInit !== "null") {
-        home.style.display = "block";
-        if (url.endsWith("#payments")) {
-          console.log("redirect to payments");
-        } else if (url.endsWith("#account")) {
-          home.style.display = "none";
-          myAccount.style.display = "block";
-        } else {
-          validate();
-        }
+        axios
+          .post(baseUrl + "/initialLogin", {
+            email: emailInit,
+            pass: passInit,
+          })
+          .then((response) => {
+            const res = response.data;
+            if (res.message !== "ok") {
+              signIn.style.display = "block";
+              home.style.display = "none";
+            } else {
+              home.style.display = "block";
+              if (url.endsWith("#payments")) {
+                console.log("redirect to payments");
+              } else if (url.endsWith("#account")) {
+                home.style.display = "none";
+                myAccount.style.display = "block";
+              } else {
+                validate();
+              }
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } else {
         signIn.style.display = "block";
       }

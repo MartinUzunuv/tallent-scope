@@ -60,34 +60,50 @@ async function getStatus(threadId, runId, callback) {
   callback(status);
 }
 
-async function verifyPay(collection, email, pass) {
-  const user = await collection.findOne({ email: email,pass: pass });
-  
-  console.log(user.stripeSessionId)
+async function verifyPay(collection, email, pass, spend) {
+  const user = await collection.findOne({ email: email, pass: pass });
 
-  if (!user.stripeSessionId) {
-    return false;
-  }
-
-  console.log(111);
-
-  try {
-    const session = await stripe.checkout.sessions.retrieve(
-      user.stripeSessionId
-    );
-
-console.log(session.status);
-
-    if (session && session.status === "complete" && session.payment_status === "paid") {
+  if (user) {
+    if (user.freeTokens > 0) {
+      if (spend) {
+        await collection.updateOne(
+          { email: email, pass: pass },
+          { $set: { freeTokens: user.freeTokens - 1 } }
+        );
+      }
       return true;
     } else {
-      return false;
+      if (!user.stripeSessionId) {
+        return false;
+      }
+
+      console.log(111);
+
+      try {
+        const session = await stripe.checkout.sessions.retrieve(
+          user.stripeSessionId
+        );
+
+        console.log(session.status);
+
+        if (
+          session &&
+          session.status === "complete" &&
+          session.payment_status === "paid"
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        console.error(
+          "An error occurred while retrieving the Stripe session:",
+          error
+        );
+        return false;
+      }
     }
-  } catch (error) {
-    console.error(
-      "An error occurred while retrieving the Stripe session:",
-      error
-    );
+  } else {
     return false;
   }
 }
@@ -301,7 +317,12 @@ app.post("/signUpSendData", async (req, res) => {
     const checkIfAccountExists = await collection.findOne({ email: email });
 
     if (!checkIfAccountExists) {
-      await collection.insertOne({ email: email, pass: pass, chats: [] });
+      await collection.insertOne({
+        email: email,
+        pass: pass,
+        chats: [],
+        freeTokens: 3,
+      });
       res.send({ message: "account created" });
     } else {
       res.send({ message: "email taken" });
@@ -357,7 +378,7 @@ app.post("/sendData", async (req, res) => {
   const personality = requestData.personality;
   const lang = requestData.lang;
 
-  const verified = await verifyPay(collection, email, pass);
+  const verified = await verifyPay(collection, email, pass, true);
 
   if (!verified) {
     res.send({ message: "not payed" });
@@ -405,7 +426,7 @@ app.post("/getHistory", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  const verified = await verifyPay(collection, email, pass);
+  const verified = await verifyPay(collection, email, pass, false);
 
   if (!verified) {
     res.send({ message: "not payed" });
@@ -535,7 +556,7 @@ app.post("/updateText", async (req, res) => {
   const newText = requestData.newText;
   const currentTextDbId = requestData.currentTextDbId;
 
-  const verified = await verifyPay(collection, email, pass);
+  const verified = await verifyPay(collection, email, pass, false);
 
   if (!verified) {
     res.send({ message: "not payed" });
@@ -564,8 +585,8 @@ app.post("/validate", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  const verified = await verifyPay(collection, email, pass);
-  
+  const verified = await verifyPay(collection, email, pass, false);
+
   if (!verified) {
     res.send({ message: "not payed" });
   } else {
@@ -581,36 +602,43 @@ app.post("/create-checkout-session", async (req, res) => {
   const requestData = req.body;
   const email = requestData.email;
   const pass = requestData.pass;
-  try {
-    const session = await stripe.checkout.sessions.create({
-      success_url: `${CLIENT_URL}`,
-      cancel_url: `${CLIENT_URL}`,
-      line_items: [
-        {
-          price: STRIPE_PRICE_ID,
-          quantity: quantity,
-        },
-      ],
-      mode: "subscription",
-    });
-    // console.log("session: ", session.id, session.url, session);
 
-    // get id, save to user, return url
-    const sessionId = session.id;
-    console.log("sessionId: ", sessionId);
+  const verified = await verifyPay(collection, email, pass, false);
 
-    // save session.id to the user in your database
-    await collection.updateOne(
-      { email: email, pass: pass },
-      { $set: { stripeSessionId: sessionId } }
-    );
+  if (!verified) {
+    try {
+      const session = await stripe.checkout.sessions.create({
+        success_url: `${CLIENT_URL}`,
+        cancel_url: `${CLIENT_URL}`,
+        line_items: [
+          {
+            price: STRIPE_PRICE_ID,
+            quantity: quantity,
+          },
+        ],
+        mode: "subscription",
+      });
+      // console.log("session: ", session.id, session.url, session);
 
-    console.log({ email: email, pass: pass });
+      // get id, save to user, return url
+      const sessionId = session.id;
+      console.log("sessionId: ", sessionId);
 
-    res.json({ url: session.url });
-  } catch (e) {
-    // console.log(e)
-    res.status(500).json({ error: e.message });
+      // save session.id to the user in your database
+      await collection.updateOne(
+        { email: email, pass: pass },
+        { $set: { stripeSessionId: sessionId } }
+      );
+
+      console.log({ email: email, pass: pass });
+
+      res.json({ url: session.url });
+    } catch (e) {
+      // console.log(e)
+      res.status(500).json({ error: e.message });
+    }
+  } else {
+    res.send({ message: "already paid" });
   }
 });
 
@@ -622,33 +650,61 @@ app.post("/create-checkout-session2", async (req, res) => {
   const requestData = req.body;
   const email = requestData.email;
   const pass = requestData.pass;
+
+  const verified = await verifyPay(collection, email, pass, false);
+
+  if (!verified) {
+    try {
+      const session = await stripe.checkout.sessions.create({
+        success_url: `${CLIENT_URL}`,
+        cancel_url: `${CLIENT_URL}`,
+        line_items: [
+          {
+            price: STRIPE_PRICE_ID,
+            quantity: quantity2,
+          },
+        ],
+        mode: "subscription",
+      });
+      // console.log("session: ", session.id, session.url, session);
+
+      // get id, save to user, return url
+      const sessionId = session.id;
+      console.log("sessionId: ", sessionId);
+
+      // save session.id to the user in your database
+      collection.updateOne(
+        { email: email, pass: pass },
+        { $set: { stripeSessionId: sessionId } }
+      );
+
+      res.json({ url: session.url });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  } else {
+    res.send({ message: "already paid" });
+  }
+});
+
+app.post("/initialLogin", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+
   try {
-    const session = await stripe.checkout.sessions.create({
-      success_url: `${CLIENT_URL}`,
-      cancel_url: `${CLIENT_URL}`,
-      line_items: [
-        {
-          price: STRIPE_PRICE_ID,
-          quantity: quantity2,
-        },
-      ],
-      mode: "subscription",
-    });
-    // console.log("session: ", session.id, session.url, session);
+    const account = await collection.findOne({ email: email, pass: pass });
 
-    // get id, save to user, return url
-    const sessionId = session.id;
-    console.log("sessionId: ", sessionId);
-
-    // save session.id to the user in your database
-    collection.updateOne(
-      { email: email, pass: pass },
-      { $set: { stripeSessionId: sessionId } }
-    );
-
-    res.json({ url: session.url });
+    if (!account) {
+      res.send({ message: "no account" });
+    } else {
+      res.send({ message: "ok" });
+    }
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    res.send({ message: "error" });
   }
 });
 
