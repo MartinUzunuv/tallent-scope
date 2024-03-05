@@ -144,7 +144,7 @@
         color: #5c6771;
         border: none;
         padding: 10px;
-        margin: 10px;
+        margin: 0px 10px 10px 10px;
         border-radius: 3px;
         border: solid #dcdcdc 1px;
         width: 85%;
@@ -188,7 +188,7 @@
       }
 
       #jobDescriptionClear:hover {
-        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #jobDescriptionCopy {
@@ -213,7 +213,7 @@
       }
 
       #jobDescriptionCopy:hover {
-        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #mainFormSubmit {
@@ -326,12 +326,14 @@
         border: solid black 2px;
         border-radius: 3px;
         padding: 10px;
-        width: 182px;
+        width: 210px;
         margin-right: 25px;
         margin-top: 9px;
+        font-size: 14px;
+        font-weight: 900;
       }
 
-      #lang option {
+      #lang >option {
         background-color: white;
         color: #4c5c6b;
         border: none;
@@ -514,6 +516,15 @@
 
       .dropbtn:hover {
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+      }
+
+      .labelForInputs{
+        color: black;
+        font-weight: 900;
+        font-size: 13px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
       }
 
       @media screen and (max-width: 720px) {
@@ -779,72 +790,76 @@
               </div> -->
                 <div style="width: 100%; text-align: right">
                   <select name="lang" id="lang">
+                    <option value="" disabled selected hidden>CHOOSE LANGUAGE</option>
                     <option value="english">English</option>
-                    <option value="russian">Russian</option>
+                    <option value="german">German</option>
                     <option value="spanish">Spanish</option>
-                    <option value="japanese">Japanese</option>
-                    <option value="mandarin">Mandarin</option>
-                    <option value="hindi">Hindi</option>
-                    <option value="arabic">Arabic</option>
                     <option value="french">French</option>
                     <option value="portuguese">Portuguese</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="russian">Russian</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="arabic">Arabic</option>
                   </select>
                 </div>
 
                 <br />
-                <input
-                  id="jobTitle"
-                  placeholder="JOB TITLE*"
-                  required
-                  type="text"
-                  style="margin-top: 75px"
-                />
+                <label for="jobTitle" class="labelForInputs" style="margin-top: 15px">Job Title</label>
+                <input id="jobTitle" placeholder="E.g., Senior Developer" required type="text"/>
                 <br />
-                <input
-                  id="aboutTheEmployer"
-                  placeholder="ABOUT THE EMPLOYER"
-                  type="text"
-                />
+                <label for="aboutTheEmployer" class="labelForInputs" >ABOUT THE EMPLOYER</label>
+                <input id="aboutTheEmployer" placeholder="E.g., Innovative tech company" type="text"/>
                 <br />
-                <input id="salary" placeholder="SALARY" type="text" />
+                <label for="salary" class="labelForInputs" >SALARY</label>
+                <input id="salary" placeholder="E.g., $50,000" type="text" />
                 <br />
-                <input id="remote" placeholder="REMOTE" type="text" />
+                <label for="remote" class="labelForInputs" >REMOTE</label>
+                <input id="remote" placeholder="E.g., fully remote" type="text" />
                 <br />
-                <input id="locationText" placeholder="LOCATION" type="text" />
+                <label for="locationText" class="labelForInputs" >LOCATION</label>
+                <input id="locationText" placeholder="E.g., New York" type="text" />
                 <br />
-                <input id="jobType" placeholder="JOB TYPE" type="text" />
+                <label for="jobType" class="labelForInputs" >JOB TYPE</label>
+                <input id="jobType" placeholder="E.g., Full-time" type="text" />
                 <br />
+                <label for="employmentType" class="labelForInputs" >EMPLOYMENT TYPE</label>
                 <input
                   id="employmentType"
-                  placeholder="EMPLOYMENT TYPE"
+                  placeholder="E.g., Contract"
                   type="text"
                 />
                 <br />
+                <label for="description" class="labelForInputs" >DESCRIPTION</label>
                 <input
                   id="description"
-                  placeholder="DESCRIPTION*"
+                  placeholder="E.g., Lead a team of..."
                   required
                   type="text"
                 />
                 <br />
+                <label for="requirements" class="labelForInputs" >REQUIREMENTS</label>
                 <input
                   id="requirements"
-                  placeholder="REQUIREMENTS"
+                  placeholder="E.g., 5+ years of..."
                   type="text"
                 />
                 <br />
+                <label for="keywords" class="labelForInputs" >KEYWORDS</label>
                 <input
                   id="keywords"
-                  placeholder="KEYWORDS*"
+                  placeholder="E.g., Python, AI"
                   required
                   type="text"
                 />
                 <br />
-                <input id="skills" placeholder="SKILLS" type="text" />
+                <label for="skills" class="labelForInputs" >SKILLS</label>
+                <input id="skills" placeholder="E.g., Problem-solving" type="text" />
                 <br />
-                <input id="education" placeholder="EDUCATION" type="text" />
+                <label for="education" class="labelForInputs" >EDUCATION</label>
+                <input id="education" placeholder="E.g., Bachelor's" type="text" />
                 <br />
-                <input id="personality" placeholder="PERSONALITY" type="text" />
+                <label for="personality" class="labelForInputs" >PERSONALITY</label>
+                <input id="personality" placeholder="E.g., Innovative" type="text" />
               </div>
               <!-- <div>
             <input type="submit" value="Submit" />
@@ -927,7 +942,7 @@
                           container.append(textarea);
                           textarea.id = "jobDescriptionResult";
                           const button = document.getElementById("edit");
-                          button.innerHTML = "Stop editing and save";
+                          button.innerHTML = "Stop editing";
 
                           let new_text = "";
                           for (const texte of texts)
@@ -960,7 +975,7 @@
                           container.append(a);
                           a.id = "jobDescriptionResult";
                           const button = document.getElementById("edit");
-                          button.innerHTML = "edit";
+                          button.innerHTML = "Edit";
 
                           let new_text = "";
                           for (const texte of texts) new_text += `${texte} \n`;
@@ -1065,6 +1080,7 @@
                 .getElementById("jobDescriptionCopy")
                 .addEventListener("click", () => {
                   if (copyText !== null && copyText !== "" && copyText.length) {
+                    console.log(copyText);
                     navigator.clipboard.writeText(copyText);
                     document.getElementById("jobDescriptionCopy").innerText =
                       "COPY✅";
@@ -1435,6 +1451,27 @@
           </script>
         </div>
       </div>
+      <div id="mainForm" class="mainFormAndDescription" style="margin-top: 0px; padding-top: 0px">
+        <div id="mainFormQuestionsQuestion">
+          <br />
+          <input id="jobTitle" placeholder="First Name" required type="text"/>
+          <br />
+        
+          <input id="aboutTheEmployer" placeholder="Last Name" type="text"/>
+          <br />
+          
+          <input id="salary" placeholder="Email" type="text" />
+          <br />
+          
+          <input id="remote" placeholder="Location" type="text" />
+          <br />
+        
+          <input id="jobType" placeholder="Company" type="text" />
+          <br />
+          <input id="employmentType" placeholder="Number" type="text" />
+          <br />
+        </div>
+      </div>
     </div>
 
     <!-- payments -->
@@ -1498,30 +1535,26 @@
     </div>
 
     <script>
-      window.addEventListener("DOMContentLoaded", function () {
-        var myDiv = document.getElementById("buttonContainerSaveAndEdit");
-
-        function adjustHeight() {
-          console.log(myDiv.offsetWidth);
-          if (myDiv.offsetWidth < 288) {
-            document.getElementById("saveAsPDF").style.height = "55px";
-            document.getElementById("saveAsDOXS").style.height = "55px";
-            document.getElementById("edit").style.height = "55px";
-          } else if (myDiv.offsetWidth < 390) {
-            document.getElementById("saveAsPDF").style.height = "20px";
-            document.getElementById("saveAsDOXS").style.height = "20px";
-            document.getElementById("edit").style.height = "20px";
-          } else {
-            document.getElementById("saveAsPDF").style.height = "20px";
-            document.getElementById("saveAsDOXS").style.height = "20px";
-            document.getElementById("edit").style.height = "20px";
-          }
+    window.addEventListener("DOMContentLoaded", function () {
+      function adjustHeight() {
+        var screenWidth = window.innerWidth; 
+        console.log(screenWidth);
+        if (screenWidth < 700) {
+          document.getElementById("saveAsPDF").style.height = "auto";
+          document.getElementById("saveAsDOXS").style.height = "auto";
+          document.getElementById("edit").style.height = "auto";
+        } else {
+          document.getElementById("saveAsPDF").style.height = "20px";
+          document.getElementById("saveAsDOXS").style.height = "20px";
+          document.getElementById("edit").style.height = "20px";
         }
+      }
 
-        adjustHeight();
+    adjustHeight();
 
-        window.addEventListener("resize", adjustHeight);
-      });
+    window.addEventListener("resize", adjustHeight);
+    });
+
     </script>
 
     <script>

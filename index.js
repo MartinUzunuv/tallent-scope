@@ -19,7 +19,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY,
 });
 
-const assistId = "asst_hjukRSGYHya5q4NqWr2d3r9i";
+const assistId = "asst_iGSyxroyszEAfDtWXTWklRg0";
 
 const app = express();
 
