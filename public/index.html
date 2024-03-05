@@ -345,47 +345,21 @@
         border-radius: 0px;
       }
 
-      #logoutButton {
-        background-color: black;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        padding: 10px;
-        font-weight: 600;
-      }
+     .accountField {
+      background-color: white;
+      border: solid 1px rgb(158, 157, 157);
+      font-weight: 800;
+      font-size: 15px;
+      color: #1f3245;
+      padding: 9px;
+      width: 300px;
+      margin: 25px;
+      margin-left: 40px;
+     }
 
-      #logoutButton:hover {
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
-      }
-
-      #accountBack {
-        background-color: black;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        padding: 10px;
-        font-weight: 600;
-      }
-
-      #accountBack:hover {
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
-      }
-
-      #accountGoPayments {
-        background-color: black;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        padding: 10px;
-        font-weight: 600;
-      }
-
-      #accountGoPayments:hover {
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
-      }
+     #myAccount {
+      background-color: #d6e6f5;
+     }
 
       #navbarTitle {
         font-size: 22px;
@@ -1395,15 +1369,22 @@
 
     <!-- my account -->
     <div id="myAccount">
-      <div class="centerAccountForm">
-        <div class="accountForm">
-          <a id="navbarEmail"></a>
+      <!-- <div class="centerAccountForm"> -->
+        <!-- <div class="accountForm"> -->
+          <input class="accountField" type="text" placeholder="First name">
+          <input class="accountField" type="text" placeholder="Last name">
           <br />
-          <button id="logoutButton">Logout</button>
+          <button class="accountField" id="navbarEmail"></button>
           <br />
-          <button id="accountBack">Back</button>
+          <input class="accountField" type="text" placeholder="Address">
           <br />
-          <button id="accountGoPayments">Payments</button>
+          <input class="accountField" type="text" placeholder="Country">
+          <br />
+          <button class="accountField" id="logoutButton">Logout</button>
+          <br />
+          <button class="accountField" id="accountBack">Back</button>
+          <br />
+          <button class="accountField" id="accountGoPayments">Payments</button>
           <script>
             document.getElementById("navbarEmail").innerText =
               localStorage.getItem("talentScopeEmail");
@@ -1433,8 +1414,8 @@
                 validate();
               });
           </script>
-        </div>
-      </div>
+        <!-- </div> -->
+      <!-- </div> -->
     </div>
 
     <!-- payments -->
