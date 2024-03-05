@@ -333,7 +333,7 @@
         font-weight: 900;
       }
 
-      #lang >option {
+      #lang > option {
         background-color: white;
         color: #4c5c6b;
         border: none;
@@ -345,48 +345,6 @@
 
       #lang::-ms-expand {
         border-radius: 0px;
-      }
-
-      #logoutButton {
-        background-color: black;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        padding: 10px;
-        font-weight: 600;
-      }
-
-      #logoutButton:hover {
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
-      }
-
-      #accountBack {
-        background-color: black;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        padding: 10px;
-        font-weight: 600;
-      }
-
-      #accountBack:hover {
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
-      }
-
-      #accountGoPayments {
-        background-color: black;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        padding: 10px;
-        font-weight: 600;
-      }
-
-      #accountGoPayments:hover {
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #navbarTitle {
@@ -518,7 +476,7 @@
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
-      .labelForInputs{
+      .labelForInputs {
         color: black;
         font-weight: 900;
         font-size: 13px;
@@ -531,6 +489,22 @@
         #PageTitle {
           display: none;
         }
+      }
+
+      .accountButton {
+        background-color: white;
+        border: solid 1px rgb(130, 130, 130);
+        text-align: center;
+        width: 300px;
+        font-weight: 800;
+        font-size: 15px;
+        margin: 30px;
+        padding: 15px;
+        margin-bottom: 5px;
+      }
+
+      #myAccount {
+        background-color: #d6e6f5;
       }
     </style>
   </head>
@@ -790,7 +764,9 @@
               </div> -->
                 <div style="width: 100%; text-align: right">
                   <select name="lang" id="lang">
-                    <option value="" disabled selected hidden>CHOOSE LANGUAGE</option>
+                    <option value="" disabled selected hidden>
+                      CHOOSE LANGUAGE
+                    </option>
                     <option value="english">English</option>
                     <option value="german">German</option>
                     <option value="spanish">Spanish</option>
@@ -804,32 +780,62 @@
                 </div>
 
                 <br />
-                <label for="jobTitle" class="labelForInputs" style="margin-top: 15px">Job Title</label>
-                <input id="jobTitle" placeholder="E.g., Senior Developer" required type="text"/>
+                <label
+                  for="jobTitle"
+                  class="labelForInputs"
+                  style="margin-top: 15px"
+                  >Job Title</label
+                >
+                <input
+                  id="jobTitle"
+                  placeholder="E.g., Senior Developer"
+                  required
+                  type="text"
+                />
                 <br />
-                <label for="aboutTheEmployer" class="labelForInputs" >ABOUT THE EMPLOYER</label>
-                <input id="aboutTheEmployer" placeholder="E.g., Innovative tech company" type="text"/>
+                <label for="aboutTheEmployer" class="labelForInputs"
+                  >ABOUT THE EMPLOYER</label
+                >
+                <input
+                  id="aboutTheEmployer"
+                  placeholder="E.g., Innovative tech company"
+                  type="text"
+                />
                 <br />
-                <label for="salary" class="labelForInputs" >SALARY</label>
+                <label for="salary" class="labelForInputs">SALARY</label>
                 <input id="salary" placeholder="E.g., $50,000" type="text" />
                 <br />
-                <label for="remote" class="labelForInputs" >REMOTE</label>
-                <input id="remote" placeholder="E.g., fully remote" type="text" />
+                <label for="remote" class="labelForInputs">REMOTE</label>
+                <input
+                  id="remote"
+                  placeholder="E.g., fully remote"
+                  type="text"
+                />
                 <br />
-                <label for="locationText" class="labelForInputs" >LOCATION</label>
-                <input id="locationText" placeholder="E.g., New York" type="text" />
+                <label for="locationText" class="labelForInputs"
+                  >LOCATION</label
+                >
+                <input
+                  id="locationText"
+                  placeholder="E.g., New York"
+                  type="text"
+                />
                 <br />
-                <label for="jobType" class="labelForInputs" >JOB TYPE</label>
+                <label for="jobType" class="labelForInputs">JOB TYPE</label>
                 <input id="jobType" placeholder="E.g., Full-time" type="text" />
                 <br />
-                <label for="employmentType" class="labelForInputs" >EMPLOYMENT TYPE</label>
+                <label for="employmentType" class="labelForInputs"
+                  >EMPLOYMENT TYPE</label
+                >
                 <input
                   id="employmentType"
                   placeholder="E.g., Contract"
                   type="text"
                 />
                 <br />
-                <label for="description" class="labelForInputs" >DESCRIPTION</label>
+                <label for="description" class="labelForInputs"
+                  >DESCRIPTION</label
+                >
                 <input
                   id="description"
                   placeholder="E.g., Lead a team of..."
@@ -837,14 +843,16 @@
                   type="text"
                 />
                 <br />
-                <label for="requirements" class="labelForInputs" >REQUIREMENTS</label>
+                <label for="requirements" class="labelForInputs"
+                  >REQUIREMENTS</label
+                >
                 <input
                   id="requirements"
                   placeholder="E.g., 5+ years of..."
                   type="text"
                 />
                 <br />
-                <label for="keywords" class="labelForInputs" >KEYWORDS</label>
+                <label for="keywords" class="labelForInputs">KEYWORDS</label>
                 <input
                   id="keywords"
                   placeholder="E.g., Python, AI"
@@ -852,14 +860,28 @@
                   type="text"
                 />
                 <br />
-                <label for="skills" class="labelForInputs" >SKILLS</label>
-                <input id="skills" placeholder="E.g., Problem-solving" type="text" />
+                <label for="skills" class="labelForInputs">SKILLS</label>
+                <input
+                  id="skills"
+                  placeholder="E.g., Problem-solving"
+                  type="text"
+                />
                 <br />
-                <label for="education" class="labelForInputs" >EDUCATION</label>
-                <input id="education" placeholder="E.g., Bachelor's" type="text" />
+                <label for="education" class="labelForInputs">EDUCATION</label>
+                <input
+                  id="education"
+                  placeholder="E.g., Bachelor's"
+                  type="text"
+                />
                 <br />
-                <label for="personality" class="labelForInputs" >PERSONALITY</label>
-                <input id="personality" placeholder="E.g., Innovative" type="text" />
+                <label for="personality" class="labelForInputs"
+                  >PERSONALITY</label
+                >
+                <input
+                  id="personality"
+                  placeholder="E.g., Innovative"
+                  type="text"
+                />
               </div>
               <!-- <div>
             <input type="submit" value="Submit" />
@@ -1411,67 +1433,77 @@
 
     <!-- my account -->
     <div id="myAccount">
-      <div class="centerAccountForm">
-        <div class="accountForm">
-          <a id="navbarEmail"></a>
-          <br />
-          <button id="logoutButton">Logout</button>
-          <br />
-          <button id="accountBack">Back</button>
-          <br />
-          <button id="accountGoPayments">Payments</button>
-          <script>
-            document.getElementById("navbarEmail").innerText =
-              localStorage.getItem("talentScopeEmail");
+      <!-- <div class="centerAccountForm"> -->
+      <!-- <div class="accountForm"> -->
+      <button class="accountButton" id="navbarEmail"></button>
+      <br />
+      <button class="accountButton" id="accountBack">Back</button>
+      <br />
+      <!-- <button class="accountButton" id="accountGoPayments">Payments</button> -->
+      <!-- </div> -->
+      <!-- </div> -->
 
-            document
-              .getElementById("accountGoPayments")
-              .addEventListener("click", () => {
-                myAccount.style.display = "none";
-                payments.style.display = "block";
-              });
+      <br />
+      <input
+        class="accountButton"
+        placeholder="First Name"
+        required
+        type="text"
+      />
 
-            document
-              .getElementById("logoutButton")
-              .addEventListener("click", () => {
-                localStorage.setItem("talentScopeEmail", null);
-                localStorage.setItem("talentScopePass", null);
-                home.style.display = "none";
-                signIn.style.display = "block";
-                location.reload();
-              });
+      <input class="accountButton" placeholder="Last Name" type="text" />
+      <br />
 
-            document
-              .getElementById("accountBack")
-              .addEventListener("click", () => {
-                myAccount.style.display = "none";
-                home.style.display = "block";
-                validate();
-              });
-          </script>
-        </div>
-      </div>
-      <div id="mainForm" class="mainFormAndDescription" style="margin-top: 0px; padding-top: 0px">
-        <div id="mainFormQuestionsQuestion">
-          <br />
-          <input id="jobTitle" placeholder="First Name" required type="text"/>
-          <br />
-        
-          <input id="aboutTheEmployer" placeholder="Last Name" type="text"/>
-          <br />
-          
-          <input id="salary" placeholder="Email" type="text" />
-          <br />
-          
-          <input id="remote" placeholder="Location" type="text" />
-          <br />
-        
-          <input id="jobType" placeholder="Company" type="text" />
-          <br />
-          <input id="employmentType" placeholder="Number" type="text" />
-          <br />
-        </div>
-      </div>
+      <input class="accountButton" placeholder="Email" type="text" />
+      <br />
+
+      <input class="accountButton" placeholder="Location" type="text" />
+      <br />
+
+      <input class="accountButton" placeholder="Company" type="text" />
+      <br />
+      <input class="accountButton" placeholder="Number" type="text" />
+      <br />
+
+      <button class="accountButton">My subscribtions</button>
+      <button class="accountButton">Active</button>
+      <button class="accountButton">Cancel</button>
+      <br />
+      <button class="accountButton">My plan</button>
+      <button class="accountButton">Monthly</button>
+      <button class="accountButton">Yearly</button>
+      <br />
+      <button style="background-color: rgb(240, 215, 219); border-color: crimson;" class="accountButton" id="logoutButton">Logout</button>
+      <br />
+      <br />
+      <br />
+      <script>
+        document.getElementById("navbarEmail").innerText =
+          localStorage.getItem("talentScopeEmail");
+
+        document
+          .getElementById("accountGoPayments")
+          .addEventListener("click", () => {
+            myAccount.style.display = "none";
+            payments.style.display = "block";
+          });
+
+        document
+          .getElementById("logoutButton")
+          .addEventListener("click", () => {
+            localStorage.setItem("talentScopeEmail", null);
+            localStorage.setItem("talentScopePass", null);
+            home.style.display = "none";
+            signIn.style.display = "block";
+            location.reload();
+          });
+
+        document.getElementById("accountBack").addEventListener("click", () => {
+          myAccount.style.display = "none";
+          home.style.display = "block";
+          validate();
+        });
+      </script>
     </div>
 
     <!-- payments -->
@@ -1535,26 +1567,25 @@
     </div>
 
     <script>
-    window.addEventListener("DOMContentLoaded", function () {
-      function adjustHeight() {
-        var screenWidth = window.innerWidth; 
-        console.log(screenWidth);
-        if (screenWidth < 700) {
-          document.getElementById("saveAsPDF").style.height = "auto";
-          document.getElementById("saveAsDOXS").style.height = "auto";
-          document.getElementById("edit").style.height = "auto";
-        } else {
-          document.getElementById("saveAsPDF").style.height = "20px";
-          document.getElementById("saveAsDOXS").style.height = "20px";
-          document.getElementById("edit").style.height = "20px";
+      window.addEventListener("DOMContentLoaded", function () {
+        function adjustHeight() {
+          var screenWidth = window.innerWidth;
+          console.log(screenWidth);
+          if (screenWidth < 700) {
+            document.getElementById("saveAsPDF").style.height = "auto";
+            document.getElementById("saveAsDOXS").style.height = "auto";
+            document.getElementById("edit").style.height = "auto";
+          } else {
+            document.getElementById("saveAsPDF").style.height = "20px";
+            document.getElementById("saveAsDOXS").style.height = "20px";
+            document.getElementById("edit").style.height = "20px";
+          }
         }
-      }
 
-    adjustHeight();
+        adjustHeight();
 
-    window.addEventListener("resize", adjustHeight);
-    });
-
+        window.addEventListener("resize", adjustHeight);
+      });
     </script>
 
     <script>
