@@ -523,6 +523,7 @@
       }
       .plans{
         display: flex;
+        gap: 40px;
       }
       .back-button{
         display: flex;
@@ -592,6 +593,29 @@
       .empty-payment{
         height: 24px;
       }
+
+      .title-payments{
+        font-size: 30px;
+        font-weight: 800;
+        margin-bottom:60px;
+      }
+
+      #paymentsBack{
+        background: black;
+        color: white;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        border: 1px solid black;
+      }
+
+      #paymentsBack:hover {
+        background: white;
+        color: black;
+      }
+
       /* END */
     </style>
   </head>
@@ -1691,6 +1715,9 @@
     <!-- payments -->
     <div id="payments">
       <div class="all-payments">
+        <div class="title-payments">
+          The Best Pricing Plan
+        </div>
         <div class="plans">
           <div class="card">
             <div class="best-payment">Best Value</div>  
@@ -1700,8 +1727,7 @@
                   <span>29.99</span>
               </div>
             <p>$359 Every Year</p>
-            <button class="select">Select</button>
-            <button id="payentsButton">29.99</button>
+            <button id="payentsButton" class="select">Select</button>
             <script>
               document
                 .getElementById("payentsButton")
@@ -1731,8 +1757,7 @@
               <span>39.99</span>
             </div>
             <p>Every Month</p>
-            <button class="select">Select</button>
-            <button id="payentsButton2">39.99</button>
+            <button id="payentsButton2" class="select">Select</button>
             <script>
               document
                 .getElementById("payentsButton2")
