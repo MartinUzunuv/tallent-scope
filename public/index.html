@@ -234,7 +234,7 @@
       }
 
       #mainFormSubmit:hover {
-        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #jobDescriptionResult {
@@ -526,6 +526,8 @@
       .plans{
         display: flex;
         gap: 40px;
+        flex-wrap: wrap;
+        margin: 30px;
       }
       .back-button{
         display: flex;
@@ -1665,15 +1667,12 @@
                 console.error(error);
               });
           });
+        
       </script>
 
-      <button class="accountButton" id="accountGoPayments">My subscribtions</button>
-      <button class="accountButton">Active</button>
-      <button class="accountButton">Cancel</button>
+      <button class="accountButton" id="accountManageSub">My subscribtions</button>
       <br />
-      <button class="accountButton">My plan</button>
-      <button class="accountButton">Monthly</button>
-      <button class="accountButton">Yearly</button>
+      <button class="accountButton" id="accountGoPayments">My plan</button>
       <br />
       <button
         style="background-color: rgb(240, 215, 219); border-color: crimson"
@@ -1798,7 +1797,24 @@
         function adjustHeight() {
           var screenWidth = window.innerWidth;
           console.log(screenWidth);
-          if (screenWidth < 700) {
+          if(screenWidth < 420) {
+            document.getElementById("accountGoPayments").style.width = "280px";
+            document.getElementById("accountUpdateInfo").style.width = "280px";
+            document.getElementById("logoutButton").style.width = "280px";
+            document.getElementById("accountManageSub").style.width = "280px";
+            document.getElementById("accountBack").style.width = "280px";
+            document.getElementById("accountFirstName").style.width = "250px";
+            document.getElementById("accountLastName").style.width = "250px";
+            document.getElementById("accountLacation").style.width = "250px";
+            document.getElementById("accountCompany").style.width = "250px";
+            document.getElementById("accountNumner").style.width = "250px";
+            document.getElementById("accountBack").style.width = "250px";
+            document.getElementById("navbarEmail").style.width = "250px";
+            document.getElementById("historyOpenButton").style.borderRight = "none";
+            document.getElementById("historyOpenButton").style.margin = "10px 0px 0px 0px";
+            document.getElementById("openMyAccount").style.margin = "20px 0px 10px 40px";
+            
+          }else if (screenWidth < 700) {
             document.getElementById("saveAsPDF").style.height = "auto";
             document.getElementById("saveAsDOXS").style.height = "auto";
             document.getElementById("edit").style.height = "auto";
@@ -1806,6 +1822,20 @@
             document.getElementById("saveAsPDF").style.height = "20px";
             document.getElementById("saveAsDOXS").style.height = "20px";
             document.getElementById("edit").style.height = "20px";
+          }
+          if(screenWidth > 420) {
+            document.getElementById("accountGoPayments").style.width = "330px";
+            document.getElementById("accountUpdateInfo").style.width = "330px";
+            document.getElementById("logoutButton").style.width = "330px";
+            document.getElementById("accountManageSub").style.width = "330px";
+            document.getElementById("accountBack").style.width = "330px";
+            document.getElementById("accountFirstName").style.width = "300px";
+            document.getElementById("accountLastName").style.width = "300px";
+            document.getElementById("accountLacation").style.width = "300px";
+            document.getElementById("accountCompany").style.width = "300px";
+            document.getElementById("accountNumner").style.width = "300px";
+            document.getElementById("accountBack").style.width = "300px";
+            document.getElementById("navbarEmail").style.width = "300px";
           }
         }
 
