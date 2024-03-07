@@ -329,7 +329,7 @@
         width: 210px;
         margin-right: 25px;
         margin-top: 9px;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 900;
       }
 
@@ -506,6 +506,93 @@
       #myAccount {
         background-color: #d6e6f5;
       }
+
+      /* Payment styles */
+      .all-payments {
+        width: 100%;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        gap: 20px;
+      }
+      .plans{
+        display: flex;
+      }
+      .back-button{
+        display: flex;
+      }
+      .card-h2{
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        margin: 0 10px;
+        padding: 20px;
+        width: 200px;
+        height: 220px;
+        text-align: center;
+      }
+      /* .card:hover {
+        border: 2px solid #007bff;
+      } */
+      .card .price {
+        font-size: 48px;
+        margin: 20px 0;
+      }
+      .card .price span {
+        font-size: 40px;
+        vertical-align: super;
+      }
+      .card .select {
+        background: white;
+        color: black;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        border: 1px solid black;
+      }
+      .card .select:hover {
+        background: black;
+        color: white;
+      }
+      .card p {
+        color: #666;
+        margin: 5px 0;
+      }
+      .dollar-payment {
+        font-size: 40px; 
+      }
+      .price {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .best-payment{
+        width: 60%;
+        background:black;
+        color: white;
+        font-size: 21px;
+        position: relative;
+        top: -30px;
+        left: 50%;
+        transform: translate(-50%);
+        z-index: 2;
+      }
+      .empty-payment{
+        height: 24px;
+      }
+      /* END */
     </style>
   </head>
   <body>
@@ -1437,7 +1524,6 @@
       <!-- <div class="accountForm"> -->
       <button class="accountButton" id="accountBack">Back</button>
       <br />
-      <!-- <button class="accountButton" id="accountGoPayments">Payments</button> -->
       <!-- </div> -->
       <!-- </div> -->
 
@@ -1555,7 +1641,7 @@
           });
       </script>
 
-      <button class="accountButton">My subscribtions</button>
+      <button class="accountButton" id="accountGoPayments">My subscribtions</button>
       <button class="accountButton">Active</button>
       <button class="accountButton">Cancel</button>
       <br />
@@ -1604,64 +1690,82 @@
 
     <!-- payments -->
     <div id="payments">
-      <div class="centerAccountForm">
-        <div class="accountForm">
-          <h1>Payments</h1>
-          <button id="payentsButton">29.99</button>
-          <script>
-            document
-              .getElementById("payentsButton")
-              .addEventListener("click", () => {
-                axios
-                  .post(baseUrl + "/create-checkout-session", {
-                    email: localStorage.getItem("talentScopeEmail"),
-                    pass: localStorage.getItem("talentScopePass"),
-                  })
-                  .then((response) => {
-                    const { url } = response.data;
-                    if (url) {
-                      window.location = url;
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              });
-          </script>
-          <button id="payentsButton2">39.99</button>
-          <script>
-            document
-              .getElementById("payentsButton2")
-              .addEventListener("click", () => {
-                axios
-                  .post(baseUrl + "/create-checkout-session2", {
-                    email: localStorage.getItem("talentScopeEmail"),
-                    pass: localStorage.getItem("talentScopePass"),
-                  })
-                  .then((response) => {
-                    const { url } = response.data;
-                    if (url) {
-                      window.location = url;
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              });
-          </script>
-          <button id="paymentsBack">Back</button>
-          <script>
-            document
-              .getElementById("paymentsBack")
-              .addEventListener("click", () => {
-                payments.style.display = "none";
-                myAccount.style.display = "block";
-              });
-          </script>
+      <div class="all-payments">
+        <div class="plans">
+          <div class="card">
+            <div class="best-payment">Best Value</div>  
+            <div class="card-h2">Yearly</div>
+              <div class="price">
+                  <div class="dollar-payment">$</div>
+                  <span>29.99</span>
+              </div>
+            <p>$359 Every Year</p>
+            <button class="select">Select</button>
+            <button id="payentsButton">29.99</button>
+            <script>
+              document
+                .getElementById("payentsButton")
+                .addEventListener("click", () => {
+                  axios
+                    .post(baseUrl + "/create-checkout-session", {
+                      email: localStorage.getItem("talentScopeEmail"),
+                      pass: localStorage.getItem("talentScopePass"),
+                    })
+                    .then((response) => {
+                      const { url } = response.data;
+                      if (url) {
+                        window.location = url;
+                      }
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                });
+            </script>
+          </div>
+          <div class="card">
+            <div class="empty-payment"></div> 
+            <div class="card-h2">Monthly</div>
+            <div class="price">
+              <div class="dollar-payment">$</div>
+              <span>39.99</span>
+            </div>
+            <p>Every Month</p>
+            <button class="select">Select</button>
+            <button id="payentsButton2">39.99</button>
+            <script>
+              document
+                .getElementById("payentsButton2")
+                .addEventListener("click", () => {
+                  axios
+                    .post(baseUrl + "/create-checkout-session2", {
+                      email: localStorage.getItem("talentScopeEmail"),
+                      pass: localStorage.getItem("talentScopePass"),
+                    })
+                    .then((response) => {
+                      const { url } = response.data;
+                      if (url) {
+                        window.location = url;
+                      }
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                });
+            </script>
+          </div>
         </div>
+        <button id="paymentsBack">Back</button>
+        <script>
+          document
+            .getElementById("paymentsBack")
+            .addEventListener("click", () => {
+              payments.style.display = "none";
+              myAccount.style.display = "block";
+            });
+        </script>
       </div>
     </div>
-
     <script>
       window.addEventListener("DOMContentLoaded", function () {
         function adjustHeight() {
