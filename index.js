@@ -708,6 +708,60 @@ app.post("/initialLogin", async (req, res) => {
   }
 });
 
+app.post("/updateAccountInfo", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+  const firstName = requestData.firstName;
+  const lastName = requestData.lastName;
+  const accountLocation = requestData.accountLocation;
+  const company = requestData.company;
+  const number = requestData.number;
+  const newEmail = requestData.email;
+
+  try {
+    await collection.updateOne(
+      { email: email, pass: pass },
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          accountLocation: accountLocation,
+          company: company,
+          number: number,
+          email: newEmail,
+        },
+      }
+    );
+    res.send("ok");
+  } catch (e) {
+    console.log("failed to update info");
+    res.send("error");
+  }
+});
+
+app.post("/getAccountInfo", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+
+  try {
+    let account = await collection.findOne({ email: email, pass: pass });
+    if (account && account !== null) {
+      res.send({ message: "ok", account: account });
+    }
+  } catch (e) {
+    console.log("failed to get info");
+    res.send({ message: "error" });
+  }
+});
+
 app.listen(APP_PORT, () => {
   console.log(`Server is listening at ` + url);
 });

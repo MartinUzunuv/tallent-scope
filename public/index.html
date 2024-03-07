@@ -1435,8 +1435,6 @@
     <div id="myAccount">
       <!-- <div class="centerAccountForm"> -->
       <!-- <div class="accountForm"> -->
-      <button class="accountButton" id="navbarEmail"></button>
-      <br />
       <button class="accountButton" id="accountBack">Back</button>
       <br />
       <!-- <button class="accountButton" id="accountGoPayments">Payments</button> -->
@@ -1445,25 +1443,117 @@
 
       <br />
       <input
+        id="accountFirstName"
         class="accountButton"
         placeholder="First Name"
-        required
         type="text"
       />
 
-      <input class="accountButton" placeholder="Last Name" type="text" />
+      <input
+        id="accountLastName"
+        class="accountButton"
+        placeholder="Last Name"
+        type="text"
+      />
       <br />
 
-      <input class="accountButton" placeholder="Email" type="text" />
+      <input
+        id="accountLacation"
+        class="accountButton"
+        placeholder="Location"
+        type="text"
+      />
       <br />
 
-      <input class="accountButton" placeholder="Location" type="text" />
+      <input
+        id="accountCompany"
+        class="accountButton"
+        placeholder="Company"
+        type="text"
+      />
+      <br />
+      <input
+        id="accountNumner"
+        class="accountButton"
+        placeholder="Number"
+        type="text"
+      />
       <br />
 
-      <input class="accountButton" placeholder="Company" type="text" />
+      <input
+        class="accountButton"
+        placeholder="Email"
+        type="email"
+        id="navbarEmail"
+      />
       <br />
-      <input class="accountButton" placeholder="Number" type="text" />
+
+      <button class="accountButton" id="accountUpdateInfo">Update</button>
       <br />
+      <script>
+        axios
+          .post(baseUrl + "/getAccountInfo", {
+            email: localStorage.getItem("talentScopeEmail"),
+            pass: localStorage.getItem("talentScopePass"),
+          })
+          .then((response) => {
+            const res = response.data;
+            console.log(res);
+            if (res.account && res.message === "ok") {
+              document.getElementById("accountFirstName").value =
+                res.account.firstName || "";
+              document.getElementById("accountLastName").value =
+                res.account.lastName || "";
+              document.getElementById("accountLacation").value =
+                res.account.accountLocation || "";
+              document.getElementById("accountCompany").value =
+                res.account.company || "";
+              document.getElementById("accountNumner").value =
+                res.account.number || "";
+              document.getElementById("navbarEmail").value =
+                res.account.email || "";
+              if (
+                res.account.email &&
+                res.account.email !== "" &&
+                res.account.email.length > 2
+              ) {
+                localStorage.setItem("talentScopeEmail", res.account.email);
+              }
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        document
+          .getElementById("accountUpdateInfo")
+          .addEventListener("click", () => {
+            let accountFirstName =
+              document.getElementById("accountFirstName").value;
+            let accountLastName =
+              document.getElementById("accountLastName").value;
+            let accountLocation =
+              document.getElementById("accountLacation").value;
+            let accountCompany =
+              document.getElementById("accountCompany").value;
+            let accountNumber = document.getElementById("accountNumner").value;
+            let accountEmail = document.getElementById("navbarEmail").value;
+            axios
+              .post(baseUrl + "/updateAccountInfo", {
+                email: localStorage.getItem("talentScopeEmail"),
+                pass: localStorage.getItem("talentScopePass"),
+                firstName: accountFirstName,
+                lastName: accountLastName,
+                accountLocation: accountLacation,
+                company: accountCompany,
+                number: accountNumber,
+                email: accountEmail,
+              })
+              .then((response) => {})
+              .catch((error) => {
+                console.error(error);
+              });
+          });
+      </script>
 
       <button class="accountButton">My subscribtions</button>
       <button class="accountButton">Active</button>
@@ -1473,12 +1563,18 @@
       <button class="accountButton">Monthly</button>
       <button class="accountButton">Yearly</button>
       <br />
-      <button style="background-color: rgb(240, 215, 219); border-color: crimson;" class="accountButton" id="logoutButton">Logout</button>
+      <button
+        style="background-color: rgb(240, 215, 219); border-color: crimson"
+        class="accountButton"
+        id="logoutButton"
+      >
+        Logout
+      </button>
       <br />
       <br />
       <br />
       <script>
-        document.getElementById("navbarEmail").innerText =
+        document.getElementById("navbarEmail").value =
           localStorage.getItem("talentScopeEmail");
 
         document
