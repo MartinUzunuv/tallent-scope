@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Discover The Secret Tool Of High-Performing HR Managers...
-    HR Trained AI Model To Generate The Most Converting Job Descriptions Based On">
-    <title>Writenhire <!-- - writenhire.ai --> </title>
+    <meta
+      name="description"
+      content="Discover The Secret Tool Of High-Performing HR Managers...
+    HR Trained AI Model To Generate The Most Converting Job Descriptions Based On"
+    />
+    <title>Writenhire <!-- - writenhire.ai --></title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- <link rel="icon" href="/logo.png" type="image/x-icon" /> -->
     <!-- <link rel="shortcut icon" href="/logo.png" type="image/x-icon" /> -->
@@ -505,6 +508,11 @@
         margin-bottom: 5px;
       }
 
+      .accountButton:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+        cursor: pointer;
+      }
+
       #myAccount {
         background-color: #d6e6f5;
       }
@@ -523,23 +531,23 @@
         margin: 0;
         gap: 20px;
       }
-      .plans{
+      .plans {
         display: flex;
         gap: 40px;
         flex-wrap: wrap;
         margin: 30px;
       }
-      .back-button{
+      .back-button {
         display: flex;
       }
-      .card-h2{
+      .card-h2 {
         font-size: 25px;
         font-weight: bold;
       }
       .card {
         background: #fff;
         border-radius: 8px;
-        box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
         margin: 0 10px;
         padding: 20px;
         width: 200px;
@@ -576,16 +584,16 @@
         margin: 5px 0;
       }
       .dollar-payment {
-        font-size: 40px; 
+        font-size: 40px;
       }
       .price {
         display: flex;
         justify-content: center;
         align-items: center;
       }
-      .best-payment{
+      .best-payment {
         width: 60%;
-        background:black;
+        background: black;
         color: white;
         font-size: 21px;
         position: relative;
@@ -594,17 +602,17 @@
         transform: translate(-50%);
         z-index: 2;
       }
-      .empty-payment{
+      .empty-payment {
         height: 24px;
       }
 
-      .title-payments{
+      .title-payments {
         font-size: 30px;
         font-weight: 800;
-        margin-bottom:60px;
+        margin-bottom: 60px;
       }
 
-      #paymentsBack{
+      #paymentsBack {
         background: black;
         color: white;
         padding: 10px 20px;
@@ -1667,10 +1675,11 @@
                 console.error(error);
               });
           });
-        
       </script>
 
-      <button class="accountButton" id="accountManageSub">My subscribtions</button>
+      <button class="accountButton" id="accountManageSub">
+        My subscribtions
+      </button>
       <br />
       <button class="accountButton" id="accountGoPayments">My plan</button>
       <br />
@@ -1716,17 +1725,15 @@
     <!-- payments -->
     <div id="payments">
       <div class="all-payments">
-        <div class="title-payments">
-          The Best Pricing Plan
-        </div>
+        <div class="title-payments">The Best Pricing Plan</div>
         <div class="plans">
           <div class="card">
-            <div class="best-payment">Best Value</div>  
+            <div class="best-payment">Best Value</div>
             <div class="card-h2">Yearly</div>
-              <div class="price">
-                  <div class="dollar-payment">$</div>
-                  <span>29.99</span>
-              </div>
+            <div class="price">
+              <div class="dollar-payment">$</div>
+              <span>29.99</span>
+            </div>
             <p>$359 Every Year</p>
             <button id="payentsButton" class="select">Select</button>
             <script>
@@ -1751,7 +1758,7 @@
             </script>
           </div>
           <div class="card">
-            <div class="empty-payment"></div> 
+            <div class="empty-payment"></div>
             <div class="card-h2">Monthly</div>
             <div class="price">
               <div class="dollar-payment">$</div>
@@ -1797,7 +1804,7 @@
         function adjustHeight() {
           var screenWidth = window.innerWidth;
           console.log(screenWidth);
-          if(screenWidth < 420) {
+          if (screenWidth < 420) {
             document.getElementById("accountGoPayments").style.width = "280px";
             document.getElementById("accountUpdateInfo").style.width = "280px";
             document.getElementById("logoutButton").style.width = "280px";
@@ -1810,11 +1817,13 @@
             document.getElementById("accountNumner").style.width = "250px";
             document.getElementById("accountBack").style.width = "250px";
             document.getElementById("navbarEmail").style.width = "250px";
-            document.getElementById("historyOpenButton").style.borderRight = "none";
-            document.getElementById("historyOpenButton").style.margin = "10px 0px 0px 0px";
-            document.getElementById("openMyAccount").style.margin = "20px 0px 10px 40px";
-            
-          }else if (screenWidth < 700) {
+            document.getElementById("historyOpenButton").style.borderRight =
+              "none";
+            document.getElementById("historyOpenButton").style.margin =
+              "10px 0px 0px 0px";
+            document.getElementById("openMyAccount").style.margin =
+              "20px 0px 10px 40px";
+          } else if (screenWidth < 700) {
             document.getElementById("saveAsPDF").style.height = "auto";
             document.getElementById("saveAsDOXS").style.height = "auto";
             document.getElementById("edit").style.height = "auto";
@@ -1823,7 +1832,7 @@
             document.getElementById("saveAsDOXS").style.height = "20px";
             document.getElementById("edit").style.height = "20px";
           }
-          if(screenWidth > 420) {
+          if (screenWidth > 420) {
             document.getElementById("accountGoPayments").style.width = "330px";
             document.getElementById("accountUpdateInfo").style.width = "330px";
             document.getElementById("logoutButton").style.width = "330px";
