@@ -713,6 +713,7 @@ app.post("/updateAccountInfo", async (req, res) => {
   const collection = database.collection(collectionName);
 
   const requestData = req.body;
+  console.log(requestData);
   const email = requestData.email;
   const pass = requestData.pass;
   const firstName = requestData.firstName;
