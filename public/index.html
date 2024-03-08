@@ -1670,7 +1670,14 @@
                 number: accountNumber,
                 email: accountEmail,
               })
-              .then((response) => {})
+              .then((response) => {
+                home.style.display = "block";
+                signIn.style.display = "none";
+                signUp.style.display = "none";
+                fPass.style.display = "none";
+                myAccount.style.display = "none";
+                payments.style.display = "none";
+              })
               .catch((error) => {
                 console.error(error);
               });
