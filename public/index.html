@@ -1684,9 +1684,28 @@
           });
       </script>
 
-      <button class="accountButton" id="accountManageSub">
-        My subscribtions
-      </button>
+      <button class="accountButton" id="accountManageSub"> My subscribtions</button>
+      <script>
+        document
+        .getElementById("accountManageSub")
+        .addEventListener("click", () => {
+          axios
+            .post(baseUrl + "/create-customer-portal-session", {
+              email: localStorage.getItem("talentScopeEmail"),
+              pass: localStorage.getItem("talentScopePass"),
+            })
+            .then((response) => {
+              const { url } = response.data;
+              if (url) {
+                window.location.href = url; // This redirects the user to the Customer Portal
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error.response.data);
+            });
+        });
+
+      </script>
       <br />
       <button class="accountButton" id="accountGoPayments">My plan</button>
       <br />

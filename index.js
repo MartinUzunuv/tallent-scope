@@ -642,6 +642,44 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
+app.post("/create-customer-portal-session", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+
+  // Authenticate user and retrieve user data from the database
+  const user = await collection.findOne({ email: email, pass: pass });
+
+  if (user && user.stripeSessionId) {
+    try {
+      // Retrieve the checkout session from Stripe
+      const session = await stripe.checkout.sessions.retrieve(
+        user.stripeSessionId
+      );
+
+      // Using the customerId from the checkout session, create the customer portal session
+      const customerId = session.customer;
+
+      if (customerId) {
+        const portalSession = await stripe.billingPortal.sessions.create({
+          customer: customerId,
+          return_url: CLIENT_URL,
+        });
+
+        res.json({ url: portalSession.url });
+      } else {
+        res.status(404).json({ error: 'Customer ID not found for this user.' });
+      }
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  } else {
+    res.status(400).json({ error: 'No active session found for this user.' });
+  }
+});
+
 const quantity2 = 39;
 
 app.post("/create-checkout-session2", async (req, res) => {
