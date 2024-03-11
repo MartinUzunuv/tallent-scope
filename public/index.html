@@ -352,6 +352,22 @@
         border-radius: 0px;
       }
 
+     .accountField {
+      background-color: white;
+      border: solid 1px rgb(158, 157, 157);
+      font-weight: 800;
+      font-size: 15px;
+      color: #1f3245;
+      padding: 9px;
+      width: 300px;
+      margin: 25px;
+      margin-left: 40px;
+     }
+
+     #myAccount {
+      background-color: #d6e6f5;
+     }
+
       #navbarTitle {
         font-size: 22px;
       }
@@ -1626,6 +1642,7 @@
       <div id="navbar" style="justify-content: flex-end;">
         <div id="navbarEmailBox">
           <button id="accountBack" style="border-radius: 5px">Back</button>
+          
           <script>
             document.getElementById("accountBack").addEventListener("click", () => {
             myAccount.style.display = "none";
