@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Writenhire</title>
+    <meta
+      name="description"
+      content="Discover The Secret Tool Of High-Performing HR Managers...
+    HR Trained AI Model To Generate The Most Converting Job Descriptions Based On"
+    />
+    <title>Writenhire <!-- - writenhire.ai --></title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- <link rel="icon" href="/logo.png" type="image/x-icon" /> -->
     <!-- <link rel="shortcut icon" href="/logo.png" type="image/x-icon" /> -->
@@ -144,7 +149,7 @@
         color: #5c6771;
         border: none;
         padding: 10px;
-        margin: 10px;
+        margin: 0px 10px 10px 10px;
         border-radius: 3px;
         border: solid #dcdcdc 1px;
         width: 85%;
@@ -188,7 +193,7 @@
       }
 
       #jobDescriptionClear:hover {
-        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #jobDescriptionCopy {
@@ -213,7 +218,7 @@
       }
 
       #jobDescriptionCopy:hover {
-        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #mainFormSubmit {
@@ -232,7 +237,7 @@
       }
 
       #mainFormSubmit:hover {
-        box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
       #jobDescriptionResult {
@@ -326,12 +331,14 @@
         border: solid black 2px;
         border-radius: 3px;
         padding: 10px;
-        width: 182px;
+        width: 210px;
         margin-right: 25px;
         margin-top: 9px;
+        font-size: 12px;
+        font-weight: 900;
       }
 
-      #lang option {
+      #lang > option {
         background-color: white;
         color: #4c5c6b;
         border: none;
@@ -490,11 +497,221 @@
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
 
+      .labelForInputs {
+        color: black;
+        font-weight: 900;
+        font-size: 13px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+      }
+
       @media screen and (max-width: 720px) {
         #PageTitle {
           display: none;
         }
       }
+
+      .accountButton {
+        background-color: white;
+        border: solid 1px rgb(130, 130, 130);
+        text-align: center;
+        width: 300px;
+        font-weight: 800;
+        font-size: 15px;
+        margin: 10px 30px;
+        padding: 15px;
+        margin-bottom: 5px;
+      }
+
+      .accountButton:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+        cursor: pointer;
+      }
+
+      .accountButtonHalf {
+        background-color: white;
+        border: solid 1px rgb(130, 130, 130);
+        text-align: center;
+        width: 175px;
+        font-weight: 800;
+        font-size: 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        margin-bottom: 5px;
+      }
+
+      .accountButtonHalf:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+        cursor: pointer;
+      }
+
+      #accountBack{
+        background-color: #eeb120;
+        border: solid black 2px;
+        border-radius: 50px !important;
+        padding: 7px;
+        padding-left: 30px;
+        padding-right: 30px;
+        font-weight: 900;
+        margin: 10px;
+        cursor: pointer;
+      }
+
+      #myAccount {
+        background-color: white;
+        height: 100%;
+      }
+
+      /* Account styles*/
+      .account-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-self: center;
+        align-items: center;
+        margin-top: 40px;
+      }
+      .account-row{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 500px;
+        gap: 10px;
+      }
+
+      @media screen and (max-width: 460px) {
+        .account-row{
+          flex-direction: column;
+        }
+      }
+
+      .account-button-content{
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+      }
+      .account-button-content label{
+        font-size: 15px;
+        color: black;
+        font-weight: 600;
+      }
+      /*End*/
+
+      /* Payment styles */
+      .all-payments {
+        width: 100%;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        gap: 20px;
+      }
+      .plans {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin: 30px;
+      }
+      .back-button {
+        display: flex;
+      }
+      .card-h2 {
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+        margin: 0 10px;
+        padding: 20px;
+        width: 200px;
+        height: 220px;
+        text-align: center;
+      }
+      /* .card:hover {
+        border: 2px solid #007bff;
+      } */
+      .card .price {
+        font-size: 48px;
+        margin: 20px 0;
+      }
+      .card .price span {
+        font-size: 40px;
+        vertical-align: super;
+      }
+      .card .select {
+        background: white;
+        color: black;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        border: 1px solid black;
+      }
+      .card .select:hover {
+        background: black;
+        color: white;
+      }
+      .card p {
+        color: #666;
+        margin: 5px 0;
+      }
+      .dollar-payment {
+        font-size: 40px;
+      }
+      .price {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .best-payment {
+        width: 60%;
+        background: black;
+        color: white;
+        font-size: 21px;
+        position: relative;
+        top: -30px;
+        left: 50%;
+        transform: translate(-50%);
+        z-index: 2;
+      }
+      .empty-payment {
+        height: 24px;
+      }
+
+      .title-payments {
+        font-size: 30px;
+        font-weight: 800;
+        margin-bottom: 60px;
+      }
+
+      #paymentsBack {
+        background: black;
+        color: white;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        border: 1px solid black;
+      }
+
+      #paymentsBack:hover {
+        background: white;
+        color: black;
+      }
+
+      /* END */
     </style>
   </head>
   <body>
@@ -753,72 +970,124 @@
               </div> -->
                 <div style="width: 100%; text-align: right">
                   <select name="lang" id="lang">
+                    <option value="" disabled selected hidden>
+                      CHOOSE LANGUAGE
+                    </option>
                     <option value="english">English</option>
-                    <option value="russian">Russian</option>
+                    <option value="german">German</option>
                     <option value="spanish">Spanish</option>
-                    <option value="japanese">Japanese</option>
-                    <option value="mandarin">Mandarin</option>
-                    <option value="hindi">Hindi</option>
-                    <option value="arabic">Arabic</option>
                     <option value="french">French</option>
                     <option value="portuguese">Portuguese</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="russian">Russian</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="arabic">Arabic</option>
                   </select>
                 </div>
 
                 <br />
+                <label
+                  for="jobTitle"
+                  class="labelForInputs"
+                  style="margin-top: 15px"
+                  >Job Title</label
+                >
                 <input
                   id="jobTitle"
-                  placeholder="JOB TITLE*"
+                  placeholder="E.g., Senior Developer"
                   required
                   type="text"
-                  style="margin-top: 75px"
                 />
                 <br />
+                <label for="aboutTheEmployer" class="labelForInputs"
+                  >ABOUT THE EMPLOYER</label
+                >
                 <input
                   id="aboutTheEmployer"
-                  placeholder="ABOUT THE EMPLOYER"
+                  placeholder="E.g., Innovative tech company"
                   type="text"
                 />
                 <br />
-                <input id="salary" placeholder="SALARY" type="text" />
+                <label for="salary" class="labelForInputs">SALARY</label>
+                <input id="salary" placeholder="E.g., $50,000" type="text" />
                 <br />
-                <input id="remote" placeholder="REMOTE" type="text" />
+                <label for="remote" class="labelForInputs">REMOTE</label>
+                <input
+                  id="remote"
+                  placeholder="E.g., fully remote"
+                  type="text"
+                />
                 <br />
-                <input id="locationText" placeholder="LOCATION" type="text" />
+                <label for="locationText" class="labelForInputs"
+                  >LOCATION</label
+                >
+                <input
+                  id="locationText"
+                  placeholder="E.g., New York"
+                  type="text"
+                />
                 <br />
-                <input id="jobType" placeholder="JOB TYPE" type="text" />
+                <label for="jobType" class="labelForInputs">JOB TYPE</label>
+                <input id="jobType" placeholder="E.g., Full-time" type="text" />
                 <br />
+                <label for="employmentType" class="labelForInputs"
+                  >EMPLOYMENT TYPE</label
+                >
                 <input
                   id="employmentType"
-                  placeholder="EMPLOYMENT TYPE"
+                  placeholder="E.g., Contract"
                   type="text"
                 />
                 <br />
+                <label for="description" class="labelForInputs"
+                  >DESCRIPTION</label
+                >
                 <input
                   id="description"
-                  placeholder="DESCRIPTION*"
+                  placeholder="E.g., Lead a team of..."
                   required
                   type="text"
                 />
                 <br />
+                <label for="requirements" class="labelForInputs"
+                  >REQUIREMENTS</label
+                >
                 <input
                   id="requirements"
-                  placeholder="REQUIREMENTS"
+                  placeholder="E.g., 5+ years of..."
                   type="text"
                 />
                 <br />
+                <label for="keywords" class="labelForInputs">KEYWORDS</label>
                 <input
                   id="keywords"
-                  placeholder="KEYWORDS*"
+                  placeholder="E.g., Python, AI"
                   required
                   type="text"
                 />
                 <br />
-                <input id="skills" placeholder="SKILLS" type="text" />
+                <label for="skills" class="labelForInputs">SKILLS</label>
+                <input
+                  id="skills"
+                  placeholder="E.g., Problem-solving"
+                  type="text"
+                />
                 <br />
-                <input id="education" placeholder="EDUCATION" type="text" />
+                <label for="education" class="labelForInputs">EDUCATION</label>
+                <input
+                  id="education"
+                  placeholder="E.g., Bachelor's"
+                  type="text"
+                />
                 <br />
-                <input id="personality" placeholder="PERSONALITY" type="text" />
+                <label for="personality" class="labelForInputs"
+                  >PERSONALITY</label
+                >
+                <input
+                  id="personality"
+                  placeholder="E.g., Innovative"
+                  type="text"
+                />
               </div>
               <!-- <div>
             <input type="submit" value="Submit" />
@@ -901,7 +1170,7 @@
                           container.append(textarea);
                           textarea.id = "jobDescriptionResult";
                           const button = document.getElementById("edit");
-                          button.innerHTML = "Stop editing and save";
+                          button.innerHTML = "Stop editing";
 
                           let new_text = "";
                           for (const texte of texts)
@@ -934,7 +1203,7 @@
                           container.append(a);
                           a.id = "jobDescriptionResult";
                           const button = document.getElementById("edit");
-                          button.innerHTML = "edit";
+                          button.innerHTML = "Edit";
 
                           let new_text = "";
                           for (const texte of texts) new_text += `${texte} \n`;
@@ -1039,6 +1308,7 @@
                 .getElementById("jobDescriptionCopy")
                 .addEventListener("click", () => {
                   if (copyText !== null && copyText !== "" && copyText.length) {
+                    console.log(copyText);
                     navigator.clipboard.writeText(copyText);
                     document.getElementById("jobDescriptionCopy").innerText =
                       "COPY✅";
@@ -1369,133 +1639,312 @@
 
     <!-- my account -->
     <div id="myAccount">
-      <!-- <div class="centerAccountForm"> -->
-        <!-- <div class="accountForm"> -->
-          <input class="accountField" type="text" placeholder="First name">
-          <input class="accountField" type="text" placeholder="Last name">
-          <br />
-          <button class="accountField" id="navbarEmail"></button>
-          <br />
-          <input class="accountField" type="text" placeholder="Address">
-          <br />
-          <input class="accountField" type="text" placeholder="Country">
-          <br />
-          <button class="accountField" id="logoutButton">Logout</button>
-          <br />
-          <button class="accountField" id="accountBack">Back</button>
-          <br />
-          <button class="accountField" id="accountGoPayments">Payments</button>
+      <div id="navbar" style="justify-content: flex-end;">
+        <div id="navbarEmailBox">
+          <button id="accountBack" style="border-radius: 5px">Back</button>
+          
           <script>
-            document.getElementById("navbarEmail").innerText =
-              localStorage.getItem("talentScopeEmail");
-
-            document
-              .getElementById("accountGoPayments")
-              .addEventListener("click", () => {
-                myAccount.style.display = "none";
-                payments.style.display = "block";
-              });
-
-            document
-              .getElementById("logoutButton")
-              .addEventListener("click", () => {
-                localStorage.setItem("talentScopeEmail", null);
-                localStorage.setItem("talentScopePass", null);
-                home.style.display = "none";
-                signIn.style.display = "block";
-                location.reload();
-              });
-
-            document
-              .getElementById("accountBack")
-              .addEventListener("click", () => {
-                myAccount.style.display = "none";
-                home.style.display = "block";
-                validate();
-              });
+            document.getElementById("accountBack").addEventListener("click", () => {
+            myAccount.style.display = "none";
+            home.style.display = "block";
+            validate();
+          });
           </script>
-        <!-- </div> -->
-      <!-- </div> -->
+        </div>
+      </div>
+      <div class="account-wrapper">
+        
+        <div class="account-row">
+          <input
+          id="accountFirstName"
+          class="accountButtonHalf"
+          placeholder="First Name"
+          type="text"
+          />
+          
+          <input
+            id="accountLastName"
+            class="accountButtonHalf"
+            placeholder="Last Name"
+            type="text"
+          />
+        </div>
+       
+        <input
+          id="accountNumner"
+          class="accountButton"
+          placeholder="Number"
+          type="text"
+        />
+        
+  
+        <input
+          class="accountButton"
+          placeholder="Email"
+          type="email"
+          id="navbarEmail"
+        />
+
+
+        <input
+        id="accountLacation"
+        class="accountButton"
+        placeholder="Location"
+        type="text"
+      />
+     
+
+      <input
+        id="accountCompany"
+        class="accountButton"
+        placeholder="Company"
+        type="text"
+      />
+        
+  
+        <button class="accountButton" id="accountUpdateInfo">Update</button>
+        
+        <script>
+          axios
+            .post(baseUrl + "/getAccountInfo", {
+              email: localStorage.getItem("talentScopeEmail"),
+              pass: localStorage.getItem("talentScopePass"),
+            })
+            .then((response) => {
+              const res = response.data;
+              console.log(res);
+              if (res.account && res.message === "ok") {
+                document.getElementById("accountFirstName").value =
+                  res.account.firstName || "";
+                document.getElementById("accountLastName").value =
+                  res.account.lastName || "";
+                document.getElementById("accountLacation").value =
+                  res.account.accountLocation || "";
+                document.getElementById("accountCompany").value =
+                  res.account.company || "";
+                document.getElementById("accountNumner").value =
+                  res.account.number || "";
+                document.getElementById("navbarEmail").value =
+                  res.account.email || "";
+                if (
+                  res.account.email &&
+                  res.account.email !== "" &&
+                  res.account.email.length > 2
+                ) {
+                  localStorage.setItem("talentScopeEmail", res.account.email);
+                }
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+          document
+            .getElementById("accountUpdateInfo")
+            .addEventListener("click", () => {
+              let accountFirstName =
+                document.getElementById("accountFirstName").value;
+              let accountLastName =
+                document.getElementById("accountLastName").value;
+              let accountLocation =
+                document.getElementById("accountLacation").value;
+              let accountCompany =
+                document.getElementById("accountCompany").value;
+              let accountNumber = document.getElementById("accountNumner").value;
+              let accountEmail = document.getElementById("navbarEmail").value;
+              axios
+                .post(baseUrl + "/updateAccountInfo", {
+                  email: localStorage.getItem("talentScopeEmail"),
+                  pass: localStorage.getItem("talentScopePass"),
+                  firstName: accountFirstName,
+                  lastName: accountLastName,
+                  accountLocation: accountLocation,
+                  company: accountCompany,
+                  number: accountNumber,
+                  email: accountEmail,
+                })
+                .then((response) => {
+                  home.style.display = "block";
+                  signIn.style.display = "none";
+                  signUp.style.display = "none";
+                  fPass.style.display = "none";
+                  myAccount.style.display = "none";
+                  payments.style.display = "none";
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            });
+        </script>
+  
+        <button style="background-color: #eeb120;" class="accountButton" id="accountManageSub">My subscribtions</button>
+        <script>
+          document
+          .getElementById("accountManageSub")
+          .addEventListener("click", () => {
+            axios
+              .post(baseUrl + "/create-customer-portal-session", {
+                email: localStorage.getItem("talentScopeEmail"),
+                pass: localStorage.getItem("talentScopePass"),
+              })
+              .then((response) => {
+                const { url } = response.data;
+                if (url) {
+                  window.location.href = url; // This redirects the user to the Customer Portal
+                }
+              })
+              .catch((error) => {
+                console.error("Error:", error.response.data);
+              });
+          });
+  
+        </script>
+        
+        <button style="background-color: #afafaf;" class="accountButton" id="accountGoPayments">View my subcribion status</button>
+
+        <div class="account-row">
+          <button style="background-color: #000000; color: white" class="accountButtonHalf" id="accountTest">Test</button>
+          
+          <button style="background-color: rgb(240, 215, 219); border-color: crimson" class="accountButtonHalf" id="logoutButton">Logout</button>
+        </div>
+        
+        <script>
+          document.getElementById("navbarEmail").value =
+            localStorage.getItem("talentScopeEmail");
+  
+          document
+            .getElementById("accountGoPayments")
+            .addEventListener("click", () => {
+              myAccount.style.display = "none";
+              payments.style.display = "block";
+            });
+  
+          document
+            .getElementById("logoutButton")
+            .addEventListener("click", () => {
+              localStorage.setItem("talentScopeEmail", null);
+              localStorage.setItem("talentScopePass", null);
+              home.style.display = "none";
+              signIn.style.display = "block";
+              location.reload();
+            });
+  
+        </script>
+      </div>
     </div>
 
     <!-- payments -->
     <div id="payments">
-      <div class="centerAccountForm">
-        <div class="accountForm">
-          <h1>Payments</h1>
-          <button id="payentsButton">29.99</button>
-          <script>
-            document
-              .getElementById("payentsButton")
-              .addEventListener("click", () => {
-                axios
-                  .post(baseUrl + "/create-checkout-session", {
-                    email: localStorage.getItem("talentScopeEmail"),
-                    pass: localStorage.getItem("talentScopePass"),
-                  })
-                  .then((response) => {
-                    const { url } = response.data;
-                    if (url) {
-                      window.location = url;
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              });
-          </script>
-          <button id="payentsButton2">39.99</button>
-          <script>
-            document
-              .getElementById("payentsButton2")
-              .addEventListener("click", () => {
-                axios
-                  .post(baseUrl + "/create-checkout-session2", {
-                    email: localStorage.getItem("talentScopeEmail"),
-                    pass: localStorage.getItem("talentScopePass"),
-                  })
-                  .then((response) => {
-                    const { url } = response.data;
-                    if (url) {
-                      window.location = url;
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              });
-          </script>
-          <button id="paymentsBack">Back</button>
-          <script>
-            document
-              .getElementById("paymentsBack")
-              .addEventListener("click", () => {
-                payments.style.display = "none";
-                myAccount.style.display = "block";
-              });
-          </script>
+      <div class="all-payments">
+        <div class="title-payments">The Best Pricing Plan</div>
+        <div class="plans">
+          <div class="card">
+            <div class="best-payment">Best Value</div>
+            <div class="card-h2">Yearly</div>
+            <div class="price">
+              <div class="dollar-payment">$</div>
+              <span>29.99</span>
+            </div>
+            <p>$359 Every Year</p>
+            <button id="payentsButton" class="select">Select</button>
+            <script>
+              document
+                .getElementById("payentsButton")
+                .addEventListener("click", () => {
+                  axios
+                    .post(baseUrl + "/create-checkout-session", {
+                      email: localStorage.getItem("talentScopeEmail"),
+                      pass: localStorage.getItem("talentScopePass"),
+                    })
+                    .then((response) => {
+                      const { url } = response.data;
+                      if (url) {
+                        window.location = url;
+                      }
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                });
+            </script>
+          </div>
+          <div class="card">
+            <div class="empty-payment"></div>
+            <div class="card-h2">Monthly</div>
+            <div class="price">
+              <div class="dollar-payment">$</div>
+              <span>39.99</span>
+            </div>
+            <p>Every Month</p>
+            <button id="payentsButton2" class="select">Select</button>
+            <script>
+              document
+                .getElementById("payentsButton2")
+                .addEventListener("click", () => {
+                  axios
+                    .post(baseUrl + "/create-checkout-session2", {
+                      email: localStorage.getItem("talentScopeEmail"),
+                      pass: localStorage.getItem("talentScopePass"),
+                    })
+                    .then((response) => {
+                      const { url } = response.data;
+                      if (url) {
+                        window.location = url;
+                      }
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                });
+            </script>
+          </div>
         </div>
+        <button id="paymentsBack">Back</button>
+        <script>
+          document
+            .getElementById("paymentsBack")
+            .addEventListener("click", () => {
+              payments.style.display = "none";
+              myAccount.style.display = "block";
+            });
+        </script>
       </div>
     </div>
-
     <script>
       window.addEventListener("DOMContentLoaded", function () {
-        var myDiv = document.getElementById("buttonContainerSaveAndEdit");
-
         function adjustHeight() {
-          console.log(myDiv.offsetWidth);
-          if (myDiv.offsetWidth < 288) {
-            document.getElementById("saveAsPDF").style.height = "55px";
-            document.getElementById("saveAsDOXS").style.height = "55px";
-            document.getElementById("edit").style.height = "55px";
-          } else if (myDiv.offsetWidth < 390) {
-            document.getElementById("saveAsPDF").style.height = "20px";
-            document.getElementById("saveAsDOXS").style.height = "20px";
-            document.getElementById("edit").style.height = "20px";
+          var screenWidth = window.innerWidth;
+          console.log(screenWidth);
+          if (screenWidth < 420) {
+            document.getElementById("accountGoPayments").style.width = "280px";
+            document.getElementById("accountUpdateInfo").style.width = "280px";
+            document.getElementById("accountManageSub").style.width = "280px";
+            document.getElementById("accountLacation").style.width = "250px";
+            document.getElementById("accountCompany").style.width = "250px";
+            document.getElementById("accountNumner").style.width = "250px";
+            document.getElementById("navbarEmail").style.width = "250px";
+            document.getElementById("historyOpenButton").style.borderRight =
+              "none";
+            document.getElementById("historyOpenButton").style.margin =
+              "10px 0px 0px 0px";
+            document.getElementById("openMyAccount").style.margin =
+              "20px 0px 10px 40px";
+          } else if (screenWidth < 700) {
+            document.getElementById("saveAsPDF").style.height = "auto";
+            document.getElementById("saveAsDOXS").style.height = "auto";
+            document.getElementById("edit").style.height = "auto";
           } else {
             document.getElementById("saveAsPDF").style.height = "20px";
             document.getElementById("saveAsDOXS").style.height = "20px";
             document.getElementById("edit").style.height = "20px";
+          }
+          if (screenWidth > 420) {
+            document.getElementById("accountGoPayments").style.width = "350px";
+            document.getElementById("accountUpdateInfo").style.width = "350px";
+            document.getElementById("accountManageSub").style.width = "350px";
+            document.getElementById("accountLacation").style.width = "320px";
+            document.getElementById("accountCompany").style.width = "320px";
+            document.getElementById("accountNumner").style.width = "320px";
+            document.getElementById("navbarEmail").style.width = "320px";
           }
         }
 

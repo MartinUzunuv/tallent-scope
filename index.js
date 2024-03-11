@@ -19,7 +19,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY,
 });
 
-const assistId = "asst_hjukRSGYHya5q4NqWr2d3r9i";
+const assistId = "asst_iGSyxroyszEAfDtWXTWklRg0";
 
 const app = express();
 
@@ -642,6 +642,44 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
+app.post("/create-customer-portal-session", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+
+  // Authenticate user and retrieve user data from the database
+  const user = await collection.findOne({ email: email, pass: pass });
+
+  if (user && user.stripeSessionId) {
+    try {
+      // Retrieve the checkout session from Stripe
+      const session = await stripe.checkout.sessions.retrieve(
+        user.stripeSessionId
+      );
+
+      // Using the customerId from the checkout session, create the customer portal session
+      const customerId = session.customer;
+
+      if (customerId) {
+        const portalSession = await stripe.billingPortal.sessions.create({
+          customer: customerId,
+          return_url: CLIENT_URL,
+        });
+
+        res.json({ url: portalSession.url });
+      } else {
+        res.status(404).json({ error: 'Customer ID not found for this user.' });
+      }
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  } else {
+    res.status(400).json({ error: 'No active session found for this user.' });
+  }
+});
+
 const quantity2 = 39;
 
 app.post("/create-checkout-session2", async (req, res) => {
@@ -704,6 +742,61 @@ app.post("/initialLogin", async (req, res) => {
       res.send({ message: "ok" });
     }
   } catch (e) {
+    res.send({ message: "error" });
+  }
+});
+
+app.post("/updateAccountInfo", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  console.log(requestData);
+  const email = requestData.email;
+  const pass = requestData.pass;
+  const firstName = requestData.firstName;
+  const lastName = requestData.lastName;
+  const accountLocation = requestData.accountLocation;
+  const company = requestData.company;
+  const number = requestData.number;
+  const newEmail = requestData.email;
+
+  try {
+    await collection.updateOne(
+      { email: email, pass: pass },
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          accountLocation: accountLocation,
+          company: company,
+          number: number,
+          email: newEmail,
+        },
+      }
+    );
+    res.send("ok");
+  } catch (e) {
+    console.log("failed to update info");
+    res.send("error");
+  }
+});
+
+app.post("/getAccountInfo", async (req, res) => {
+  const database = (await clientPromise).db(dbName);
+  const collection = database.collection(collectionName);
+
+  const requestData = req.body;
+  const email = requestData.email;
+  const pass = requestData.pass;
+
+  try {
+    let account = await collection.findOne({ email: email, pass: pass });
+    if (account && account !== null) {
+      res.send({ message: "ok", account: account });
+    }
+  } catch (e) {
+    console.log("failed to get info");
     res.send({ message: "error" });
   }
 });
