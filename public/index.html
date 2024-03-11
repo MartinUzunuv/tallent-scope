@@ -503,7 +503,7 @@
         width: 300px;
         font-weight: 800;
         font-size: 15px;
-        margin: 30px;
+        margin: 10px 30px;
         padding: 15px;
         margin-bottom: 5px;
       }
@@ -513,9 +513,76 @@
         cursor: pointer;
       }
 
-      #myAccount {
-        background-color: #d6e6f5;
+      .accountButtonHalf {
+        background-color: white;
+        border: solid 1px rgb(130, 130, 130);
+        text-align: center;
+        width: 175px;
+        font-weight: 800;
+        font-size: 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        margin-bottom: 5px;
       }
+
+      .accountButtonHalf:hover {
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
+        cursor: pointer;
+      }
+
+      #accountBack{
+        background-color: #eeb120;
+        border: solid black 2px;
+        border-radius: 50px !important;
+        padding: 7px;
+        padding-left: 30px;
+        padding-right: 30px;
+        font-weight: 900;
+        margin: 10px;
+        cursor: pointer;
+      }
+
+      #myAccount {
+        background-color: white;
+        height: 100%;
+      }
+
+      /* Account styles*/
+      .account-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-self: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .account-row{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 500px;
+        gap: 10px;
+      }
+
+      @media screen and (max-width: 460px) {
+        .account-row{
+          flex-direction: column;
+        }
+      }
+
+      .account-button-content{
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+      }
+      .account-button-content label{
+        font-size: 15px;
+        color: black;
+        font-weight: 600;
+      }
+      /*End*/
 
       /* Payment styles */
       .all-payments {
@@ -1556,36 +1623,59 @@
 
     <!-- my account -->
     <div id="myAccount">
-      <!-- <div class="centerAccountForm"> -->
-      <!-- <div class="accountForm"> -->
-      <button class="accountButton" id="accountBack">Back</button>
-      <br />
-      <!-- </div> -->
-      <!-- </div> -->
+      <div id="navbar" style="justify-content: flex-end;">
+        <div id="navbarEmailBox">
+          <button id="accountBack" style="border-radius: 5px">Back</button>
+          <script>
+            document.getElementById("accountBack").addEventListener("click", () => {
+            myAccount.style.display = "none";
+            home.style.display = "block";
+            validate();
+          });
+          </script>
+        </div>
+      </div>
+      <div class="account-wrapper">
+        
+        <div class="account-row">
+          <input
+          id="accountFirstName"
+          class="accountButtonHalf"
+          placeholder="First Name"
+          type="text"
+          />
+          
+          <input
+            id="accountLastName"
+            class="accountButtonHalf"
+            placeholder="Last Name"
+            type="text"
+          />
+        </div>
+       
+        <input
+          id="accountNumner"
+          class="accountButton"
+          placeholder="Number"
+          type="text"
+        />
+        
+  
+        <input
+          class="accountButton"
+          placeholder="Email"
+          type="email"
+          id="navbarEmail"
+        />
 
-      <br />
-      <input
-        id="accountFirstName"
-        class="accountButton"
-        placeholder="First Name"
-        type="text"
-      />
 
-      <input
-        id="accountLastName"
-        class="accountButton"
-        placeholder="Last Name"
-        type="text"
-      />
-      <br />
-
-      <input
+        <input
         id="accountLacation"
         class="accountButton"
         placeholder="Location"
         type="text"
       />
-      <br />
+     
 
       <input
         id="accountCompany"
@@ -1593,159 +1683,136 @@
         placeholder="Company"
         type="text"
       />
-      <br />
-      <input
-        id="accountNumner"
-        class="accountButton"
-        placeholder="Number"
-        type="text"
-      />
-      <br />
-
-      <input
-        class="accountButton"
-        placeholder="Email"
-        type="email"
-        id="navbarEmail"
-      />
-      <br />
-
-      <button class="accountButton" id="accountUpdateInfo">Update</button>
-      <br />
-      <script>
-        axios
-          .post(baseUrl + "/getAccountInfo", {
-            email: localStorage.getItem("talentScopeEmail"),
-            pass: localStorage.getItem("talentScopePass"),
-          })
-          .then((response) => {
-            const res = response.data;
-            console.log(res);
-            if (res.account && res.message === "ok") {
-              document.getElementById("accountFirstName").value =
-                res.account.firstName || "";
-              document.getElementById("accountLastName").value =
-                res.account.lastName || "";
-              document.getElementById("accountLacation").value =
-                res.account.accountLocation || "";
-              document.getElementById("accountCompany").value =
-                res.account.company || "";
-              document.getElementById("accountNumner").value =
-                res.account.number || "";
-              document.getElementById("navbarEmail").value =
-                res.account.email || "";
-              if (
-                res.account.email &&
-                res.account.email !== "" &&
-                res.account.email.length > 2
-              ) {
-                localStorage.setItem("talentScopeEmail", res.account.email);
-              }
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-        document
-          .getElementById("accountUpdateInfo")
-          .addEventListener("click", () => {
-            let accountFirstName =
-              document.getElementById("accountFirstName").value;
-            let accountLastName =
-              document.getElementById("accountLastName").value;
-            let accountLocation =
-              document.getElementById("accountLacation").value;
-            let accountCompany =
-              document.getElementById("accountCompany").value;
-            let accountNumber = document.getElementById("accountNumner").value;
-            let accountEmail = document.getElementById("navbarEmail").value;
-            axios
-              .post(baseUrl + "/updateAccountInfo", {
-                email: localStorage.getItem("talentScopeEmail"),
-                pass: localStorage.getItem("talentScopePass"),
-                firstName: accountFirstName,
-                lastName: accountLastName,
-                accountLocation: accountLocation,
-                company: accountCompany,
-                number: accountNumber,
-                email: accountEmail,
-              })
-              .then((response) => {
-                home.style.display = "block";
-                signIn.style.display = "none";
-                signUp.style.display = "none";
-                fPass.style.display = "none";
-                myAccount.style.display = "none";
-                payments.style.display = "none";
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          });
-      </script>
-
-      <button class="accountButton" id="accountManageSub"> My subscribtions</button>
-      <script>
-        document
-        .getElementById("accountManageSub")
-        .addEventListener("click", () => {
+        
+  
+        <button class="accountButton" id="accountUpdateInfo">Update</button>
+        
+        <script>
           axios
-            .post(baseUrl + "/create-customer-portal-session", {
+            .post(baseUrl + "/getAccountInfo", {
               email: localStorage.getItem("talentScopeEmail"),
               pass: localStorage.getItem("talentScopePass"),
             })
             .then((response) => {
-              const { url } = response.data;
-              if (url) {
-                window.location.href = url; // This redirects the user to the Customer Portal
+              const res = response.data;
+              console.log(res);
+              if (res.account && res.message === "ok") {
+                document.getElementById("accountFirstName").value =
+                  res.account.firstName || "";
+                document.getElementById("accountLastName").value =
+                  res.account.lastName || "";
+                document.getElementById("accountLacation").value =
+                  res.account.accountLocation || "";
+                document.getElementById("accountCompany").value =
+                  res.account.company || "";
+                document.getElementById("accountNumner").value =
+                  res.account.number || "";
+                document.getElementById("navbarEmail").value =
+                  res.account.email || "";
+                if (
+                  res.account.email &&
+                  res.account.email !== "" &&
+                  res.account.email.length > 2
+                ) {
+                  localStorage.setItem("talentScopeEmail", res.account.email);
+                }
               }
             })
             .catch((error) => {
-              console.error("Error:", error.response.data);
+              console.error(error);
             });
-        });
-
-      </script>
-      <br />
-      <button class="accountButton" id="accountGoPayments">My plan</button>
-      <br />
-      <button
-        style="background-color: rgb(240, 215, 219); border-color: crimson"
-        class="accountButton"
-        id="logoutButton"
-      >
-        Logout
-      </button>
-      <br />
-      <br />
-      <br />
-      <script>
-        document.getElementById("navbarEmail").value =
-          localStorage.getItem("talentScopeEmail");
-
-        document
-          .getElementById("accountGoPayments")
+          document
+            .getElementById("accountUpdateInfo")
+            .addEventListener("click", () => {
+              let accountFirstName =
+                document.getElementById("accountFirstName").value;
+              let accountLastName =
+                document.getElementById("accountLastName").value;
+              let accountLocation =
+                document.getElementById("accountLacation").value;
+              let accountCompany =
+                document.getElementById("accountCompany").value;
+              let accountNumber = document.getElementById("accountNumner").value;
+              let accountEmail = document.getElementById("navbarEmail").value;
+              axios
+                .post(baseUrl + "/updateAccountInfo", {
+                  email: localStorage.getItem("talentScopeEmail"),
+                  pass: localStorage.getItem("talentScopePass"),
+                  firstName: accountFirstName,
+                  lastName: accountLastName,
+                  accountLocation: accountLocation,
+                  company: accountCompany,
+                  number: accountNumber,
+                  email: accountEmail,
+                })
+                .then((response) => {
+                  home.style.display = "block";
+                  signIn.style.display = "none";
+                  signUp.style.display = "none";
+                  fPass.style.display = "none";
+                  myAccount.style.display = "none";
+                  payments.style.display = "none";
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            });
+        </script>
+  
+        <button style="background-color: #eeb120;" class="accountButton" id="accountManageSub">My subscribtions</button>
+        <script>
+          document
+          .getElementById("accountManageSub")
           .addEventListener("click", () => {
-            myAccount.style.display = "none";
-            payments.style.display = "block";
+            axios
+              .post(baseUrl + "/create-customer-portal-session", {
+                email: localStorage.getItem("talentScopeEmail"),
+                pass: localStorage.getItem("talentScopePass"),
+              })
+              .then((response) => {
+                const { url } = response.data;
+                if (url) {
+                  window.location.href = url; // This redirects the user to the Customer Portal
+                }
+              })
+              .catch((error) => {
+                console.error("Error:", error.response.data);
+              });
           });
+  
+        </script>
+        
+        <button style="background-color: #afafaf;" class="accountButton" id="accountGoPayments">View my subcribion status</button>
 
-        document
-          .getElementById("logoutButton")
-          .addEventListener("click", () => {
-            localStorage.setItem("talentScopeEmail", null);
-            localStorage.setItem("talentScopePass", null);
-            home.style.display = "none";
-            signIn.style.display = "block";
-            location.reload();
-          });
-
-        document.getElementById("accountBack").addEventListener("click", () => {
-          myAccount.style.display = "none";
-          home.style.display = "block";
-          validate();
-        });
-      </script>
+        <div class="account-row">
+          <button style="background-color: #000000; color: white" class="accountButtonHalf" id="accountTest">Test</button>
+          
+          <button style="background-color: rgb(240, 215, 219); border-color: crimson" class="accountButtonHalf" id="logoutButton">Logout</button>
+        </div>
+        
+        <script>
+          document.getElementById("navbarEmail").value =
+            localStorage.getItem("talentScopeEmail");
+  
+          document
+            .getElementById("accountGoPayments")
+            .addEventListener("click", () => {
+              myAccount.style.display = "none";
+              payments.style.display = "block";
+            });
+  
+          document
+            .getElementById("logoutButton")
+            .addEventListener("click", () => {
+              localStorage.setItem("talentScopeEmail", null);
+              localStorage.setItem("talentScopePass", null);
+              home.style.display = "none";
+              signIn.style.display = "block";
+              location.reload();
+            });
+  
+        </script>
+      </div>
     </div>
 
     <!-- payments -->
@@ -1833,15 +1900,10 @@
           if (screenWidth < 420) {
             document.getElementById("accountGoPayments").style.width = "280px";
             document.getElementById("accountUpdateInfo").style.width = "280px";
-            document.getElementById("logoutButton").style.width = "280px";
             document.getElementById("accountManageSub").style.width = "280px";
-            document.getElementById("accountBack").style.width = "280px";
-            document.getElementById("accountFirstName").style.width = "250px";
-            document.getElementById("accountLastName").style.width = "250px";
             document.getElementById("accountLacation").style.width = "250px";
             document.getElementById("accountCompany").style.width = "250px";
             document.getElementById("accountNumner").style.width = "250px";
-            document.getElementById("accountBack").style.width = "250px";
             document.getElementById("navbarEmail").style.width = "250px";
             document.getElementById("historyOpenButton").style.borderRight =
               "none";
@@ -1859,18 +1921,13 @@
             document.getElementById("edit").style.height = "20px";
           }
           if (screenWidth > 420) {
-            document.getElementById("accountGoPayments").style.width = "330px";
-            document.getElementById("accountUpdateInfo").style.width = "330px";
-            document.getElementById("logoutButton").style.width = "330px";
-            document.getElementById("accountManageSub").style.width = "330px";
-            document.getElementById("accountBack").style.width = "330px";
-            document.getElementById("accountFirstName").style.width = "300px";
-            document.getElementById("accountLastName").style.width = "300px";
-            document.getElementById("accountLacation").style.width = "300px";
-            document.getElementById("accountCompany").style.width = "300px";
-            document.getElementById("accountNumner").style.width = "300px";
-            document.getElementById("accountBack").style.width = "300px";
-            document.getElementById("navbarEmail").style.width = "300px";
+            document.getElementById("accountGoPayments").style.width = "350px";
+            document.getElementById("accountUpdateInfo").style.width = "350px";
+            document.getElementById("accountManageSub").style.width = "350px";
+            document.getElementById("accountLacation").style.width = "320px";
+            document.getElementById("accountCompany").style.width = "320px";
+            document.getElementById("accountNumner").style.width = "320px";
+            document.getElementById("navbarEmail").style.width = "320px";
           }
         }
 
