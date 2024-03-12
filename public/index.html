@@ -443,6 +443,24 @@
         font-weight: 900;
       }
 
+      @media screen and (max-width: 460px) {
+        #historyOpenButton {
+          border-right: none;
+          margin-top: 5px;
+          position: relative;
+          right: 30px;
+          height: 48px;
+        }
+        #openMyAccount {
+          position: absolute;
+          right: 10px;
+          top: 45px;
+        }
+        #navbar{
+          height: 95px;
+        }
+      }
+
       #historySpace {
         /* width: 250px; */
         /* height: 200px; */
@@ -491,6 +509,8 @@
         font-weight: 500;
         font-size: 40px;
         margin-top: 5px;
+        position: absolute;
+        left: 30%;
       }
 
       .dropbtn:hover {
@@ -506,7 +526,13 @@
         justify-content: center;
       }
 
-      @media screen and (max-width: 720px) {
+      @media screen and (max-width: 850px) {
+        #PageTitle {
+          left: 37%;
+        }
+      }
+
+      @media screen and (max-width: 740px) {
         #PageTitle {
           display: none;
         }
@@ -569,7 +595,7 @@
         flex-direction: column;
         justify-self: center;
         align-items: center;
-        margin-top: 40px;
+        margin-top: 100px;
       }
       .account-row{
         margin-top: 10px;
@@ -582,7 +608,7 @@
         gap: 10px;
       }
 
-      @media screen and (max-width: 460px) {
+      @media screen and (max-width: 420px) {
         .account-row{
           flex-direction: column;
         }
@@ -763,7 +789,12 @@
             ><img src="historyIcon.png" width="20px" />
           </button>
         </div>
-        <a id="PageTitle">write N hire</a>
+        <div id="PageTitle">        
+          <img src="wNh-logo.png" height="50px" />
+        </div>
+
+        <!-- <a id="PageTitle">write N hire</a> -->
+
         <div id="navbarEmailBox">
           <button id="openMyAccount" style="border-radius: 5px">Account</button>
           <script>
@@ -1640,6 +1671,9 @@
     <!-- my account -->
     <div id="myAccount">
       <div id="navbar" style="justify-content: flex-end;">
+        <div id="PageTitle">        
+          <img src="wNh-logo.png" height="50px" />
+        </div>
         <div id="navbarEmailBox">
           <button id="accountBack" style="border-radius: 5px">Back</button>
           
@@ -1651,11 +1685,12 @@
           });
           </script>
         </div>
-      </div>
+      </div>  
       <div class="account-wrapper">
         
         <div class="account-row">
           <input
+          style="color: #585858;"
           id="accountFirstName"
           class="accountButtonHalf"
           placeholder="First Name"
@@ -1663,6 +1698,7 @@
           />
           
           <input
+            style="color: #585858;"
             id="accountLastName"
             class="accountButtonHalf"
             placeholder="Last Name"
@@ -1671,6 +1707,7 @@
         </div>
        
         <input
+          style="color: #585858;"
           id="accountNumner"
           class="accountButton"
           placeholder="Number"
@@ -1679,6 +1716,7 @@
         
   
         <input
+          style="color: #585858;"
           class="accountButton"
           placeholder="Email"
           type="email"
@@ -1686,23 +1724,15 @@
         />
 
 
-        <input
+        <!-- <input
         id="accountLacation"
         class="accountButton"
         placeholder="Location"
         type="text"
-      />
-     
-
-      <input
-        id="accountCompany"
-        class="accountButton"
-        placeholder="Company"
-        type="text"
-      />
+      /> -->
         
   
-        <button class="accountButton" id="accountUpdateInfo">Update</button>
+        <button style="background-color: #00ff55;" class="accountButton" id="accountUpdateInfo">Update</button>
         
         <script>
           axios
@@ -1718,10 +1748,6 @@
                   res.account.firstName || "";
                 document.getElementById("accountLastName").value =
                   res.account.lastName || "";
-                document.getElementById("accountLacation").value =
-                  res.account.accountLocation || "";
-                document.getElementById("accountCompany").value =
-                  res.account.company || "";
                 document.getElementById("accountNumner").value =
                   res.account.number || "";
                 document.getElementById("navbarEmail").value =
@@ -1745,10 +1771,6 @@
                 document.getElementById("accountFirstName").value;
               let accountLastName =
                 document.getElementById("accountLastName").value;
-              let accountLocation =
-                document.getElementById("accountLacation").value;
-              let accountCompany =
-                document.getElementById("accountCompany").value;
               let accountNumber = document.getElementById("accountNumner").value;
               let accountEmail = document.getElementById("navbarEmail").value;
               axios
@@ -1776,7 +1798,7 @@
             });
         </script>
   
-        <button style="background-color: #eeb120;" class="accountButton" id="accountManageSub">My subscribtions</button>
+        <button style="background-color: #eeb120; margin-top: 50px;" class="accountButton" id="accountManageSub">My subscribtions</button>
         <script>
           document
           .getElementById("accountManageSub")
@@ -1799,14 +1821,10 @@
   
         </script>
         
-        <button style="background-color: #afafaf;" class="accountButton" id="accountGoPayments">View my subcribion status</button>
+        <button style="background-color: #afafaf;" class="accountButton" id="accountGoPayments">Choose plan</button>
 
-        <div class="account-row">
-          <button style="background-color: #000000; color: white" class="accountButtonHalf" id="accountTest">Test</button>
-          
-          <button style="background-color: rgb(240, 215, 219); border-color: crimson" class="accountButtonHalf" id="logoutButton">Logout</button>
-        </div>
-        
+        <button style="background-color: rgb(240, 215, 219); border-color: crimson; margin-top: 50px;" class="accountButton" id="logoutButton">Logout</button>
+
         <script>
           document.getElementById("navbarEmail").value =
             localStorage.getItem("talentScopeEmail");
@@ -1831,7 +1849,7 @@
         </script>
       </div>
     </div>
-
+  </div>
     <!-- payments -->
     <div id="payments">
       <div class="all-payments">
@@ -1915,19 +1933,21 @@
           var screenWidth = window.innerWidth;
           console.log(screenWidth);
           if (screenWidth < 420) {
+            console.log("UNDER");
             document.getElementById("accountGoPayments").style.width = "280px";
             document.getElementById("accountUpdateInfo").style.width = "280px";
             document.getElementById("accountManageSub").style.width = "280px";
-            document.getElementById("accountLacation").style.width = "250px";
-            document.getElementById("accountCompany").style.width = "250px";
+            document.getElementById("logoutButton").style.width = "280px";
             document.getElementById("accountNumner").style.width = "250px";
             document.getElementById("navbarEmail").style.width = "250px";
-            document.getElementById("historyOpenButton").style.borderRight =
-              "none";
-            document.getElementById("historyOpenButton").style.margin =
-              "10px 0px 0px 0px";
-            document.getElementById("openMyAccount").style.margin =
-              "20px 0px 10px 40px";
+            document.getElementById("accountFirstName").style.width = "280px";
+            document.getElementById("accountLastName").style.width = "280px";
+            // document.getElementById("historyOpenButton").style.borderRight =
+            //   "none";
+            // document.getElementById("historyOpenButton").style.margin =
+            //   "10px 0px 0px 0px";
+            // document.getElementById("openMyAccount").style.margin =
+            //   "20px 0px 10px 40px";
           } else if (screenWidth < 700) {
             document.getElementById("saveAsPDF").style.height = "auto";
             document.getElementById("saveAsDOXS").style.height = "auto";
@@ -1938,13 +1958,15 @@
             document.getElementById("edit").style.height = "20px";
           }
           if (screenWidth > 420) {
+            console.log("Now");
             document.getElementById("accountGoPayments").style.width = "350px";
             document.getElementById("accountUpdateInfo").style.width = "350px";
+            document.getElementById("logoutButton").style.width = "350px";
             document.getElementById("accountManageSub").style.width = "350px";
-            document.getElementById("accountLacation").style.width = "320px";
-            document.getElementById("accountCompany").style.width = "320px";
             document.getElementById("accountNumner").style.width = "320px";
             document.getElementById("navbarEmail").style.width = "320px";
+            document.getElementById("accountFirstName").style.width = "175px";
+            document.getElementById("accountLastName").style.width = "175px";
           }
         }
 
