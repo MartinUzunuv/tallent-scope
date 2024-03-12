@@ -1684,22 +1684,6 @@
           type="email"
           id="navbarEmail"
         />
-
-
-        <input
-        id="accountLacation"
-        class="accountButton"
-        placeholder="Location"
-        type="text"
-      />
-     
-
-      <input
-        id="accountCompany"
-        class="accountButton"
-        placeholder="Company"
-        type="text"
-      />
         
   
         <button class="accountButton" id="accountUpdateInfo">Update</button>
@@ -1718,10 +1702,6 @@
                   res.account.firstName || "";
                 document.getElementById("accountLastName").value =
                   res.account.lastName || "";
-                document.getElementById("accountLacation").value =
-                  res.account.accountLocation || "";
-                document.getElementById("accountCompany").value =
-                  res.account.company || "";
                 document.getElementById("accountNumner").value =
                   res.account.number || "";
                 document.getElementById("navbarEmail").value =
@@ -1745,10 +1725,6 @@
                 document.getElementById("accountFirstName").value;
               let accountLastName =
                 document.getElementById("accountLastName").value;
-              let accountLocation =
-                document.getElementById("accountLacation").value;
-              let accountCompany =
-                document.getElementById("accountCompany").value;
               let accountNumber = document.getElementById("accountNumner").value;
               let accountEmail = document.getElementById("navbarEmail").value;
               axios
@@ -1918,8 +1894,6 @@
             document.getElementById("accountGoPayments").style.width = "280px";
             document.getElementById("accountUpdateInfo").style.width = "280px";
             document.getElementById("accountManageSub").style.width = "280px";
-            document.getElementById("accountLacation").style.width = "250px";
-            document.getElementById("accountCompany").style.width = "250px";
             document.getElementById("accountNumner").style.width = "250px";
             document.getElementById("navbarEmail").style.width = "250px";
             document.getElementById("historyOpenButton").style.borderRight =
@@ -1941,8 +1915,6 @@
             document.getElementById("accountGoPayments").style.width = "350px";
             document.getElementById("accountUpdateInfo").style.width = "350px";
             document.getElementById("accountManageSub").style.width = "350px";
-            document.getElementById("accountLacation").style.width = "320px";
-            document.getElementById("accountCompany").style.width = "320px";
             document.getElementById("accountNumner").style.width = "320px";
             document.getElementById("navbarEmail").style.width = "320px";
           }
