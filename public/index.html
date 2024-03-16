@@ -1787,11 +1787,11 @@
                   email: accountEmail,
                 })
                 .then((response) => {
-                  home.style.display = "block";
+                  home.style.display = "none";
                   signIn.style.display = "none";
                   signUp.style.display = "none";
                   fPass.style.display = "none";
-                  myAccount.style.display = "none";
+                  myAccount.style.display = "block";
                   payments.style.display = "none";
                 })
                 .catch((error) => {
