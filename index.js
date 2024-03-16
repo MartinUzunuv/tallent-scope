@@ -699,7 +699,7 @@ app.post("/create-checkout-session2", async (req, res) => {
         cancel_url: `${CLIENT_URL}`,
         line_items: [
           {
-            price: STRIPE_PRICE_ID2,
+            price: STRIPE_PRICE_ID,
             quantity: quantity2,
           },
         ],
