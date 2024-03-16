@@ -594,7 +594,7 @@ app.post("/validate", async (req, res) => {
   }
 });
 
-const quantity = 29;
+const quantity = 1;
 
 app.post("/create-checkout-session", async (req, res) => {
   const database = (await clientPromise).db(dbName);
@@ -680,7 +680,7 @@ app.post("/create-customer-portal-session", async (req, res) => {
   }
 });
 
-const quantity2 = 39;
+const quantity2 = 1;
 
 app.post("/create-checkout-session2", async (req, res) => {
   const database = (await clientPromise).db(dbName);
