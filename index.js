@@ -688,6 +688,7 @@ app.post("/create-checkout-session2", async (req, res) => {
   const requestData = req.body;
   const email = requestData.email;
   const pass = requestData.pass;
+  console.log(STRIPE_PRICE_ID2);
 
   const verified = await verifyPay(collection, email, pass, false);
 
