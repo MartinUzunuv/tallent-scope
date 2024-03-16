@@ -9,7 +9,7 @@ import * as postmark from "postmark";
 import cors from "cors";
 import { config } from "dotenv";
 config();
-const { STRIPE_PRIVATE_KEY, STRIPE_PRICE_ID, CLIENT_URL, APP_PORT } =
+const { STRIPE_PRIVATE_KEY, STRIPE_PRICE_ID, STRIPE_PRICE_ID2, CLIENT_URL, APP_PORT } =
   process.env;
 
 // const url = "http://35.175.226.121:80/";
@@ -698,7 +698,7 @@ app.post("/create-checkout-session2", async (req, res) => {
         cancel_url: `${CLIENT_URL}`,
         line_items: [
           {
-            price: STRIPE_PRICE_ID,
+            price: STRIPE_PRICE_ID2,
             quantity: quantity2,
           },
         ],
