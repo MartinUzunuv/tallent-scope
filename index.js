@@ -757,8 +757,6 @@ app.post("/updateAccountInfo", async (req, res) => {
   const pass = requestData.pass;
   const firstName = requestData.firstName;
   const lastName = requestData.lastName;
-  const company = requestData.company;
-  const number = requestData.number;
   const newEmail = requestData.email;
 
   try {
@@ -768,8 +766,6 @@ app.post("/updateAccountInfo", async (req, res) => {
         $set: {
           firstName: firstName,
           lastName: lastName,
-          company: company,
-          number: number,
           email: newEmail,
         },
       }

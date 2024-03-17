@@ -144,12 +144,12 @@
 
       #mainForm input::placeholder {
         text-align: center;
-        color: #4c5c6b;
+        color: #808080;
       }
 
       #mainForm input {
         background-color: white;
-        color: #5c6771;
+        color: #808080;
         border: none;
         padding: 10px;
         margin: 0px 10px 10px 10px;
@@ -161,7 +161,7 @@
 
       #mainForm input:required {
         background-color: #f7f7f7;
-        color: #4c5c6b;
+        color: #808080;
       }
 
       /* #mainForm input:required::placeholder {
@@ -330,7 +330,7 @@
 
       #lang {
         background-color: white;
-        color: #4c5c6b;
+        color: #808080;
         border: solid black 2px;
         border-radius: 3px;
         padding: 10px;
@@ -492,6 +492,8 @@
         border-top: none;
         border-left: none;
         border-right: none;
+        color: #808080;
+        font-weight: 600;
       }
 
       * {
@@ -1025,7 +1027,7 @@
                   for="jobTitle"
                   class="labelForInputs"
                   style="margin-top: 15px"
-                  >JOB TITLE</label
+                  >*JOB TITLE*</label
                 >
                 <input
                   id="jobTitle"
@@ -1080,7 +1082,6 @@
                 <input
                   id="description"
                   placeholder="E.g., Lead a team of..."
-                  required
                   type="text"
                 />
                 <br />
@@ -1097,7 +1098,6 @@
                 <input
                   id="keywords"
                   placeholder="E.g., Python, AI"
-                  required
                   type="text"
                 />
                 <br />
@@ -1709,15 +1709,6 @@
             type="text"
           />
         </div>
-       
-        <input
-          style="color: #808080; font-family: Space Grotesk; font-size: 17px;"
-          id="accountNumner"
-          class="accountButton"
-          placeholder="NUMBER"
-          type="text"
-        />
-        
   
         <input
           style="color: #808080; font-family: Space Grotesk; font-size: 17px;"
@@ -1775,7 +1766,6 @@
                 document.getElementById("accountFirstName").value;
               let accountLastName =
                 document.getElementById("accountLastName").value;
-              let accountNumber = document.getElementById("accountNumner").value;
               let accountEmail = document.getElementById("navbarEmail").value;
               axios
                 .post(baseUrl + "/updateAccountInfo", {
@@ -1783,7 +1773,6 @@
                   pass: localStorage.getItem("talentScopePass"),
                   firstName: accountFirstName,
                   lastName: accountLastName,
-                  number: accountNumber,
                   email: accountEmail,
                 })
                 .then((response) => {
@@ -1940,7 +1929,6 @@
             document.getElementById("accountUpdateInfo").style.width = "280px";
             document.getElementById("accountManageSub").style.width = "280px";
             document.getElementById("logoutButton").style.width = "280px";
-            document.getElementById("accountNumner").style.width = "250px";
             document.getElementById("navbarEmail").style.width = "250px";
             document.getElementById("accountFirstName").style.width = "280px";
             document.getElementById("accountLastName").style.width = "280px";
@@ -1965,7 +1953,6 @@
             document.getElementById("accountUpdateInfo").style.width = "350px";
             document.getElementById("logoutButton").style.width = "350px";
             document.getElementById("accountManageSub").style.width = "350px";
-            document.getElementById("accountNumner").style.width = "320px";
             document.getElementById("navbarEmail").style.width = "320px";
             document.getElementById("accountFirstName").style.width = "175px";
             document.getElementById("accountLastName").style.width = "175px";
