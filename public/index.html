@@ -352,21 +352,21 @@
         border-radius: 0px;
       }
 
-     .accountField {
-      background-color: white;
-      border: solid 1px rgb(158, 157, 157);
-      font-weight: 800;
-      font-size: 15px;
-      color: #1f3245;
-      padding: 9px;
-      width: 300px;
-      margin: 25px;
-      margin-left: 40px;
-     }
+      .accountField {
+        background-color: white;
+        border: solid 1px rgb(158, 157, 157);
+        font-weight: 800;
+        font-size: 15px;
+        color: #1f3245;
+        padding: 9px;
+        width: 300px;
+        margin: 25px;
+        margin-left: 40px;
+      }
 
-     #myAccount {
-      background-color: #d6e6f5;
-     }
+      #myAccount {
+        background-color: #d6e6f5;
+      }
 
       #navbarTitle {
         font-size: 22px;
@@ -546,7 +546,7 @@
         cursor: pointer;
       }
 
-      #accountBack{
+      #accountBack {
         background-color: #eeb120;
         border: solid black 2px;
         border-radius: 50px !important;
@@ -564,14 +564,14 @@
       }
 
       /* Account styles*/
-      .account-wrapper{
+      .account-wrapper {
         display: flex;
         flex-direction: column;
         justify-self: center;
         align-items: center;
         margin-top: 40px;
       }
-      .account-row{
+      .account-row {
         margin-top: 10px;
         display: flex;
         flex-direction: row;
@@ -583,17 +583,17 @@
       }
 
       @media screen and (max-width: 460px) {
-        .account-row{
+        .account-row {
           flex-direction: column;
         }
       }
 
-      .account-button-content{
+      .account-button-content {
         display: flex;
         flex-direction: column;
         gap: 0px;
       }
-      .account-button-content label{
+      .account-button-content label {
         font-size: 15px;
         color: black;
         font-weight: 600;
@@ -724,6 +724,15 @@
           })
           .then((response) => {
             const res = response.data;
+            if (res.message === "no more free tokens") {
+              home.style.display = "none";
+              myAccount.style.display = "none";
+              endOfFree.style.display = "block";
+            } else if (res.message === "not payed") {
+              home.style.display = "none";
+              myAccount.style.display = "none";
+              payments.style.display = "block";
+            }
             if (res.message !== "ok") {
               home.style.display = "none";
               signIn.style.display = "none";
@@ -856,6 +865,15 @@
               })
               .then((response) => {
                 const res = response.data;
+                if (res.message === "no more free tokens") {
+                  home.style.display = "none";
+                  myAccount.style.display = "none";
+                  endOfFree.style.display = "block";
+                } else if (res.message === "not payed") {
+                  home.style.display = "none";
+                  myAccount.style.display = "none";
+                  payments.style.display = "block";
+                }
                 var chats = JSON.parse(res.message);
                 console.log(chats);
                 dropdownContent.innerHTML = "";
@@ -864,7 +882,7 @@
 
                   button.innerHTML = "No history yet";
 
-                  button.classList.add("highlighted");
+                  button.classList.add("histotyItem");
 
                   dropdownContent.appendChild(button);
 
@@ -1220,6 +1238,15 @@
                               })
                               .then((response) => {
                                 const res = response.data;
+                                if (res.message === "no more free tokens") {
+                                  home.style.display = "none";
+                                  myAccount.style.display = "none";
+                                  endOfFree.style.display = "block";
+                                } else if (res.message === "not payed") {
+                                  home.style.display = "none";
+                                  myAccount.style.display = "none";
+                                  payments.style.display = "block";
+                                }
                                 if (res.message !== "ok") {
                                   console.error(
                                     "couldn't save the updated job description"
@@ -1380,6 +1407,15 @@
                       const res = response.data;
                       jobDescriptionResult.innerText = res.message;
                       copyText = res.message;
+                      if (res.message === "no more free tokens") {
+                        home.style.display = "none";
+                        myAccount.style.display = "none";
+                        endOfFree.style.display = "block";
+                      } else if (res.message === "not payed") {
+                        home.style.display = "none";
+                        myAccount.style.display = "none";
+                        payments.style.display = "block";
+                      }
                       document.getElementById(
                         "mainFormSubmit"
                       ).disabled = false;
@@ -1639,29 +1675,30 @@
 
     <!-- my account -->
     <div id="myAccount">
-      <div id="navbar" style="justify-content: flex-end;">
+      <div id="navbar" style="justify-content: flex-end">
         <div id="navbarEmailBox">
           <button id="accountBack" style="border-radius: 5px">Back</button>
-          
+
           <script>
-            document.getElementById("accountBack").addEventListener("click", () => {
-            myAccount.style.display = "none";
-            home.style.display = "block";
-            validate();
-          });
+            document
+              .getElementById("accountBack")
+              .addEventListener("click", () => {
+                myAccount.style.display = "none";
+                home.style.display = "block";
+                validate();
+              });
           </script>
         </div>
       </div>
       <div class="account-wrapper">
-        
         <div class="account-row">
           <input
-          id="accountFirstName"
-          class="accountButtonHalf"
-          placeholder="First Name"
-          type="text"
+            id="accountFirstName"
+            class="accountButtonHalf"
+            placeholder="First Name"
+            type="text"
           />
-          
+
           <input
             id="accountLastName"
             class="accountButtonHalf"
@@ -1669,25 +1706,23 @@
             type="text"
           />
         </div>
-       
+
         <input
           id="accountNumner"
           class="accountButton"
           placeholder="Number"
           type="text"
         />
-        
-  
+
         <input
           class="accountButton"
           placeholder="Email"
           type="email"
           id="navbarEmail"
         />
-        
-  
+
         <button class="accountButton" id="accountUpdateInfo">Update</button>
-        
+
         <script>
           axios
             .post(baseUrl + "/getAccountInfo", {
@@ -1725,7 +1760,8 @@
                 document.getElementById("accountFirstName").value;
               let accountLastName =
                 document.getElementById("accountLastName").value;
-              let accountNumber = document.getElementById("accountNumner").value;
+              let accountNumber =
+                document.getElementById("accountNumner").value;
               let accountEmail = document.getElementById("navbarEmail").value;
               axios
                 .post(baseUrl + "/updateAccountInfo", {
@@ -1751,49 +1787,72 @@
                 });
             });
         </script>
-  
-        <button style="background-color: #eeb120;" class="accountButton" id="accountManageSub">My subscribtions</button>
+
+        <button
+          style="background-color: #eeb120"
+          class="accountButton"
+          id="accountManageSub"
+        >
+          My subscribtions
+        </button>
         <script>
           document
-          .getElementById("accountManageSub")
-          .addEventListener("click", () => {
-            axios
-              .post(baseUrl + "/create-customer-portal-session", {
-                email: localStorage.getItem("talentScopeEmail"),
-                pass: localStorage.getItem("talentScopePass"),
-              })
-              .then((response) => {
-                const { url } = response.data;
-                if (url) {
-                  window.location.href = url; // This redirects the user to the Customer Portal
-                }
-              })
-              .catch((error) => {
-                console.error("Error:", error.response.data);
-              });
-          });
-  
+            .getElementById("accountManageSub")
+            .addEventListener("click", () => {
+              axios
+                .post(baseUrl + "/create-customer-portal-session", {
+                  email: localStorage.getItem("talentScopeEmail"),
+                  pass: localStorage.getItem("talentScopePass"),
+                })
+                .then((response) => {
+                  const { url } = response.data;
+                  if (url) {
+                    window.location.href = url; // This redirects the user to the Customer Portal
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error:", error.response.data);
+                });
+            });
         </script>
-        
-        <button style="background-color: #afafaf;" class="accountButton" id="accountGoPayments">View my subcribion status</button>
+
+        <button
+          style="background-color: #afafaf"
+          class="accountButton"
+          id="accountGoPayments"
+        >
+          View my subcribion status
+        </button>
 
         <div class="account-row">
-          <button style="background-color: #000000; color: white" class="accountButtonHalf" id="accountTest">Test</button>
-          
-          <button style="background-color: rgb(240, 215, 219); border-color: crimson" class="accountButtonHalf" id="logoutButton">Logout</button>
+          <button
+            style="background-color: #000000; color: white"
+            class="accountButtonHalf"
+            id="accountTest"
+          >
+            Test
+          </button>
+
+          <button
+            style="background-color: rgb(240, 215, 219); border-color: crimson"
+            class="accountButtonHalf"
+            id="logoutButton"
+          >
+            Logout
+          </button>
         </div>
-        
+
         <script>
           document.getElementById("navbarEmail").value =
             localStorage.getItem("talentScopeEmail");
-  
+
           document
             .getElementById("accountGoPayments")
             .addEventListener("click", () => {
               myAccount.style.display = "none";
               payments.style.display = "block";
             });
-  
+
           document
             .getElementById("logoutButton")
             .addEventListener("click", () => {
@@ -1803,7 +1862,6 @@
               signIn.style.display = "block";
               location.reload();
             });
-  
         </script>
       </div>
     </div>
@@ -1926,6 +1984,10 @@
       });
     </script>
 
+    <div id="endOfFree">
+      <h1>End of free 😔</h1>
+    </div>
+
     <script>
       var signUp = document.getElementById("signUp");
       var home = document.getElementById("home");
@@ -1933,12 +1995,14 @@
       var fPass = document.getElementById("fPass");
       var myAccount = document.getElementById("myAccount");
       var payments = document.getElementById("payments");
+      var endOfFree = document.getElementById("endOfFree");
       home.style.display = "none";
       signIn.style.display = "none";
       signUp.style.display = "none";
       fPass.style.display = "none";
       myAccount.style.display = "none";
       payments.style.display = "none";
+      endOfFree.style.display = "none";
       let emailInit = localStorage.getItem("talentScopeEmail");
       let passInit = localStorage.getItem("talentScopePass");
       let url = window.location.href;
