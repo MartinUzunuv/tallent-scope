@@ -758,7 +758,8 @@
             if (res.message === "no more free tokens") {
               home.style.display = "none";
               myAccount.style.display = "none";
-              endOfFree.style.display = "block";
+              payments.style.display = "block";
+              showNoFree = true;
             } else if (res.message === "not payed") {
               home.style.display = "none";
               myAccount.style.display = "none";
@@ -781,8 +782,8 @@
       var currentTextDbId = null;
       var historyOpened = false;
       // var baseUrl = "http://35.175.226.121:80";
-      var baseUrl = "https://app.writenhire.ai";
-
+      var baseUrl = "http://localhost:3000";
+      var showNoFree = false;
     </script>
 
     <!-- home -->
@@ -905,11 +906,16 @@
                 if (res.message === "no more free tokens") {
                   home.style.display = "none";
                   myAccount.style.display = "none";
-                  endOfFree.style.display = "block";
+                  payments.style.display = "block";
+                  showNoFree = true;
                 } else if (res.message === "not payed") {
                   home.style.display = "none";
                   myAccount.style.display = "none";
                   payments.style.display = "block";
+                }
+                if (showNoFree) {
+                  showNoFreeMessage.style.display = "block";
+                  showNoFree = false;
                 }
                 var chats = JSON.parse(res.message);
                 console.log(chats);
@@ -1276,11 +1282,16 @@
                                 if (res.message === "no more free tokens") {
                                   home.style.display = "none";
                                   myAccount.style.display = "none";
-                                  endOfFree.style.display = "block";
+                                  payments.style.display = "block";
+                                  showNoFree = true;
                                 } else if (res.message === "not payed") {
                                   home.style.display = "none";
                                   myAccount.style.display = "none";
                                   payments.style.display = "block";
+                                }
+                                if (showNoFree) {
+                                  showNoFreeMessage.style.display = "block";
+                                  showNoFree = false;
                                 }
                                 if (res.message !== "ok") {
                                   console.error(
@@ -1445,11 +1456,16 @@
                       if (res.message === "no more free tokens") {
                         home.style.display = "none";
                         myAccount.style.display = "none";
-                        endOfFree.style.display = "block";
+                        payments.style.display = "block";
+                        showNoFree = true;
                       } else if (res.message === "not payed") {
                         home.style.display = "none";
                         myAccount.style.display = "none";
                         payments.style.display = "block";
+                      }
+                      if (showNoFree) {
+                        showNoFreeMessage.style.display = "block";
+                        showNoFree = false;
                       }
                       document.getElementById(
                         "mainFormSubmit"
@@ -1869,6 +1885,7 @@
     <!-- payments -->
     <div id="payments">
       <div class="all-payments">
+        <h1 id="showNoFreeMessage">Your Free trial has ended.</h1>
         <div class="title-payments">The Best Pricing Plan</div>
         <div class="plans">
           <div class="card">
@@ -1881,6 +1898,11 @@
             <p>$359 Every Year</p>
             <button id="payentsButton" class="select">Select</button>
             <script>
+              var showNoFreeMessage =
+                document.getElementById("showNoFreeMessage");
+
+              showNoFreeMessage.style.display = "none";
+
               document
                 .getElementById("payentsButton")
                 .addEventListener("click", () => {
