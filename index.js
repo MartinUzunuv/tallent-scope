@@ -385,14 +385,14 @@ app.post("/sendData", async (req, res) => {
         pass: pass,
       })
     if (user.shownNoMoreFreeTokesnPage === false) {
-      res.send({ message: "no more free tokens" });
-      collection.updateOne(
+      await collection.updateOne(
         {
           email: email,
           pass: pass,
         },
         { $set: { shownNoMoreFreeTokesnPage: true } }
       );
+      res.send({ message: "no more free tokens" });
     } else {
       res.send({ message: "not payed" });
     }
