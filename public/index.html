@@ -873,16 +873,16 @@
                   home.style.display = "none";
                   myAccount.style.display = "none";
                   payments.style.display = "block";
-                  showNoFree = true;
+                  // showNoFree = true;
                 } else if (res.message === "not payed") {
                   home.style.display = "none";
                   myAccount.style.display = "none";
                   payments.style.display = "block";
                 }
-                if (showNoFree) {
-                  showNoFreeMessage.style.display = "block";
-                  showNoFree = false;
-                }
+                // if (showNoFree) {
+                //   showNoFreeMessage.style.display = "block";
+                //   showNoFree = false;
+                // }
                 var chats = JSON.parse(res.message);
                 console.log(chats);
                 dropdownContent.innerHTML = "";
