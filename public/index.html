@@ -791,7 +791,9 @@
       <div id="appSpace">
         <div id="historySpace">
           <div id="historyDropdown" class="dropdown-content">
-            <a id="histotyItem">Loading...</a>
+            <a name="99-history" class="highlighted" id="histotyItem"
+              >Loading...</a
+            >
           </div>
         </div>
         <script>
@@ -889,7 +891,11 @@
 
                   button.innerHTML = "No history yet";
 
-                  button.classList.add("histotyItem");
+                  button.classList.add("highlighted");
+
+                  button.setAttribute("name", "99-history");
+
+                  button.setAttribute("id", "histotyItem");
 
                   dropdownContent.appendChild(button);
 
@@ -1443,6 +1449,7 @@
                         "generatingSpinner"
                       ).style.display = "none";
                       jobDescriptionResult.style.display = "block";
+                      refreshHistory();
                     })
                     .catch((error) => {
                       console.error(error);
@@ -1552,6 +1559,7 @@
                   }
                   document.getElementById("navbarEmail").innerText =
                     signInEmail;
+                  refreshHistory();
                 }
                 if (res.message === "wrong name or pass") {
                   signInIncorrectNameOrPassword.style.display = "block";
@@ -1620,6 +1628,7 @@
                   }
                   document.getElementById("navbarEmail").innerText =
                     signUpEmail;
+                  refreshHistory();
                 }
                 if (res.message === "email taken") {
                   signUpEmailTaken.style.display = "block";

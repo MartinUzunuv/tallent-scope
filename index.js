@@ -381,20 +381,24 @@ app.post("/sendData", async (req, res) => {
 
   if (!verified) {
     const user = await collection.findOne({
-        email: email,
-        pass: pass,
-      })
-    if (user.shownNoMoreFreeTokesnPage === false) {
-      await collection.updateOne(
-        {
-          email: email,
-          pass: pass,
-        },
-        { $set: { shownNoMoreFreeTokesnPage: true } }
-      );
-      res.send({ message: "no more free tokens" });
+      email: email,
+      pass: pass,
+    });
+    if (user) {
+      if (user.shownNoMoreFreeTokesnPage === false) {
+        await collection.updateOne(
+          {
+            email: email,
+            pass: pass,
+          },
+          { $set: { shownNoMoreFreeTokesnPage: true } }
+        );
+        res.send({ message: "no more free tokens" });
+      } else {
+        res.send({ message: "not payed" });
+      }
     } else {
-      res.send({ message: "not payed" });
+      res.send({ message: "account error" });
     }
   } else {
     try {
@@ -447,17 +451,21 @@ app.post("/getHistory", async (req, res) => {
       email: email,
       pass: pass,
     });
-    if (user.shownNoMoreFreeTokesnPage === false) {
-      res.send({ message: "no more free tokens" });
-      collection.updateOne(
-        {
-          email: email,
-          pass: pass,
-        },
-        { $set: { shownNoMoreFreeTokesnPage: true } }
-      );
+    if (user) {
+      if (user.shownNoMoreFreeTokesnPage === false) {
+        res.send({ message: "no more free tokens" });
+        collection.updateOne(
+          {
+            email: email,
+            pass: pass,
+          },
+          { $set: { shownNoMoreFreeTokesnPage: true } }
+        );
+      } else {
+        res.send({ message: "not payed" });
+      }
     } else {
-      res.send({ message: "not payed" });
+      res.send({ message: "account error" });
     }
   } else {
     try {
@@ -592,17 +600,21 @@ app.post("/updateText", async (req, res) => {
       email: email,
       pass: pass,
     });
-    if (user.shownNoMoreFreeTokesnPage === false) {
-      res.send({ message: "no more free tokens" });
-      collection.updateOne(
-        {
-          email: email,
-          pass: pass,
-        },
-        { $set: { shownNoMoreFreeTokesnPage: true } }
-      );
+    if (user) {
+      if (user.shownNoMoreFreeTokesnPage === false) {
+        res.send({ message: "no more free tokens" });
+        collection.updateOne(
+          {
+            email: email,
+            pass: pass,
+          },
+          { $set: { shownNoMoreFreeTokesnPage: true } }
+        );
+      } else {
+        res.send({ message: "not payed" });
+      }
     } else {
-      res.send({ message: "not payed" });
+      res.send({ message: "account error" });
     }
   } else {
     try {
@@ -636,17 +648,21 @@ app.post("/validate", async (req, res) => {
       email: email,
       pass: pass,
     });
-    if (user.shownNoMoreFreeTokesnPage === false) {
-      res.send({ message: "no more free tokens" });
-      collection.updateOne(
-        {
-          email: email,
-          pass: pass,
-        },
-        { $set: { shownNoMoreFreeTokesnPage: true } }
-      );
+    if (user) {
+      if (user.shownNoMoreFreeTokesnPage === false) {
+        res.send({ message: "no more free tokens" });
+        collection.updateOne(
+          {
+            email: email,
+            pass: pass,
+          },
+          { $set: { shownNoMoreFreeTokesnPage: true } }
+        );
+      } else {
+        res.send({ message: "not payed" });
+      }
     } else {
-      res.send({ message: "not payed" });
+      res.send({ message: "account error" });
     }
   } else {
     res.send({ message: "ok" });
