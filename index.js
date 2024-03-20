@@ -77,8 +77,6 @@ async function verifyPay(collection, email, pass, spend) {
         return false;
       }
 
-      console.log(111);
-
       try {
         const session = await stripe.checkout.sessions.retrieve(
           user.stripeSessionId
@@ -322,6 +320,7 @@ app.post("/signUpSendData", async (req, res) => {
         pass: pass,
         chats: [],
         freeTokens: 3,
+        shownNoMoreFreeTokesnPage: false,
       });
       res.send({ message: "account created" });
     } else {
@@ -381,7 +380,26 @@ app.post("/sendData", async (req, res) => {
   const verified = await verifyPay(collection, email, pass, true);
 
   if (!verified) {
-    res.send({ message: "not payed" });
+    const user = await collection.findOne({
+      email: email,
+      pass: pass,
+    });
+    if (user) {
+      if (user.shownNoMoreFreeTokesnPage === false) {
+        await collection.updateOne(
+          {
+            email: email,
+            pass: pass,
+          },
+          { $set: { shownNoMoreFreeTokesnPage: true } }
+        );
+        res.send({ message: "no more free tokens" });
+      } else {
+        res.send({ message: "not payed" });
+      }
+    } else {
+      res.send({ message: "account error" });
+    }
   } else {
     try {
       const checkIfAccountExists = await collection.findOne({
@@ -426,11 +444,30 @@ app.post("/getHistory", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  const verified = await verifyPay(collection, email, pass, false);
+  // const verified = await verifyPay(collection, email, pass, false);
 
-  if (!verified) {
-    res.send({ message: "not payed" });
-  } else {
+  // if (!verified) {
+  //   const user = await collection.findOne({
+  //     email: email,
+  //     pass: pass,
+  //   });
+  //   if (user) {
+  //     if (user.shownNoMoreFreeTokesnPage === false) {
+  //       res.send({ message: "no more free tokens" });
+  //       collection.updateOne(
+  //         {
+  //           email: email,
+  //           pass: pass,
+  //         },
+  //         { $set: { shownNoMoreFreeTokesnPage: true } }
+  //       );
+  //     } else {
+  //       res.send({ message: "not payed" });
+  //     }
+  //   } else {
+  //     res.send({ message: "account error" });
+  //   }
+  // } else {
     try {
       const account = await collection.findOne({
         email: email,
@@ -451,7 +488,7 @@ app.post("/getHistory", async (req, res) => {
     } catch (e) {
       res.send("error");
     }
-  }
+  // }
 });
 
 app.post("/fPassSendData", async (req, res) => {
@@ -559,7 +596,26 @@ app.post("/updateText", async (req, res) => {
   const verified = await verifyPay(collection, email, pass, false);
 
   if (!verified) {
-    res.send({ message: "not payed" });
+    const user = await collection.findOne({
+      email: email,
+      pass: pass,
+    });
+    if (user) {
+      if (user.shownNoMoreFreeTokesnPage === false) {
+        res.send({ message: "no more free tokens" });
+        collection.updateOne(
+          {
+            email: email,
+            pass: pass,
+          },
+          { $set: { shownNoMoreFreeTokesnPage: true } }
+        );
+      } else {
+        res.send({ message: "not payed" });
+      }
+    } else {
+      res.send({ message: "account error" });
+    }
   } else {
     try {
       await collection.updateOne(
@@ -588,7 +644,26 @@ app.post("/validate", async (req, res) => {
   const verified = await verifyPay(collection, email, pass, false);
 
   if (!verified) {
-    res.send({ message: "not payed" });
+    const user = await collection.findOne({
+      email: email,
+      pass: pass,
+    });
+    if (user) {
+      if (user.shownNoMoreFreeTokesnPage === false) {
+        res.send({ message: "no more free tokens" });
+        collection.updateOne(
+          {
+            email: email,
+            pass: pass,
+          },
+          { $set: { shownNoMoreFreeTokesnPage: true } }
+        );
+      } else {
+        res.send({ message: "not payed" });
+      }
+    } else {
+      res.send({ message: "account error" });
+    }
   } else {
     res.send({ message: "ok" });
   }
@@ -670,13 +745,13 @@ app.post("/create-customer-portal-session", async (req, res) => {
 
         res.json({ url: portalSession.url });
       } else {
-        res.status(404).json({ error: 'Customer ID not found for this user.' });
+        res.status(404).json({ error: "Customer ID not found for this user." });
       }
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
   } else {
-    res.status(400).json({ error: 'No active session found for this user.' });
+    res.status(400).json({ error: "No active session found for this user." });
   }
 });
 

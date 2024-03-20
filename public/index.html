@@ -355,21 +355,21 @@
         border-radius: 0px;
       }
 
-     .accountField {
-      background-color: white;
-      border: solid 1px rgb(158, 157, 157);
-      font-weight: 800;
-      font-size: 15px;
-      color: #1f3245;
-      padding: 9px;
-      width: 300px;
-      margin: 25px;
-      margin-left: 40px;
-     }
+      .accountField {
+        background-color: white;
+        border: solid 1px rgb(158, 157, 157);
+        font-weight: 800;
+        font-size: 15px;
+        color: #1f3245;
+        padding: 9px;
+        width: 300px;
+        margin: 25px;
+        margin-left: 40px;
+      }
 
-     #myAccount {
-      background-color: #d6e6f5;
-     }
+      #myAccount {
+        background-color: #d6e6f5;
+      }
 
       #navbarTitle {
         font-size: 22px;
@@ -577,7 +577,7 @@
         cursor: pointer;
       }
 
-      #accountBack{
+      #accountBack {
         background-color: #eeb120;
         border: solid black 2px;
         border-radius: 50px !important;
@@ -595,14 +595,14 @@
       }
 
       /* Account styles*/
-      .account-wrapper{
+      .account-wrapper {
         display: flex;
         flex-direction: column;
         justify-self: center;
         align-items: center;
         margin-top: 100px;
       }
-      .account-row{
+      .account-row {
         margin-top: 10px;
         display: flex;
         flex-direction: row;
@@ -613,18 +613,18 @@
         gap: 10px;
       }
 
-      @media screen and (max-width: 420px) {
-        .account-row{
+      @media screen and (max-width: 460px) {
+        .account-row {
           flex-direction: column;
         }
       }
 
-      .account-button-content{
+      .account-button-content {
         display: flex;
         flex-direction: column;
         gap: 0px;
       }
-      .account-button-content label{
+      .account-button-content label {
         font-size: 15px;
         color: black;
         font-weight: 600;
@@ -755,6 +755,17 @@
           })
           .then((response) => {
             const res = response.data;
+            if (res.message === "no more free tokens") {
+              home.style.display = "none";
+              myAccount.style.display = "none";
+              payments.style.display = "block";
+              showNoFree = true;
+              console.log("here")
+            } else if (res.message === "not payed") {
+              home.style.display = "none";
+              myAccount.style.display = "none";
+              payments.style.display = "block";
+            }
             if (res.message !== "ok") {
               home.style.display = "none";
               signIn.style.display = "none";
@@ -772,8 +783,8 @@
       var currentTextDbId = null;
       var historyOpened = false;
       // var baseUrl = "http://35.175.226.121:80";
-      var baseUrl = "https://app.writenhire.ai";
-
+      var baseUrl = "http://localhost:3000";
+      var showNoFree = false;
     </script>
 
     <!-- home -->
@@ -817,7 +828,9 @@
       <div id="appSpace">
         <div id="historySpace">
           <div id="historyDropdown" class="dropdown-content">
-            <a id="histotyItem">Loading...</a>
+            <a name="99-history" class="highlighted" id="histotyItem"
+              >Loading...</a
+            >
           </div>
         </div>
         <script>
@@ -893,6 +906,20 @@
               })
               .then((response) => {
                 const res = response.data;
+                // if (res.message === "no more free tokens") {
+                //   home.style.display = "none";
+                //   myAccount.style.display = "none";
+                //   payments.style.display = "block";
+                //   showNoFree = true;
+                // } else if (res.message === "not payed") {
+                //   home.style.display = "none";
+                //   myAccount.style.display = "none";
+                //   payments.style.display = "block";
+                // }
+                // if (showNoFree) {
+                //   showNoFreeMessage.style.display = "block";
+                //   showNoFree = false;
+                // }
                 var chats = JSON.parse(res.message);
                 console.log(chats);
                 dropdownContent.innerHTML = "";
@@ -903,6 +930,10 @@
 
                   button.classList.add("highlighted");
 
+                  button.setAttribute("name", "99-history");
+
+                  button.setAttribute("id", "histotyItem");
+
                   dropdownContent.appendChild(button);
 
                   // clearInterval(noHistory);
@@ -911,6 +942,7 @@
                   //     "History";
                   // }, 3000);
                 }
+                console.log(123)
                 for (let i = chats.length; i >= 0; i--) {
                   if (i < chats.length) {
                     var button = document.createElement("a");
@@ -1255,6 +1287,22 @@
                               })
                               .then((response) => {
                                 const res = response.data;
+                                if (res.message === "no more free tokens") {
+                                  home.style.display = "none";
+                                  myAccount.style.display = "none";
+                                  payments.style.display = "block";
+                                  showNoFree = true;
+                                  console.log("here")
+                                } else if (res.message === "not payed") {
+                                  home.style.display = "none";
+                                  myAccount.style.display = "none";
+                                  payments.style.display = "block";
+                                }
+                                if (showNoFree) {
+                                  console.log("here1")
+                                  showNoFreeMessage.style.display = "block";
+                                  showNoFree = false;
+                                }
                                 if (res.message !== "ok") {
                                   console.error(
                                     "couldn't save the updated job description"
@@ -1415,6 +1463,22 @@
                       const res = response.data;
                       jobDescriptionResult.innerText = res.message;
                       copyText = res.message;
+                      if (res.message === "no more free tokens") {
+                        home.style.display = "none";
+                        myAccount.style.display = "none";
+                        payments.style.display = "block";
+                        showNoFree = true;
+                        console.log("here")
+                      } else if (res.message === "not payed") {
+                        home.style.display = "none";
+                        myAccount.style.display = "none";
+                        payments.style.display = "block";
+                      }
+                      if (showNoFree) {
+                        console.log("here1")
+                        showNoFreeMessage.style.display = "block";
+                        showNoFree = false;
+                      }
                       document.getElementById(
                         "mainFormSubmit"
                       ).disabled = false;
@@ -1425,6 +1489,7 @@
                         "generatingSpinner"
                       ).style.display = "none";
                       jobDescriptionResult.style.display = "block";
+                      refreshHistory();
                     })
                     .catch((error) => {
                       console.error(error);
@@ -1534,6 +1599,7 @@
                   }
                   document.getElementById("navbarEmail").innerText =
                     signInEmail;
+                  refreshHistory();
                 }
                 if (res.message === "wrong name or pass") {
                   signInIncorrectNameOrPassword.style.display = "block";
@@ -1602,6 +1668,7 @@
                   }
                   document.getElementById("navbarEmail").innerText =
                     signUpEmail;
+                  refreshHistory();
                 }
                 if (res.message === "email taken") {
                   signUpEmailTaken.style.display = "block";
@@ -1680,18 +1747,19 @@
         </div>
         <div id="navbarEmailBox">
           <button id="accountBack" style="border-radius: 5px">Back</button>
-          
+
           <script>
-            document.getElementById("accountBack").addEventListener("click", () => {
-            myAccount.style.display = "none";
-            home.style.display = "block";
-            validate();
-          });
+            document
+              .getElementById("accountBack")
+              .addEventListener("click", () => {
+                myAccount.style.display = "none";
+                home.style.display = "block";
+                validate();
+              });
           </script>
         </div>
       </div>  
       <div class="account-wrapper">
-        
         <div class="account-row">
           <input
           style="color: #808080; font-family: Space Grotesk; font-size: 17px;"
@@ -1700,7 +1768,7 @@
           placeholder="FIRST NAME"
           type="text"
           />
-          
+
           <input
             style="color: #808080; font-family: Space Grotesk; font-size: 17px;"
             id="accountLastName"
@@ -1792,24 +1860,23 @@
         <button style="background-color: #eeb120; margin-top: 50px; font-family: Space Grotesk;" class="accountButton" id="accountManageSub">MY SUBSCRIPTION</button>
         <script>
           document
-          .getElementById("accountManageSub")
-          .addEventListener("click", () => {
-            axios
-              .post(baseUrl + "/create-customer-portal-session", {
-                email: localStorage.getItem("talentScopeEmail"),
-                pass: localStorage.getItem("talentScopePass"),
-              })
-              .then((response) => {
-                const { url } = response.data;
-                if (url) {
-                  window.location.href = url; // This redirects the user to the Customer Portal
-                }
-              })
-              .catch((error) => {
-                console.error("Error:", error.response.data);
-              });
-          });
-  
+            .getElementById("accountManageSub")
+            .addEventListener("click", () => {
+              axios
+                .post(baseUrl + "/create-customer-portal-session", {
+                  email: localStorage.getItem("talentScopeEmail"),
+                  pass: localStorage.getItem("talentScopePass"),
+                })
+                .then((response) => {
+                  const { url } = response.data;
+                  if (url) {
+                    window.location.href = url; // This redirects the user to the Customer Portal
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error:", error.response.data);
+                });
+            });
         </script>
         
         <button style="background-color: #afafaf; font-family: Space Grotesk;" class="accountButton" id="accountGoPayments">CHOOSE PLAN</button>
@@ -1819,14 +1886,14 @@
         <script>
           document.getElementById("navbarEmail").value =
             localStorage.getItem("talentScopeEmail");
-  
+
           document
             .getElementById("accountGoPayments")
             .addEventListener("click", () => {
               myAccount.style.display = "none";
               payments.style.display = "block";
             });
-  
+
           document
             .getElementById("logoutButton")
             .addEventListener("click", () => {
@@ -1836,7 +1903,6 @@
               signIn.style.display = "block";
               location.reload();
             });
-  
         </script>
       </div>
     </div>
@@ -1844,6 +1910,7 @@
     <!-- payments -->
     <div id="payments">
       <div class="all-payments">
+        <h1 id="showNoFreeMessage">Your Free trial has ended.</h1>
         <div class="title-payments">The Best Pricing Plan</div>
         <div class="plans">
           <div class="card">
@@ -1856,6 +1923,11 @@
             <p>$359 Every Year</p>
             <button id="payentsButton" class="select">Select</button>
             <script>
+              var showNoFreeMessage =
+                document.getElementById("showNoFreeMessage");
+
+              showNoFreeMessage.style.display = "none";
+
               document
                 .getElementById("payentsButton")
                 .addEventListener("click", () => {
@@ -1965,6 +2037,10 @@
       });
     </script>
 
+    <div id="endOfFree">
+      <h1>End of free 😔</h1>
+    </div>
+
     <script>
       var signUp = document.getElementById("signUp");
       var home = document.getElementById("home");
@@ -1972,12 +2048,14 @@
       var fPass = document.getElementById("fPass");
       var myAccount = document.getElementById("myAccount");
       var payments = document.getElementById("payments");
+      var endOfFree = document.getElementById("endOfFree");
       home.style.display = "none";
       signIn.style.display = "none";
       signUp.style.display = "none";
       fPass.style.display = "none";
       myAccount.style.display = "none";
       payments.style.display = "none";
+      endOfFree.style.display = "none";
       let emailInit = localStorage.getItem("talentScopeEmail");
       let passInit = localStorage.getItem("talentScopePass");
       let url = window.location.href;
