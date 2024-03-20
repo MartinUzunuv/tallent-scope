@@ -729,6 +729,7 @@
               myAccount.style.display = "none";
               payments.style.display = "block";
               showNoFree = true;
+              console.log("here")
             } else if (res.message === "not payed") {
               home.style.display = "none";
               myAccount.style.display = "none";
@@ -869,16 +870,16 @@
               })
               .then((response) => {
                 const res = response.data;
-                if (res.message === "no more free tokens") {
-                  home.style.display = "none";
-                  myAccount.style.display = "none";
-                  payments.style.display = "block";
-                  // showNoFree = true;
-                } else if (res.message === "not payed") {
-                  home.style.display = "none";
-                  myAccount.style.display = "none";
-                  payments.style.display = "block";
-                }
+                // if (res.message === "no more free tokens") {
+                //   home.style.display = "none";
+                //   myAccount.style.display = "none";
+                //   payments.style.display = "block";
+                //   showNoFree = true;
+                // } else if (res.message === "not payed") {
+                //   home.style.display = "none";
+                //   myAccount.style.display = "none";
+                //   payments.style.display = "block";
+                // }
                 // if (showNoFree) {
                 //   showNoFreeMessage.style.display = "block";
                 //   showNoFree = false;
@@ -905,6 +906,7 @@
                   //     "History";
                   // }, 3000);
                 }
+                console.log(123)
                 for (let i = chats.length; i >= 0; i--) {
                   if (i < chats.length) {
                     var button = document.createElement("a");
@@ -1256,12 +1258,14 @@
                                   myAccount.style.display = "none";
                                   payments.style.display = "block";
                                   showNoFree = true;
+                                  console.log("here")
                                 } else if (res.message === "not payed") {
                                   home.style.display = "none";
                                   myAccount.style.display = "none";
                                   payments.style.display = "block";
                                 }
                                 if (showNoFree) {
+                                  console.log("here1")
                                   showNoFreeMessage.style.display = "block";
                                   showNoFree = false;
                                 }
@@ -1430,12 +1434,14 @@
                         myAccount.style.display = "none";
                         payments.style.display = "block";
                         showNoFree = true;
+                        console.log("here")
                       } else if (res.message === "not payed") {
                         home.style.display = "none";
                         myAccount.style.display = "none";
                         payments.style.display = "block";
                       }
                       if (showNoFree) {
+                        console.log("here1")
                         showNoFreeMessage.style.display = "block";
                         showNoFree = false;
                       }
