@@ -128,7 +128,7 @@
         color: white;
         border: none;
         border-radius: 6px;
-        margin: 10px;
+        margin: 10.8px 10px 10px 10px;
       }
 
       .warningMsg {
@@ -161,7 +161,7 @@
 
       #mainForm input:required {
         background-color: #f7f7f7;
-        color: #808080;
+        color: #E8E6E6;
       }
 
       /* #mainForm input:required::placeholder {
@@ -244,12 +244,12 @@
       }
 
       #jobDescriptionResult {
-        background-color: white;
+        background-color: #FFFCDE;
         color: black;
         margin-top: 20px;
         padding: 10px;
         width: 100%;
-        min-height: 800px;
+        min-height: 938.3px;
         border: solid 2px black;
         border-radius: 7px;
       }
@@ -335,7 +335,7 @@
         border-radius: 3px;
         padding: 10px;
         width: 210px;
-        margin-right: 25px;
+        margin-left: 18px;
         margin-top: 9px;
         font-size: 12px;
         font-weight: 900;
@@ -376,8 +376,9 @@
       }
 
       #navbar {
-        background-color: #eeb120;
+        background-color: #FFBF23;
         border: solid black 3px;
+        height: 57px;
       }
 
       #navbarEmailBox {
@@ -398,12 +399,13 @@
       } */
 
       #openMyAccount {
-        background-color: #eeb120;
+        background-color: #FFBF23;
         border: solid black 2px;
-        border-radius: 50px !important;
-        padding: 7px;
-        padding-left: 30px;
-        padding-right: 30px;
+        border-radius: 200px !important;
+        padding: 4px;
+        padding-left: 35px;
+        padding-right: 35px;
+        font-size: 15px;
         font-weight: 900;
         margin: 10px;
         cursor: pointer;
@@ -472,7 +474,7 @@
         border-top: none;
         border-left: none;
         transition: 0.5s;
-        height: 100vh;
+        height: 117vh;
         background-color: white;
       }
 
@@ -513,9 +515,9 @@
         color: white;
         font-weight: 500;
         font-size: 40px;
-        margin-top: 5px;
+        margin-top: 3.5px;
         position: absolute;
-        left: 30%;
+        left: 340px;
       }
 
       .dropbtn:hover {
@@ -537,6 +539,12 @@
         }
       }
 
+      @media screen and (max-width: 850px) {
+        #PageTitle {
+          left: 37%;
+        }
+      }
+
       @media screen and (max-width: 740px) {
         #PageTitle {
           display: none;
@@ -550,7 +558,7 @@
         width: 300px;
         font-weight: 800;
         font-size: 15px;
-        margin: 10px 30px;
+        margin: 15px 30px;
         padding: 15px;
         margin-bottom: 5px;
       }
@@ -578,7 +586,7 @@
       }
 
       #accountBack {
-        background-color: #eeb120;
+        background-color: #FFBF23;
         border: solid black 2px;
         border-radius: 50px !important;
         padding: 7px;
@@ -611,6 +619,12 @@
         flex-wrap: wrap;
         width: 500px;
         gap: 10px;
+      }
+      .main-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
       }
 
       @media screen and (max-width: 460px) {
@@ -783,7 +797,7 @@
       var currentTextDbId = null;
       var historyOpened = false;
       // var baseUrl = "http://35.175.226.121:80";
-      var baseUrl = "https://app.writenhire.ai";
+      var baseUrl = "http://localhost:3000";
       var showNoFree = false;
     </script>
 
@@ -927,6 +941,7 @@
                   var button = document.createElement("a");
 
                   button.innerHTML = "No history yet";
+                  button.style.textAlign = "center";
 
                   button.classList.add("highlighted");
 
@@ -1037,7 +1052,7 @@
                   <a>Loading...</a>
                 </div>
               </div> -->
-                <div style="width: 100%; text-align: right">
+                <div style="width: 100%; text-align: left">
                   <select name="lang" id="lang">
                     <option value="" disabled selected hidden>
                       CHOOSE LANGUAGE
@@ -1055,12 +1070,14 @@
                 </div>
 
                 <br />
-                <label
-                  for="jobTitle"
-                  class="labelForInputs"
-                  style="margin-top: 15px"
-                  >*JOB TITLE*</label
-                >
+                <div class="main-row">
+                  <div style="top: 10px; right: 2px; position: relative; color: red;">*</div>
+                  <label
+                    for="jobTitle"
+                    class="labelForInputs"
+                    style="margin-top: 15px"
+                    >JOB TITLE</label>
+                </div>
                 <input
                   id="jobTitle"
                   placeholder="E.g., Senior Developer"
@@ -1083,7 +1100,7 @@
                 <label for="remote" class="labelForInputs">REMOTE</label>
                 <input
                   id="remote"
-                  placeholder="E.g., fully remote"
+                  placeholder="E.g., Fully remote"
                   type="text"
                 />
                 <br />
@@ -1378,7 +1395,7 @@
               <div id="jobDescriptionResultcontainer">
                 <div id="generatingSpinner" class="loader"></div>
                 <a id="jobDescriptionResult"
-                  >Submit the parameters to get a job description</a
+                  >Submit the parameters to get your job description</a
                 >
               </div>
             </div>
@@ -1504,7 +1521,7 @@
                 .addEventListener("click", () => {
                   jobDescriptionResult.value = "";
                   jobDescriptionResult.innerText =
-                    "Submit the parameters to get a job description";
+                    "Submit the parameters to get your job description";
                   document.getElementById("jobTitle").value = "";
                   document.getElementById("jobTitle").value = "";
                   document.getElementById("aboutTheEmployer").value = "";
@@ -1704,7 +1721,7 @@
           />
           <br />
           <a id="checkEailMessage"
-            >Now check your email for a comfirmation, please</a
+            >Check your email and click the link to confirm new password</a
           >
         </form>
       </div>
@@ -1762,7 +1779,7 @@
       <div class="account-wrapper">
         <div class="account-row">
           <input
-          style="color: #808080; font-family: Space Grotesk; font-size: 17px;"
+          style="color: #808080; font-family: Space Grotesk; font-size: 17px; border-radius: 9px; border: 1px solid #E8E6E6;"
           id="accountFirstName"
           class="accountButtonHalf"
           placeholder="FIRST NAME"
@@ -1770,7 +1787,7 @@
           />
 
           <input
-            style="color: #808080; font-family: Space Grotesk; font-size: 17px;"
+            style="color: #808080; font-family: Space Grotesk; font-size: 17px; border-radius: 9px; border: 1px solid #E8E6E6;"
             id="accountLastName"
             class="accountButtonHalf"
             placeholder="LAST NAME"
@@ -1779,7 +1796,7 @@
         </div>
   
         <input
-          style="color: #808080; font-family: Space Grotesk; font-size: 17px;"
+          style="color: #808080; font-family: Space Grotesk; font-size: 17px; border-radius: 9px; border: 1px solid #E8E6E6;"
           class="accountButton"
           placeholder="EMAIL"
           type="email"
@@ -1795,7 +1812,11 @@
       /> -->
         
   
-        <button style="background-color: #50ab4a; font-family: Space Grotesk;" class="accountButton" id="accountUpdateInfo">UPDATE</button>
+        <button style="background: rgba(85, 84, 91, 0.45); 
+                      font-family: Space Grotesk; 
+                      border-radius: 9px; 
+                      border: 1px solid #E8E6E6; 
+                      color: white;" class="accountButton" id="accountUpdateInfo">UPDATE</button>
         
         <script>
           axios
@@ -1857,7 +1878,12 @@
             });
         </script>
   
-        <button style="background-color: #eeb120; margin-top: 50px; font-family: Space Grotesk;" class="accountButton" id="accountManageSub">MY SUBSCRIPTION</button>
+        <button style="background: #FFB800;
+                      margin-top: 50px; 
+                      font-family: Space Grotesk; 
+                      font-weight: 800;
+                      border-radius: 9px; 
+                      border: 1px solid #E8E6E6;" class="accountButton" id="accountManageSub">MANAGE MY SUBSCRIPTION</button>
         <script>
           document
             .getElementById("accountManageSub")
@@ -1879,9 +1905,19 @@
             });
         </script>
         
-        <button style="background-color: #afafaf; font-family: Space Grotesk;" class="accountButton" id="accountGoPayments">CHOOSE PLAN</button>
+        <button style="background: #50AB50;
+                      color: white;
+                      font-family: Space Grotesk; 
+                      border-radius: 9px; 
+                      font-weight: 800;
+                      border: 1px solid #E8E6E6;" class="accountButton" id="accountGoPayments">CHOOSE MY PLAN</button>
 
-        <button style="background-color: rgb(240, 215, 219); border-color: crimson; margin-top: 50px; font-family: Space Grotesk;" class="accountButton" id="logoutButton">LOGOUT</button>
+        <button style="background: #F6DADE; 
+                      margin-top: 50px; 
+                      font-family: Space Grotesk; 
+                      font-weight: 800;
+                      border-radius: 9px; 
+                      border: 1px solid #E8E6E6;" class="accountButton" id="logoutButton">LOGOUT</button>
 
         <script>
           document.getElementById("navbarEmail").value =
@@ -1995,8 +2031,7 @@
         function adjustHeight() {
           var screenWidth = window.innerWidth;
           console.log(screenWidth);
-          if (screenWidth < 420) {
-            console.log("UNDER");
+          if (screenWidth < 470) {
             document.getElementById("accountGoPayments").style.width = "280px";
             document.getElementById("accountUpdateInfo").style.width = "280px";
             document.getElementById("accountManageSub").style.width = "280px";
@@ -2019,15 +2054,14 @@
             document.getElementById("saveAsDOXS").style.height = "20px";
             document.getElementById("edit").style.height = "20px";
           }
-          if (screenWidth > 420) {
-            console.log("Now");
-            document.getElementById("accountGoPayments").style.width = "350px";
-            document.getElementById("accountUpdateInfo").style.width = "350px";
-            document.getElementById("logoutButton").style.width = "350px";
-            document.getElementById("accountManageSub").style.width = "350px";
-            document.getElementById("navbarEmail").style.width = "320px";
-            document.getElementById("accountFirstName").style.width = "175px";
-            document.getElementById("accountLastName").style.width = "175px";
+          if (screenWidth > 470) {
+            document.getElementById("accountGoPayments").style.width = "400px";
+            document.getElementById("accountUpdateInfo").style.width = "250px";
+            document.getElementById("logoutButton").style.width = "400px";
+            document.getElementById("accountManageSub").style.width = "400px";
+            document.getElementById("navbarEmail").style.width = "370px";
+            document.getElementById("accountFirstName").style.width = "200px";
+            document.getElementById("accountLastName").style.width = "200px";
           }
         }
 
