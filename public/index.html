@@ -797,7 +797,7 @@
       var currentTextDbId = null;
       var historyOpened = false;
       // var baseUrl = "http://35.175.226.121:80";
-      var baseUrl = "http://localhost:3000";
+      var baseUrl = "https://app.writenhire.ai";
       var showNoFree = false;
     </script>
 
@@ -1608,8 +1608,12 @@
                   let url = window.location.href;
                   if (url.endsWith("#payments")) {
                     console.log("redirect to payments");
+                    home.style.display = "none";
+                    myAccount.style.display = "none";
+                    payments.style.display = "block";
                   } else if (url.endsWith("#account")) {
                     home.style.display = "none";
+                    payments.style.display = "none";
                     myAccount.style.display = "block";
                   } else {
                     validate();
@@ -1677,8 +1681,12 @@
                   let url = window.location.href;
                   if (url.endsWith("#payments")) {
                     console.log("redirect to payments");
+                    home.style.display = "none";
+                    myAccount.style.display = "none";
+                    payments.style.display = "block";
                   } else if (url.endsWith("#account")) {
                     home.style.display = "none";
+                    payments.style.display = "none";
                     myAccount.style.display = "block";
                   } else {
                     validate();
@@ -2094,9 +2102,14 @@
       let passInit = localStorage.getItem("talentScopePass");
       let url = window.location.href;
       if (url.endsWith("#payments")) {
-        console.log("redirect to payments");
+          console.log("redirect to payments");
+          home.style.display = "none";
+          myAccount.style.display = "none";
+          payments.style.display = "block";
       } else if (url.endsWith("#account")) {
-        myAccount.style.display = "block";
+          home.style.display = "none";
+          payments.style.display = "none";
+          myAccount.style.display = "block";
       }
       if (emailInit && passInit && emailInit !== "null") {
         axios
@@ -2113,8 +2126,12 @@
               home.style.display = "block";
               if (url.endsWith("#payments")) {
                 console.log("redirect to payments");
+                home.style.display = "none";
+                myAccount.style.display = "none";
+                payments.style.display = "block";
               } else if (url.endsWith("#account")) {
                 home.style.display = "none";
+                payments.style.display = "none";
                 myAccount.style.display = "block";
               } else {
                 validate();
