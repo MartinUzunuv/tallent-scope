@@ -797,7 +797,7 @@
       var currentTextDbId = null;
       var historyOpened = false;
       // var baseUrl = "http://35.175.226.121:80";
-      var baseUrl = "https://app.writenhire.ai";
+      var baseUrl = "http://localhost:3000";
       var showNoFree = false;
     </script>
 
@@ -1572,6 +1572,22 @@
         );
         signInIncorrectNameOrPassword.style.display = "none";
 
+        let signInForm = document.getElementById("signIn");
+
+        let signInFormStyle = window.getComputedStyle(signInForm);
+      
+        setTimeout(() => {
+          let signUpForm = document.getElementById("signUp");
+          let signUpUrl = window.location.href;
+
+          if (signInFormStyle.display === "block" && signUpUrl.endsWith("#signUp")) {
+            signInForm.style.display = "none";
+            signUpForm.style.display = "block";
+            const newUrl = signUpUrl.replace("#signUp", "");
+            history.replaceState(null, null, newUrl);
+          }
+        }, 5);
+
         document
           .getElementById("dontHaveAnAccountSignUp")
           .addEventListener("click", (event) => {
@@ -1607,7 +1623,6 @@
                   home.style.display = "block";
                   let url = window.location.href;
                   if (url.endsWith("#payments")) {
-                    console.log("redirect to payments");
                     home.style.display = "none";
                     myAccount.style.display = "none";
                     payments.style.display = "block";
@@ -1680,7 +1695,6 @@
                   home.style.display = "block";
                   let url = window.location.href;
                   if (url.endsWith("#payments")) {
-                    console.log("redirect to payments");
                     home.style.display = "none";
                     myAccount.style.display = "none";
                     payments.style.display = "block";
@@ -2102,7 +2116,6 @@
       let passInit = localStorage.getItem("talentScopePass");
       let url = window.location.href;
       if (url.endsWith("#payments")) {
-          console.log("redirect to payments");
           home.style.display = "none";
           myAccount.style.display = "none";
           payments.style.display = "block";
@@ -2125,7 +2138,6 @@
             } else {
               home.style.display = "block";
               if (url.endsWith("#payments")) {
-                console.log("redirect to payments");
                 home.style.display = "none";
                 myAccount.style.display = "none";
                 payments.style.display = "block";
