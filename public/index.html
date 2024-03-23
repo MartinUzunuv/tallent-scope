@@ -797,7 +797,7 @@
       var currentTextDbId = null;
       var historyOpened = false;
       // var baseUrl = "http://35.175.226.121:80";
-      var baseUrl = "http://localhost:3000";
+      var baseUrl = "https://app.writenhire.ai";
       var showNoFree = false;
     </script>
 
@@ -834,6 +834,11 @@
               .addEventListener("click", () => {
                 myAccount.style.display = "block";
                 home.style.display = "none";
+                const currentUrl = window.location.href;
+                let cleanUrl = currentUrl.split('#')[0]; 
+                let newUrl = `${cleanUrl}#account`;
+
+                history.pushState({page: "account"}, null, "#account");
               });
           </script>
         </div>
@@ -1793,6 +1798,9 @@
               .addEventListener("click", () => {
                 myAccount.style.display = "none";
                 home.style.display = "block";
+                const currentUrl = window.location.href;
+                let newUrl1 = currentUrl.replace("#account", "");
+                history.replaceState(null, null, newUrl1);
                 validate();
               });
           </script>
@@ -1950,6 +1958,15 @@
             .addEventListener("click", () => {
               myAccount.style.display = "none";
               payments.style.display = "block";
+              const currentUrl = window.location.href;
+               
+              let newUrl1 = currentUrl.replace("#account", "");
+              history.replaceState(null, null, newUrl1);
+          
+              let cleanUrl = currentUrl.split('#')[0]; 
+              let newUrl2 = `${cleanUrl}#payments`;
+
+              history.pushState({page: "payments"}, null, "#payments");
             });
 
           document
@@ -1959,6 +1976,10 @@
               localStorage.setItem("talentScopePass", null);
               home.style.display = "none";
               signIn.style.display = "block";
+              const currentUrl = window.location.href;
+
+              let newUrl1 = currentUrl.replace("#account", "");
+              history.replaceState(null, null, newUrl1);
               location.reload();
             });
         </script>
@@ -2044,7 +2065,19 @@
             .addEventListener("click", () => {
               payments.style.display = "none";
               myAccount.style.display = "block";
+              const currentUrl = window.location.href;
+               
+              let newUrl1 = currentUrl.replace("#payments", "");
+              history.replaceState(null, null, newUrl1);
+          
+              let cleanUrl = currentUrl.split('#')[0]; 
+              let newUrl2 = `${cleanUrl}#account`;
+
+              // Append '#account' to the current URL and navigate to it
+              window.location.href += "#account";
+
             });
+
         </script>
       </div>
     </div>
