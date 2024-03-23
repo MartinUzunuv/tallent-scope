@@ -106,6 +106,43 @@ async function verifyPay(collection, email, pass, spend) {
   }
 }
 
+async function verifyPay2(collection, email, pass, spend) {
+  const user = await collection.findOne({ email: email, pass: pass });
+
+  if (user) {
+    if (!user.stripeSessionId) {
+      return false;
+    }
+
+    try {
+      const session = await stripe.checkout.sessions.retrieve(
+        user.stripeSessionId
+      );
+
+      console.log(session.status);
+
+      if (
+        session &&
+        session.status === "complete" &&
+        session.payment_status === "paid"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while retrieving the Stripe session:",
+        error
+      );
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
+
 function checkStatus(
   threadId,
   runId,
@@ -678,7 +715,7 @@ app.post("/create-checkout-session", async (req, res) => {
   const email = requestData.email;
   const pass = requestData.pass;
 
-  const verified = await verifyPay(collection, email, pass, false);
+  const verified = await verifyPay2(collection, email, pass, false);
 
   if (!verified) {
     try {
@@ -765,7 +802,7 @@ app.post("/create-checkout-session2", async (req, res) => {
   const pass = requestData.pass;
   console.log(STRIPE_PRICE_ID2);
 
-  const verified = await verifyPay(collection, email, pass, false);
+  const verified = await verifyPay2(collection, email, pass, false);
 
   if (!verified) {
     try {
