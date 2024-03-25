@@ -144,7 +144,7 @@
 
       #mainForm input::placeholder {
         text-align: center;
-        color: #808080;
+        color: #E8E6E6;
       }
 
       #mainForm input {
@@ -161,7 +161,7 @@
 
       #mainForm input:required {
         background-color: #f7f7f7;
-        color: #E8E6E6;
+        color: #808080;
       }
 
       /* #mainForm input:required::placeholder {
@@ -403,11 +403,12 @@
         border: solid black 2px;
         border-radius: 200px !important;
         padding: 4px;
-        padding-left: 35px;
-        padding-right: 35px;
+        padding-left: 31px;
+        padding-right: 31px;
         font-size: 15px;
         font-weight: 900;
         margin: 10px;
+        margin-top: 11px;
         cursor: pointer;
         /* font-size: 15px; */
       }
@@ -520,6 +521,15 @@
         left: 340px;
       }
 
+      #PageTitle2 {
+        color: white;
+        font-weight: 500;
+        font-size: 40px;
+        margin-top: 3.5px;
+        position: absolute;
+        left: 340px;
+      }
+
       .dropbtn:hover {
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
@@ -537,16 +547,16 @@
         #PageTitle {
           left: 37%;
         }
-      }
-
-      @media screen and (max-width: 850px) {
-        #PageTitle {
+        #PageTitle2 {
           left: 37%;
         }
       }
 
       @media screen and (max-width: 740px) {
         #PageTitle {
+          display: none;
+        }
+        #PageTitle2 {
           display: none;
         }
       }
@@ -1786,7 +1796,7 @@
     <!-- my account -->
     <div id="myAccount">
       <div id="navbar" style="justify-content: flex-end;">
-        <div id="PageTitle">        
+        <div id="PageTitle2">        
           <img src="wNh-logo.png" height="50px" />
         </div>
         <div id="navbarEmailBox">
@@ -1803,6 +1813,17 @@
                 history.replaceState(null, null, newUrl1);
                 validate();
               });
+            document
+            .getElementById("PageTitle2")
+            .addEventListener("click", () => {
+              console.log("now");
+              myAccount.style.display = "none";
+              home.style.display = "block";
+              const currentUrl = window.location.href;
+              let newUrl1 = currentUrl.replace("#account", "");
+              history.replaceState(null, null, newUrl1);
+              validate();
+            });
           </script>
         </div>
       </div>  
@@ -1969,6 +1990,53 @@
               history.pushState({page: "payments"}, null, "#payments");
             });
 
+            function togglePages(showPayment) {
+            if(showPayment) {
+              document.getElementById("myAccount").style.display = "none";
+              document.getElementById("payments").style.display = "black";
+            } else {
+              document.getElementById("myAccount").style.display = "block";
+              document.getElementById("payments").style.display = "none";
+
+              const currentUrl = window.location.href;
+               
+              let newUrl1 = currentUrl.replace("#payments", "");
+              history.replaceState(null, null, newUrl1);
+          
+              let cleanUrl = currentUrl.split('#')[0]; 
+              let newUrl2 = `${cleanUrl}#account`;
+
+              history.pushState({page: "account"}, null, "#account");
+            }
+          }
+
+          window.addEventListener("popstate", (event) => {
+            let accountTest = document.getElementById("myAccount");
+
+            let accountStyle = window.getComputedStyle(accountTest);
+            if(event.state && event.state.page === "payments") {
+              togglePages(true);
+            } else if(!window.location.hash && window.location.pathname === "/"){
+              document.getElementById("myAccount").style.display = "block";
+              document.getElementById("home").style.display = "none";
+              document.getElementById("payments").style.display = "none";
+              const currentUrl = window.location.href;
+              let cleanUrl = currentUrl.split('#')[0]; 
+              let newUrl = `${cleanUrl}#account`;
+              history.pushState({page: "account"}, null, "#account");
+            } else if(accountStyle.display === "block"){
+              document.getElementById("myAccount").style.display = "none";
+              document.getElementById("home").style.display = "block";
+              document.getElementById("payments").style.display = "none";
+              const currentUrl = window.location.href;
+              let newUrl1 = currentUrl.replace("#account", "");
+              history.replaceState(null, null, newUrl1);
+              validate();
+            } else {
+              togglePages(false);
+            }
+          });
+
           document
             .getElementById("logoutButton")
             .addEventListener("click", () => {
@@ -2073,8 +2141,7 @@
               let cleanUrl = currentUrl.split('#')[0]; 
               let newUrl2 = `${cleanUrl}#account`;
 
-              // Append '#account' to the current URL and navigate to it
-              window.location.href += "#account";
+              history.pushState({page: "account"}, null, "#account");
 
             });
 
