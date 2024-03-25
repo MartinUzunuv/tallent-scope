@@ -800,7 +800,6 @@ app.post("/create-checkout-session2", async (req, res) => {
   const requestData = req.body;
   const email = requestData.email;
   const pass = requestData.pass;
-  console.log(STRIPE_PRICE_ID2);
 
   const verified = await verifyPay2(collection, email, pass, false);
 
@@ -811,7 +810,7 @@ app.post("/create-checkout-session2", async (req, res) => {
         cancel_url: `${CLIENT_URL}`,
         line_items: [
           {
-            price: STRIPE_PRICE_ID,
+            price: STRIPE_PRICE_ID2,
             quantity: quantity2,
           },
         ],
