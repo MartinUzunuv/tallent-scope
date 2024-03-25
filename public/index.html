@@ -1603,6 +1603,31 @@
           }
         }, 5);
 
+        setTimeout(() => {
+          let AccountRemove = document.getElementById("myAccount");
+          let AccountUrl = window.location.href;
+
+          if (signInFormStyle.display === "block" && AccountUrl.endsWith("#account")) {
+            AccountRemove.style.display = "none";
+            signInForm.style.display = "block";
+            const newUrl = AccountUrl.replace("#account", "");
+            history.replaceState(null, null, newUrl);
+          }
+        }, 10);
+
+        setTimeout(() => {
+          let paymentsRemove = document.getElementById("payments");
+          let paymentsUrl = window.location.href;
+
+          if (signInFormStyle.display === "block" && paymentsUrl.endsWith("#payments")) {
+            console.log("YES");
+            paymentsRemove.style.display = "none";
+            signInForm.style.display = "block";
+            const newUrl = paymentsUrl.replace("#payments", "");
+            history.replaceState(null, null, newUrl);
+          }
+        }, 10);
+
         document
           .getElementById("dontHaveAnAccountSignUp")
           .addEventListener("click", (event) => {
