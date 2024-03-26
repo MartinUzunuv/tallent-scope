@@ -671,9 +671,15 @@
       }
       .plans {
         display: flex;
+        width: auto;
         gap: 40px;
         flex-wrap: wrap;
         margin: 30px;
+      }
+      @media screen and (max-width: 620px) {
+        .plans {
+          width: 250px;
+        }
       }
       .back-button {
         display: flex;
@@ -1086,7 +1092,7 @@
 
                 <br />
                 <div class="main-row">
-                  <div style="top: 10px; right: 2px; position: relative; color: red;">*</div>
+                  <div style="top: 10px; right: 2px; position: relative; color: red; z-index: -1;">*</div>
                   <label
                     for="jobTitle"
                     class="labelForInputs"
@@ -1620,7 +1626,7 @@
           let paymentsUrl = window.location.href;
 
           if (signInFormStyle.display === "block" && paymentsUrl.endsWith("#payments")) {
-            console.log("YES");
+
             paymentsRemove.style.display = "none";
             signInForm.style.display = "block";
             const newUrl = paymentsUrl.replace("#payments", "");
