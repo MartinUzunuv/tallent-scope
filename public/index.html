@@ -790,7 +790,7 @@
               myAccount.style.display = "none";
               payments.style.display = "block";
               showNoFree = true;
-              console.log("here")
+              // console.log("here")
             } else if (res.message === "not payed") {
               home.style.display = "none";
               myAccount.style.display = "none";
@@ -956,7 +956,7 @@
                 //   showNoFree = false;
                 // }
                 var chats = JSON.parse(res.message);
-                console.log(chats);
+                // console.log(chats);
                 dropdownContent.innerHTML = "";
                 if (chats.length <= 0) {
                   var button = document.createElement("a");
@@ -978,7 +978,7 @@
                   //     "History";
                   // }, 3000);
                 }
-                console.log(123)
+                // console.log(123)
                 for (let i = chats.length; i >= 0; i--) {
                   if (i < chats.length) {
                     var button = document.createElement("a");
@@ -994,7 +994,7 @@
 
                     button.addEventListener("click", (event) => {
                       let n = parseInt(event.target.name[0]);
-                      console.log(event.target.name);
+                      // console.log(event.target.name);
                       document.getElementById("jobTitle").value =
                         chats[n].jobTitle;
                       document.getElementById("aboutTheEmployer").value =
@@ -1330,14 +1330,14 @@
                                   myAccount.style.display = "none";
                                   payments.style.display = "block";
                                   showNoFree = true;
-                                  console.log("here")
+                                  // console.log("here")
                                 } else if (res.message === "not payed") {
                                   home.style.display = "none";
                                   myAccount.style.display = "none";
                                   payments.style.display = "block";
                                 }
                                 if (showNoFree) {
-                                  console.log("here1")
+                                  // console.log("here1")
                                   showNoFreeMessage.style.display = "block";
                                   showNoFree = false;
                                 }
@@ -1429,7 +1429,7 @@
                 .getElementById("jobDescriptionCopy")
                 .addEventListener("click", () => {
                   if (copyText !== null && copyText !== "" && copyText.length) {
-                    console.log(copyText);
+                    // console.log(copyText);
                     navigator.clipboard.writeText(copyText);
                     document.getElementById("jobDescriptionCopy").innerText =
                       "COPY✅";
@@ -1506,14 +1506,14 @@
                         myAccount.style.display = "none";
                         payments.style.display = "block";
                         showNoFree = true;
-                        console.log("here")
+                        // console.log("here")
                       } else if (res.message === "not payed") {
                         home.style.display = "none";
                         myAccount.style.display = "none";
                         payments.style.display = "block";
                       }
                       if (showNoFree) {
-                        console.log("here1")
+                        // console.log("here1")
                         showNoFreeMessage.style.display = "block";
                         showNoFree = false;
                       }
@@ -1847,7 +1847,7 @@
             document
             .getElementById("PageTitle2")
             .addEventListener("click", () => {
-              console.log("now");
+              // console.log("now");
               myAccount.style.display = "none";
               home.style.display = "block";
               const currentUrl = window.location.href;
@@ -1908,7 +1908,7 @@
             })
             .then((response) => {
               const res = response.data;
-              console.log(res);
+              // console.log(res);
               if (res.account && res.message === "ok") {
                 document.getElementById("accountFirstName").value =
                   res.account.firstName || "";
@@ -2183,7 +2183,7 @@
       window.addEventListener("DOMContentLoaded", function () {
         function adjustHeight() {
           var screenWidth = window.innerWidth;
-          console.log(screenWidth);
+          // console.log(screenWidth);
           if (screenWidth < 470) {
             document.getElementById("accountGoPayments").style.width = "280px";
             document.getElementById("accountUpdateInfo").style.width = "280px";
