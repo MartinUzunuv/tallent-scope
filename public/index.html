@@ -82,6 +82,29 @@
         cursor: pointer;
       }
 
+      #dontHaveAnAccountSignUp2{
+        width: 140px;
+        height: 40px;
+        padding: 5px;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: small;
+        background-color: #FFBF23;
+        color: black;
+        flex-grow: 2;
+        margin-left: 10px;
+        margin-right: 10px;
+        position: absolute;
+        border: 1.6px solid black;
+        top: 10px;
+        right: 20px;
+        transition: 1s;
+      }
+      #dontHaveAnAccountSignUp2:hover{
+        background-color: black;
+        color: #FFBF23;
+      }
+
       #forgotPassSignUp {
         text-align: left;
         color: black;
@@ -530,6 +553,15 @@
         left: 340px;
       }
 
+      #PageTitleSign {
+        color: white;
+        font-weight: 500;
+        font-size: 40px;
+        margin-top: 3.5px;
+        position: absolute;
+        left: 340px;
+      }
+
       .dropbtn:hover {
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
       }
@@ -550,6 +582,9 @@
         #PageTitle2 {
           left: 37%;
         }
+        #PageTitleSign {
+          left: 20%;
+        }
       }
 
       @media screen and (max-width: 740px) {
@@ -558,6 +593,16 @@
         }
         #PageTitle2 {
           display: none;
+        }
+      }
+      @media screen and (max-width: 460px) {
+        #PageTitleSign {
+          left: 5%;
+        }
+        #dontHaveAnAccountSignUp2 {
+          height: 30px;
+          width: 110px;
+          top: 59px;
         }
       }
 
@@ -1569,6 +1614,20 @@
 
     <!-- sign in -->
     <div id="signIn">
+      <div id="navbar">
+        <div id="PageTitleSign">        
+          <img src="wNh-logo.png" height="50px" />
+        </div>
+
+        <div id="navbarEmailBox">
+          <button id="dontHaveAnAccountSignUp2" style="border-radius: 5px">SIGN UP</button>
+          <script>
+            document.getElementById('PageTitleSign').addEventListener('click', function() {
+              window.location.href = 'https://writenhire.ai';
+            });
+          </script>
+        </div>
+      </div>
       <div class="centerAccountForm">
         <form id="signInform" class="accountForm">
           <h2>Sign In</h2>
@@ -1636,6 +1695,13 @@
 
         document
           .getElementById("dontHaveAnAccountSignUp")
+          .addEventListener("click", (event) => {
+            signIn.style.display = "none";
+            signUp.style.display = "block";
+          });
+
+        document
+          .getElementById("dontHaveAnAccountSignUp2")
           .addEventListener("click", (event) => {
             signIn.style.display = "none";
             signUp.style.display = "block";
