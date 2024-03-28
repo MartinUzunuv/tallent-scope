@@ -8,7 +8,7 @@
       content="Discover The Secret Tool Of High-Performing HR Managers...
     HR Trained AI Model To Generate The Most Converting Job Descriptions Based On"
     />
-    <title>Writenhire</title>
+    <title>writeNhire</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +17,11 @@
     <!-- <link rel="shortcut icon" href="/logo.png" type="image/x-icon" /> -->
     <style>
       #navbar {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      #navbar2 {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -403,6 +408,11 @@
         border: solid black 3px;
         height: 57px;
       }
+      #navbar2 {
+        background-color: #FFBF23;
+        border: solid black 3px;
+        height: 57px;
+      }
 
       #navbarEmailBox {
         display: flex;
@@ -483,10 +493,10 @@
         #openMyAccount {
           position: absolute;
           right: 10px;
-          top: 45px;
+          top: 5px;
         }
-        #navbar{
-          height: 95px;
+        #navbar2{
+          height: 80px;
         }
       }
 
@@ -598,11 +608,12 @@
       @media screen and (max-width: 460px) {
         #PageTitleSign {
           left: 5%;
+          top: 30px;
         }
         #dontHaveAnAccountSignUp2 {
           height: 30px;
           width: 110px;
-          top: 59px;
+          top: 11px;
         }
       }
 
@@ -856,7 +867,8 @@
       }
       var copyText = "";
       var currentTextDbId = null;
-      var historyOpened = false;
+      // var historyOpened = false;
+      var historyOpened = window.innerWidth <= 600 ? true : false;
       // var baseUrl = "http://35.175.226.121:80";
       var baseUrl = "https://app.writenhire.ai";
       var showNoFree = false;
@@ -1614,13 +1626,13 @@
 
     <!-- sign in -->
     <div id="signIn">
-      <div id="navbar">
+      <div id="navbar2">
         <div id="PageTitleSign">        
           <img src="wNh-logo.png" height="50px" />
         </div>
 
         <div id="navbarEmailBox">
-          <button id="dontHaveAnAccountSignUp2" style="border-radius: 5px">SIGN UP</button>
+          <button id="dontHaveAnAccountSignUp2" style="border-radius: 5px">HOME</button>
           <script>
             document.getElementById('PageTitleSign').addEventListener('click', function() {
               window.location.href = 'https://writenhire.ai';
@@ -1703,8 +1715,7 @@
         document
           .getElementById("dontHaveAnAccountSignUp2")
           .addEventListener("click", (event) => {
-            signIn.style.display = "none";
-            signUp.style.display = "block";
+            window.location.href = 'https://writenhire.ai';
           });
 
         document
