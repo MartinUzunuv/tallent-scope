@@ -9,6 +9,8 @@
     HR Trained AI Model To Generate The Most Converting Job Descriptions Based On"
     />
     <title>writeNhire</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,6 +108,29 @@
         transition: 1s;
       }
       #dontHaveAnAccountSignUp2:hover{
+        background-color: black;
+        color: #FFBF23;
+      }
+
+      #dontHaveAnAccountSignUp3{
+        width: 140px;
+        height: 40px;
+        padding: 5px;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: small;
+        background-color: #FFBF23;
+        color: black;
+        flex-grow: 2;
+        margin-left: 10px;
+        margin-right: 10px;
+        position: absolute;
+        border: 1.6px solid black;
+        top: 10px;
+        right: 20px;
+        transition: 1s;
+      }
+      #dontHaveAnAccountSignUp3:hover{
         background-color: black;
         color: #FFBF23;
       }
@@ -571,6 +596,14 @@
         position: absolute;
         left: 340px;
       }
+      #PageTitleSign2 {
+        color: white;
+        font-weight: 500;
+        font-size: 40px;
+        margin-top: 3.5px;
+        position: absolute;
+        left: 340px;
+      }
 
       .dropbtn:hover {
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.75);
@@ -593,7 +626,10 @@
           left: 37%;
         }
         #PageTitleSign {
-          left: 20%;
+          left: 15%;
+        }
+        #PageTitleSign2 {
+          left: 15%;
         }
       }
 
@@ -610,7 +646,16 @@
           left: 5%;
           top: 30px;
         }
+        #PageTitleSign2 {
+          left: 5%;
+          top: 30px;
+        }
         #dontHaveAnAccountSignUp2 {
+          height: 30px;
+          width: 110px;
+          top: 11px;
+        }
+        #dontHaveAnAccountSignUp3 {
           height: 30px;
           width: 110px;
           top: 11px;
@@ -1777,6 +1822,25 @@
 
     <!-- sign up -->
     <div id="signUp">
+      <div id="navbar2">
+        <div id="PageTitleSign2">        
+          <img src="wNh-logo.png" height="50px" />
+        </div>
+
+        <div id="navbarEmailBox">
+          <button id="dontHaveAnAccountSignUp3" style="border-radius: 5px">HOME</button>
+          <script>
+            document.getElementById('PageTitleSign2').addEventListener('click', function() {
+              window.location.href = 'https://writenhire.ai';
+            });
+            document
+              .getElementById("dontHaveAnAccountSignUp3")
+              .addEventListener("click", (event) => {
+              window.location.href = 'https://writenhire.ai';
+            });
+          </script>
+        </div>
+      </div>
       <div class="centerAccountForm">
         <form id="signUpform" class="accountForm">
           <h2>Sign Up</h2>
