@@ -1134,6 +1134,16 @@
 
                     button.classList.add("highlighted");
                     button.setAttribute("id", "histotyItem");
+                    
+                    if(window.innerWidth >= 600){
+                      console.log("updated comp");
+                    } 
+                    if(window.innerWidth < 600) {
+                      setTimeout(() => {
+                        dropdownTogle();
+                        dropdownTogle();
+                      }, 500);
+                    }
 
                     dropdownContent.appendChild(button);
 
