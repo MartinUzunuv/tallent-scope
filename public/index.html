@@ -528,6 +528,9 @@
         background-color: unset;
         font-size: 15px;
         font-weight: 900;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       @media screen and (max-width: 460px) {
@@ -808,7 +811,6 @@
         background: #f4f4f4;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
@@ -2025,7 +2027,7 @@
           <img src="wNh-logo.png" height="50px" />
         </div>
         <div id="navbarEmailBox">
-          <button id="accountBack" style="border-radius: 5px">Back</button>
+          <button id="accountBack" style="border-radius: 5px; color: black">Back</button>
 
           <script>
             document
@@ -2156,7 +2158,8 @@
   
         <button style="background: #FFB800;
                       margin-top: 50px; 
-                      font-family: Space Grotesk; 
+                      font-family: Space Grotesk;
+                      color: black; 
                       font-weight: 800;
                       border-radius: 9px; 
                       border: 1px solid #E8E6E6;" class="accountButton" id="accountManageSub">MANAGE MY SUBSCRIPTION</button>
@@ -2193,6 +2196,7 @@
                       font-family: Space Grotesk; 
                       font-weight: 800;
                       border-radius: 9px; 
+                      color: black;
                       border: 1px solid #E8E6E6;" class="accountButton" id="logoutButton">LOGOUT</button>
 
         <script>
@@ -2301,7 +2305,7 @@
         </div>
       </div>
       <div class="all-payments">
-        <h1 id="showNoFreeMessage">Your Free trial has ended.</h1>
+        <h1 id="showNoFreeMessage" style="text-align: center; padding: 0px 10px;">Your Free trial has ended.</h1>
         <div class="title-payments">The Best Pricing Plan</div>
         <div class="plans">
           <div class="card">
