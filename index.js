@@ -347,6 +347,8 @@ app.post("/signUpSendData", async (req, res) => {
   const requestData = req.body;
   const email = requestData.email;
   const pass = requestData.pass;
+  const firstName = requestData.firstName;
+  const lastName = requestData.lastName;
 
   try {
     const checkIfAccountExists = await collection.findOne({ email: email });
@@ -355,6 +357,8 @@ app.post("/signUpSendData", async (req, res) => {
       await collection.insertOne({
         email: email,
         pass: pass,
+        firstName: firstName,
+        lastName: lastName,
         chats: [],
         freeTokens: 3,
         shownNoMoreFreeTokesnPage: false,

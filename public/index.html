@@ -1905,6 +1905,18 @@
             placeholder="Password"
             id="signUpPass"
           />
+          <input
+            type="firstName"
+            required
+            placeholder="First Name"
+            id="signUpFirstName"
+          />
+          <input
+            type="lastName"
+            required
+            placeholder="Last Name"
+            id="signUpLastName"
+          />
           <p class="warningMsg" id="signUpEmailTaken">
             ⚠️This email has already been used
           </p>
@@ -1921,10 +1933,14 @@
             event.preventDefault();
             let signUpEmail = document.getElementById("signUpEmail").value;
             let signUpPass = document.getElementById("signUpPass").value;
+            let signUpFirstName = document.getElementById("signUpFirstName").value;
+            let signUpLastName = document.getElementById("signUpLastName").value;
             axios
               .post(baseUrl + "/signUpSendData", {
                 email: signUpEmail,
                 pass: signUpPass,
+                firstName: signUpFirstName,
+                lastName: signUpLastName,
               })
               .then((response) => {
                 const res = response.data;
@@ -2109,8 +2125,6 @@
                   res.account.firstName || "";
                 document.getElementById("accountLastName").value =
                   res.account.lastName || "";
-                document.getElementById("accountNumner").value =
-                  res.account.number || "";
                 document.getElementById("navbarEmail").value =
                   res.account.email || "";
                 if (
