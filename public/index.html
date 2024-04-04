@@ -1920,12 +1920,17 @@
           <p class="warningMsg" id="signUpEmailTaken">
             ⚠️This email has already been used
           </p>
+          <p class="warningMsg" id="signUpEmailNotValid">
+            ⚠️This email is not valid!
+          </p>
           <input class="accountFormSubmit" type="submit" value="Sign Up" />
         </form>
       </div>
       <script>
         let signUpEmailTaken = document.getElementById("signUpEmailTaken");
         signUpEmailTaken.style.display = "none";
+        let signUpEmailNotValid = document.getElementById("signUpEmailNotValid");
+        signUpEmailNotValid.style.display = "none";
 
         document
           .getElementById("signUpform")
@@ -1972,6 +1977,13 @@
                   var signUpEmailTakenInterval = setInterval(() => {
                     signUpEmailTaken.style.display = "none";
                   }, 7000);
+                }
+                if (res.message === "invalid email") {
+                  signUpEmailNotValid.style.display = "block";
+                  clearInterval(signUpEmailNotValidInterval); 
+                  var signUpEmailNotValidInterval = setInterval(() => {
+                    signUpEmailNotValid.style.display = "none";
+                  }, 7000); 
                 }
               })
               .catch((error) => {

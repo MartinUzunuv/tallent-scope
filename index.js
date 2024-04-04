@@ -363,7 +363,25 @@ app.post("/signUpSendData", async (req, res) => {
         freeTokens: 3,
         shownNoMoreFreeTokesnPage: false,
       });
-      res.send({ message: "account created" });
+
+      try {
+        await client.sendEmail({
+          From: "hello@writenhire.ai",
+          To: email,
+          Subject: "Email Verification",
+          TextBody: "We have verified your email. Enjoy the tool & let us know if you need anything. Team writeNhire",
+        });
+
+        res.send({ message: "account created" });
+      } catch (emailError) {
+        if (emailError.name === 'InvalidEmailRequestError' || emailError.code === 300) {
+
+          res.send({ message: "invalid email" });
+        } else {
+          res.send({ message: "email sending error" });
+        }
+      }
+
     } else {
       res.send({ message: "email taken" });
     }
