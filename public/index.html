@@ -805,7 +805,6 @@
       /* Payment styles */
       .all-payments {
         width: 100%;
-        height: 100%;
         font-family: Space Grotesk;
         background: #f4f4f4;
         display: flex;
@@ -814,7 +813,9 @@
         height: 100vh;
         margin: 0;
         gap: 20px;
+        padding-top: 100px;
       }
+
       .plans {
         display: flex;
         width: auto;
@@ -823,6 +824,9 @@
         margin: 30px;
       }
       @media screen and (max-width: 620px) {
+        .all-payments {
+          padding-top: 50px;
+        }
         .plans {
           width: 250px;
         }
