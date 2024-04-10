@@ -26,7 +26,7 @@ const app = express();
 app.use(cors({ origin: true }));
 
 const uri =
-  "mongodb+srv://123:123@ts.urop3ax.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://AdminWriteNhire:sA50sWGa6dPmh7JU@writenhire.npjdd4k.mongodb.net/?retryWrites=true&w=majority&appName=writeNhire";
 
 const mongoClient = new MongoClient(uri);
 
