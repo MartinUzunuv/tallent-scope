@@ -626,9 +626,9 @@ app.post("/pdf", (req, res) => {
     
     doc.setFontSize(12);
 
-    const lines = formatString(requestData.data, 65).split("\n");
-    for (let i = 0; i < lines.length; i += 40) {
-      const chunk = lines.slice(i, i + 40).join("\n");
+    const lines = formatString(requestData.data, 100).split("\n");
+    for (let i = 0; i < lines.length; i += 58) {
+      const chunk = lines.slice(i, i + 58).join("\n");
       if (i !== 0) {
         doc.addPage();
       }
