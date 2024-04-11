@@ -623,6 +623,8 @@ app.post("/pdf", (req, res) => {
   const requestData = req.body;
   try {
     const doc = new jsPDF();
+    
+    doc.setFontSize(12);
 
     const lines = formatString(requestData.data, 65).split("\n");
     for (let i = 0; i < lines.length; i += 40) {
